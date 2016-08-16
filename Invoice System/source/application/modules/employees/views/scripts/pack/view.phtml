@@ -1,0 +1,319 @@
+<style type="text/css">
+   .creat ul li {
+       padding-right: 10px;
+   }
+</style>
+
+<!-- START RIGHT -->
+<div id="right" class="sub">
+
+    <!-- START NEWS -->
+    <div class="news_Box">
+        <?= $this->render('pack/_partials/pack-sidebar.phtml'); ?>
+    </div>
+
+    <div id="log"></div>
+    <!-- END OPTIES -->
+
+</div>
+<!-- END RIGHT -->
+
+<!-- START LEFT -->
+<div id="left" class="sub">
+    <form id="pack-form" action="<?= $this->baseUrl() . "/employees/pack/save"; ?>" method="post">
+    <input type="hidden" name="pack[id]" value="<?= $this->escape($this->pack->id); ?>" />
+    <!-- START PACK -->
+    <div class="purchase_Box">
+
+        <h2><?= _t('Paklijst') ?></h2>
+
+        <div class="creat">
+
+            <ul>
+                <li><?= _t('Paklijstnummer') ?>:
+                    <span id="number" style="width:94px;cursor:pointer;"><?= $this->escape($this->pack->number); ?></span>
+                    <span id="number-input" style="display:none;"><input class="gray-input" style="width:80px;" type="text" name="pack[number]" value="<?= $this->escape($this->pack->number); ?>" /></span>
+                </li>
+                <li><?= _t('Verkoper') ?>': <span>
+                    <div style="width:211px;">
+                     <?php if( $this->readonly ): ?>
+                    <?= $this->escape($this->pack->employee ? $this->pack->employee->name : ''); ?>
+                    <?php else: ?>
+                    <select name="pack[employee_id]">
+                        <option value="0"><?= _t('Kies verkoper') ?></option>
+                        <?php foreach( $this->employees as $employee ): ?>
+                        <option value="<?= $this->escape($employee->id);?>" <?= $this->pack->employee_id == $employee->id ? 'selected="selected"' : '' ?>><?= $this->escape($employee->name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php endif; ?>
+                    </div>
+                </span></li>
+                <li><?= _t('Paklistdatum') ?>: <span><?= date(Constants::DATE_FORMAT, $this->pack->created_time); ?></span></li>
+                <li><?= _t('Leverdatum') ?>: <span>
+                <?php if( $this->readonly ): ?>
+                    <?= date(Constants::DATE_FORMAT, strtotime($this->pack->delivery_date)) ?>
+                <?php else : ?>
+                    <input type="text" class="gray-input" style="width:68px;text-align: center;height:14px;vertical-align:bottom;" id="delivery_date" name="pack[delivery_date]" value="<?= date(Constants::DATE_FORMAT, strtotime($this->pack->delivery_date)) ?>" />
+                <?php endif; ?>
+                </span></li>
+            </ul>
+
+        </div>
+        <br/>
+        <br/>
+        <table style="width:100%;margin-bottom: 40px;">
+            <tr>
+                <td style="width:100px;vertical-align: top;"><?= _t('Comment') ?>:&nbsp;</td>
+                <td>
+                    <?php if( !$this->readonly ): ?>
+                    <div class="gray-input wysiwyg" style="height:auto;"><?= Utils::strip_bad_tags($this->pack->info); ?>&nbsp;</div>
+                    <input type="hidden" name="pack[info]" value="<?= $this->escape($this->pack->info) ?>" />
+                    <?php else: ?>
+                    <div class="wysiwyg" style="height:auto;"><?= Utils::strip_bad_tags($this->pack->info); ?>&nbsp;</div>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        </table>
+        <div class="total">
+
+            <ul>
+                <li>
+                    <div class="first" style="padding-left:80px;width:410px;"><h3><?= _t('Omschrijving') ?></h3></div>
+                    <div class="second"><h3><?= _t('Aantal') ?></h3></div>
+                </li>
+            </ul>
+            <ul id="sortableproducts">
+                <?php
+                      $index = 0;
+                      foreach( $this->pack->products as $product ): ?>
+                        <?= $this->partial('pack/_partials/pack-row.phtml', array('product' => $product, 'index' => $index, 'readonly' => $this->readonly)); ?>
+                <?php $index++;
+                      endforeach; ?>
+            </ul>
+            <input type="hidden" id="pack_row_index" value="<?= $index; ?>" />
+            <?php if( !$this->readonly ): ?>
+            <ul>
+                <li><h4 onclick="pack_add_row()" style="cursor:pointer;"><a><?= _t('Paklijst toevoegen') ?></a></h4></li>
+            </ul>
+            <?php endif; ?>
+        </div>
+    </div>
+    <!-- END PACK -->
+</form>
+</div>
+
+<!-- END LEFT -->
+<!--<input type="text" style="width:0px;height:0px;" />-->
+
+
+<script type="text/javascript">
+
+    <?php if( !$this->readonly ): ?>
+    var pack_enable_auto_save = true;
+    var pack_auto_save_ready = true;
+
+    $(document).ready(function(){
+        $('#delivery_date').datepicker({dateFormat: "dd-mm-yy"});
+        
+        log_source_type = 'pack';
+        log_source_id = $('[name="pack[id]"]').val();
+        log_init();
+
+        $('[name="pack[info]"]').parent().find('.wysiwyg').hallo({
+            plugins: {
+                'halloformat': {},
+                'hallolink': {}
+            },
+            editable: true
+        }).bind('hallomodified', function(){
+            $('[name="pack[info]"]').val($(this).html().trim());
+        }).blur(pack_auto_save);
+
+        $('[name="pack[employee_id]"]').combobox().change(function(){
+            pack_auto_save();
+        });
+
+        $('[name^="pack"]').change(pack_auto_save);
+        $('#number').click(function(){
+            $(this).hide();
+            $('#number-input').show().children('input').focus();
+        });
+
+        $('#number-input input').blur(function(){
+            $('#number').text($(this).val()).show();
+            $(this).parent().hide();
+        });
+
+        pack_init_sorting()
+
+        $('[name^="row"]').each(function(index, element){
+            pack_init_product(element.value)
+        })
+
+
+        pack_row_index = $('#pack_row_index').val();
+        pack_auto_save_ready = true;
+    });
+
+    function pack_init_sorting(){
+        // sorting
+        $("#sortableproducts").sortable({handle: ".sorthandle"});
+    }
+
+    var pack_row_index = 0;
+    function pack_add_row()
+    {
+        pack_row_index++;
+        $.post(baseUrl + '/employees/pack/add-row', {index: pack_row_index}, function(html){
+            $('#sortableproducts').append(html)
+            var row = $('#sortableproducts').children().last()
+            var index = pack_product_name_to_index(row.find('[name^="row"]')[0].name);
+            $('[name="product[' + index + '][description]"]').focus();
+            pack_init_product(index)
+            pack_auto_save()
+        });
+
+        pack_init_sorting()
+    }
+
+    function pack_remove_row(row){
+        var container = $(row).parents('.product1').first()
+        container.fadeOut('slow', function() { container.remove(); pack_auto_save(); });
+    }
+
+
+    function pack_init_product(index){
+        pack_init_product_qty_change(index)
+        pack_init_product_description_change(index)
+    }
+
+    function pack_init_product_qty_change(index){
+        var product = $('[name="product[' + index + '][qty]"]')
+
+        product.change(function(){
+            pack_auto_save();
+        })
+
+        product.keydown(function(event){
+            if( event.keyCode == 9 && $(this).parents('.product1').next().length == 0 ){
+                pack_add_row();
+            }
+
+            only_numeric(this, event, false, true)
+        })
+    }
+
+    function pack_init_product_description_change(index){
+        var product = $('[name="product[' + index + '][description]"]');
+
+        product.parent().find('.wysiwyg').blur(function(){
+            pack_auto_save();
+        })
+
+        product.parent().find('.wysiwyg').focus(function(){
+            if( $(this).text().trim().length == 0 ){
+                $(this).autocomplete('search', '');
+            }
+        });
+
+        product.parent().find('.wysiwyg').bind('hallomodified', function(){
+            var index = pack_product_name_to_index(this.id);
+            $('[name="product[' + index + '][description]"]').val($(this).html().trim());
+
+            if( $(this).text().trim().length == 0 ){
+                $('[name="product[' + index + '][product_id]"]').val(0);
+            }
+        })
+
+        product.parent().find('.wysiwyg').autocomplete({
+            source: function( request, response ) {
+                $.ajax({
+                    url: baseUrl + "/employees/pack/product-autocomplete",
+                    method: 'post',
+                    data: {
+                        limit: 10,
+                        term: request.term.trim()
+                    },
+                    success: function( data ) {
+                        response( $.map( data, function( item ) {
+                            return {
+                                label: item.label ? item.label : (item.article_code.length ? '[' + item.article_code + '] ' : '') + item.name,
+                                value: item.name,
+                                data: item
+                            }
+                        }));
+                    }
+                });
+            },
+            search: function(){
+                disable_loader = true;
+            },
+            select: function( event, ui ) {
+                if( ui.item ){
+                    var index = pack_product_name_to_index(this.id);
+                    $('[name="product[' + index + '][product_id]"]').val(ui.item.data.id);
+                }
+            },
+            close: function(){
+                $(this).trigger('hallomodified');
+            },
+            minLength: 0
+        });
+
+        product.parent().find('.wysiwyg').hallo({
+            plugins: {
+                'halloformat': {},
+                'hallolink': {}
+            },
+            editable: true
+        });
+    }
+
+    function pack_auto_save(){
+        if( !pack_enable_auto_save || !pack_auto_save_ready ){
+            return;
+        }
+
+        disable_loader = true;
+        return pack_save();
+    }
+
+    function pack_final(){
+        $.post(baseUrl + '/employees/pack/final', {id:$('[name="pack[id]"]').val()});
+    }
+
+    function pack_save(){
+        pack_auto_save_ready = false;
+        return $.post(baseUrl + "/employees/pack/save", $('#pack-form').serialize())
+                .success(function(data){
+                    if( data.id ){
+                        $('[name="pack[id]"]').val(data.id);
+                    }
+                    log_reload();
+                }).complete(function(){
+                    pack_auto_save_ready = true;
+                });
+    }
+
+    function pack_product_name_to_index(name){
+        return name.match(/\d+/)[0];
+    }
+
+    function only_numeric(element, event, decimal, negative){
+        console.log(event.keyCode);
+        if( !(
+                event.keyCode == 9
+                        || (decimal && element.value.indexOf('.') == -1 && (event.keyCode == 110 || event.keyCode == 190)) // . (dot)
+                        || event.keyCode == 8                              // backspace
+                        || event.keyCode == 46                             // delete
+                        || (event.keyCode >= 35 && event.keyCode <= 40)    // arrow keys/home/end
+                        || (event.keyCode >= 48 && event.keyCode <= 57)    // numbers on keyboard
+                        || (event.keyCode >= 96 && event.keyCode <= 105)   // number on keypad
+                        || (negative && (event.keyCode == 109 || event.keyCode == 189)) // minus
+                )
+                ) {
+            event.preventDefault();
+        }
+    }
+    <?php endif; ?>
+</script>

@@ -1,0 +1,64 @@
+Kasboek will have to work like this.
+
+1. You go to KASBOEK page
+2. You CHECK previous end result (Voorgaand saldo) (this will be the end result of the previous day)
+3. You select a DATE (you can not select a date if the previous day has not been filled)
+4. You enter the new result (Eindsaldo) (this end result they can find on their bank notes and have to fill in here)
+5. You start adding receipts 
+6. You have to allways fill in the amount "BEDRAG" the other 2 (Factuurnummer, Credituer/debiteur) is not necessary 
+7. Wehn you push the button, it will automatically search the amount in invoices and purchases. 
+8. When the system finds the amount, it shows all the results in 1 popup (this popup you can find here --> http://www.avaxo.be/invoices#invoice-payment-dialog)
+9. When there is only 1 result, the system will automatically select the correct one.
+10. When no result is found, they have to get a popup, asking them if they want to make a new Purchase/Invoice. 
+11. When they are done adding all receipts of that day, they can check the DIFFERENCE at the bottom between the END result they filled in at start, and the total of all amounts they just inserted. If there is a difference between the amount at the end, and the amount at the start, they know they have made an error somewhere
+
+SMTP
+SMTP_ACTIVATE 	1
+SMTP_AUTH 	login
+SMTP_AUTH_PASSWORD 	chaos359
+SMTP_AUTH_USERNAME 	entropy359@gmail.com
+SMTP_HOST 	smtp.gmail.com
+SMTP_PORT 	587
+SMTP_SSL 	tls
+
+
+FTP
+server : 178.18.141.59
+user : avaxo
+pw : a244872
+
+cpanel
+www.avaxo.be:2222
+avaxo
+a244872
+
+
+"I need two fields added to the following API calls:
+http://avaxo.core.bg/api/contact/get-contacts
+http://avaxo.core.bg/api/contact/get-contact/id/64
+
+ Both calls need a field "saldo"  containing the contact's credit (saldo) as a string (for example "180.55"). It may be a negative number. It also needs a field "discount" that contains the contact's default discount percentage, it should be a string as well (for example "20").
+
+Additionally I need two API calls to get two different types of PDF, just like with http://avaxo.no-ip.org/api/invoice/pdf/id/616/  These should be for the stocklist and day overview."
+[1/31/2013 2:17:05 AM] Jos Senden: look at this
+[1/31/2013 2:17:09 AM] Jos Senden: this is something needed for the app
+
+
+http://www.avaxo.be/api/invoice/pdf/type/day
+http://www.avaxo.be/api/invoice/pdf/type/stock
+
+
+178.18.141.59
+user : mailtime
+pw : jsenden7008
+
+
+website : www.mailtime.be/new_website
+
+http://themeforest.net/item/shoploop-responsive-html5-ecommerce-template-/full_screen_preview/3285564
+
+Product detail page two
+
+Can you please continue programming the webshop? So I can add products to the shopping cart, and make the order? So there will be an automated invoice generated in invoices with the order I just made? 
+
+Don't forget that customer have to be able to make an account on the webshop. So please make this also. All customers that make an account on the webshop, should be under CONTACTEN.

@@ -1,0 +1,55 @@
+.round-drop-down.ui-combobox-input {
+    border:none;
+    background:url('../images/select_bg.png') no-repeat 0 0;
+    cursor:pointer;
+    width:221px !important;
+    height:28px;
+    padding:0px;
+    padding-left: 10px;
+}
+
+.vat-drop-down.ui-combobox-input {
+    width:30px !important;
+    text-align: right;
+}
+
+.deb span {
+    width:80px;
+    display:inline-block;
+    color:#666666;
+    font-family: 'LatoBold';
+    height:21px;
+}
+
+.invoice-contact {
+    background-image:url('../images/invoice-contact.png');
+    background-position:left center;
+    background-repeat: no-repeat;
+}
+
+.invoice-contact-add {
+    background-image:url('../images/invoice-contact-add.png');
+    background-position:left center;
+    background-repeat: no-repeat;
+}
+
+.wysiwyg * {
+    float:none !important;
+    width:auto !important;
+    height:auto !important;
+    line-height: normal !important;
+}
+
+.wysiwyg a:link, .wysiwyg a:visited, .wysiwyg a:hover {
+    color:#06c !important;
+    text-decoration:underline !important;
+}
+
+.ui-combobox {
+	font-size: 11px !important;
+}
+
+#add-group-link:hover,
+#remove-group-link:hover {
+	color: #548c03 !important;
+}

@@ -1,0 +1,331 @@
+
+.kasboek{
+padding: 10px 10px 10px 10px;
+overflow: hidden;
+width: auto;
+-moz-border-radius: 5px;
+border-radius: 5px;
+background: white;
+font-family: 'Lato', sans-serif; 
+
+}
+
+.kasboek h2{
+	font-family: 'Lato', sans-serif;
+}
+
+.kasboek input{
+	text-indent: 10px; 
+}
+
+.kasboek .input-grey{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    background-color: #CCC;
+    height: 25px;
+    width: 120px;
+  
+/* behavior:url("border-radius.htc"); */
+}
+
+.kasboek .input-white{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #fff;
+    background-color: #fff;
+    height: 25px;
+    width: 120px;
+/* behavior:url("border-radius.htc"); */
+}
+
+
+.kasboek .input-grey-big{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    background-color: #CCC;
+    height: 25px;
+    width: 160px;
+    text-align: right;
+/* behavior:url("border-radius.htc"); */
+}
+
+.kasboek .input-white-big{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #fff;
+    background-color: #fff;
+    height: 25px;
+    width: 100%;
+    margin: 10px 10px 20px;
+    
+/* behavior:url("border-radius.htc"); */
+}
+
+.kasboek .bank-left{
+	float: left;
+	width: 20%;
+	color: #666666;	
+}
+
+
+
+.kasboek .bank-left label{
+	margin-left: 10px;
+	
+	
+}
+
+.kasboek .bank-right{
+	float: right;
+	width: 700px;
+	height: 100%;
+	color: #666666;	
+}
+
+.bottom-white-div{
+	    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #fff;
+    background-color: #fff;
+    height: 15px;
+    width: 300px;
+    margin-top: 10px;
+    vertical-align: middle;
+    padding: 10px;
+    float: left;
+}
+
+
+.bottom-grey-div{
+	    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    background-color: #ccc;
+    height: 15px;
+    width: 300px;
+    margin-top: 10px;
+    vertical-align: middle;
+
+    float: right;
+    padding: 10px;
+}
+
+
+.factuur-table-top{
+-webkit-border-top-left-radius: 5px;
+-webkit-border-top-right-radius: 5px;
+-moz-border-radius-topleft: 5px;
+-moz-border-radius-topright: 5px;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+height: 30px;	
+	background: url(../images/factuur-table-top.png) repeat-x;
+
+}
+.factuur-table-bottom{
+	-webkit-border-bottom-right-radius: 5px;
+-webkit-border-bottom-left-radius: 5px;
+-moz-border-radius-bottomright: 5px;
+-moz-border-radius-bottomleft: 5px;
+border-bottom-right-radius: 5px;
+border-bottom-left-radius: 5px;
+height: 30px;
+background-color: #ffffff;
+width: 700px;
+}
+
+.factuur-tabel{
+	width: 700px;
+	border-collapse: collapse;
+	color: #666666;
+
+}
+
+.factuur-saldo{
+	float: right;
+	margin-right: 60px;
+}
+
+.factuur-saldo-text{
+	float: left;
+}
+
+.factuur-saldo-text p{
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-right: 10px;
+}
+
+.factuur-saldo-left{
+	float: left;
+	width: 60px;
+	height: 5px;
+	border-left: 1px solid #7f7f7f;
+	border-top: 1px solid #7f7f7f;
+	margin-top: 15px;	
+}
+.factuur-saldo-right{
+	float: left;
+	width: 60px;
+	height: 5px;
+	border-right: 1px solid #7f7f7f;
+	border-top: 1px solid #7f7f7f;
+	margin-top: 15px;			
+}
+
+
+.factuur-tabel thead{
+	height: 19px;
+	background: url(../images/factuur-table-th.png) repeat-x;
+
+}
+
+.factuur-tabel thead tr th{
+	text-align: left;
+	padding-left: 10px;
+
+}
+
+.factuur-tabel tbody tr td{
+	text-align: left;
+	padding-left: 10px;
+	line-height: 20px;
+	
+}
+
+.factuur-even{
+	background-color: #ffffff;
+}
+
+.factuur-odd{
+	background-color: #e2fbd6;	
+}
+
+.factuur-tabel .credit{
+	color: #56a824;
+}
+
+.factuur-tabel .debet{
+	color: #c12727;
+}
+
+
+.algemeen-saldo{
+	float: left;
+}
+
+.algemeen-saldo label{
+	margin-left: 20px;
+}
+
+.algemeen-saldo input{
+	margin-left: 20px;
+}
+
+.dropdown-kasboek-box{
+overflow: hidden;
+margin-bottom: 10px;
+}
+
+.dropdown-kasboek-content{
+padding: 10px 10px 14px 8px;
+margin: 0px 0 20px 0;
+overflow: hidden;
+-webkit-border-bottom-right-radius: 5px;
+-webkit-border-bottom-left-radius: 5px;
+-moz-border-radius-bottomright: 5px;
+-moz-border-radius-bottomleft: 5px;
+border-bottom-right-radius: 5px;
+border-bottom-left-radius: 5px;
+background: #efefef;
+
+}
+
+
+.dropdown-kasboek-box h2 a {
+font-family: 'Lato', sans-serif;
+text-decoration: none;
+margin-right: 10px;
+display: block;
+background: url(../images/up.png) right center no-repeat;
+}
+
+
+.dropdown-kasboek-box h2.active {
+background: url(../images/tab-hover.jpg) left top repeat-x;
+color: #3B6300;
+}
+
+.dropdown-kasboek-box h2.active a {
+
+text-decoration: none;
+color: #777;
+margin-right: 10px;
+display: block;
+background: url(../images/down1.png) right center no-repeat;
+}
+
+.factuur-bottom{
+	bottom: 0px;
+}
+
+.factuur-bottom span{
+	float:right;
+	margin-right:10px;
+
+}
+
+.kasboek .btn { padding: 0 10px 0 15px; display: block; -moz-border-radius: 3px; border-radius: 3px; line-height: 30px; font-family: 'Lato', sans-serif; color: #ffffff; text-decoration: none; font-size: 16px; height: 30px; text-align: center;}
+.kasboek a.btn { margin-left: 10px; padding: 0px; width: 100%; color: #ffffff; border: 1px solid #62af53; background: url(../images/link.jpg) left top repeat-x; }	
+.kasboek ul { list-style: none; overflow: hidden; }
+.kasboek ul.tab li.selected { height: 58px; margin-top: -10px; overflow: visible; position: relative; background: url(../images/user-selected-bg.gif) repeat-x center bottom; -webkit-box-shadow:  2px -2px 3px 0px #666;        
+box-shadow:  2px -1px 3px 0px #666; }
+.kasboek .link { float:right; overflow: hidden; }
+.kasboek .link ul { padding-top: 8px; }
+.kasboek .link li { padding: 0 9px; float: left; line-height: 13px; background: url(../images/line3.jpg) right center no-repeat; }
+.kasboek .link li.last { background: none; }
+.kasboek .link li.next { padding-left: 0; padding-right: 17px; color: #639e16; background: url(../images/arrow_btn.png) right center no-repeat; }
+.kasboek .link li.next a { padding-left: 9px; background: url(../images/line3.jpg) left center no-repeat; color: #639e16; }
+.kasboek .link li a { text-decoration: none; color: #666666; font-family: 'Lato', sans-serif; }
+.kasboek .link li a img { float: left; margin: -1px 5px 0 10px; }
+.kasboek .link li.selected a { padding-left: 17px; color: #639e16; background: url(../images/left_arrow.png) left center no-repeat; }
+.kasboek h3 { font-weight: normal; font-family: 'Lato', sans-serif; font-size: 14px; color: #3b3c45; }
+.kasboek h3 span { padding-right: 5px; float: left; font-size: 30px;  }
+.kasboek h3 span.digit { display: block; font-size: 14px; line-height: 10px; float: none; width: auto; color: #999999; }
+.kasboek .link1:hover { background: url(../images/link2.jpg) left -32px no-repeat; }			
+.kasboek .algemeen-saldo input {
+    margin-left: 10px;
+}
+.colorPickerSelector {
+    background: url("../colorpicker/images/select.png") repeat scroll 0 0 transparent;
+    height: 36px;
+    position: relative;
+    width: 36px;
+    padding: 0 !important;
+}
+.colorPickerSelector div {
+    background: url("../colorpicker/images/select.png") repeat scroll center center transparent;
+    height: 30px;
+    left: 3px;
+    position: absolute;
+    top: 3px;
+    width: 30px;
+    padding:0 !important;
+} 
+
+.wholesaler-box.purchase_Box h4 { padding: 0 0 30px 21px; margin-left: 11px; font-size: 11px; color: #7f7f7f; font-weight: normal; font-family: 'LatoBold'; background: url(../images/plus.png) left 1px no-repeat; }
+.wholesaler-box.purchase_Box .rule { padding-left:0; }
+.wholesaler-box.purchase_Box .product1 { width:auto; margin-left:0; }
+.wholesaler-box.purchase_Box li { padding-right:30px; line-height: 40px; }
+.wholesaler-box .ui-combobox { width:auto; }
+.wholesaler-box.purchase_Box .product { width:auto; margin-left:0; }
+.wholesaler-box.purchase_Box ul { background-image:none; border:medium none; margin-bottom:0; padding-bottom:0; }
+.wholesaler-box.purchase_Box { background: none transparent; padding: 0; }

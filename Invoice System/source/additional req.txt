@@ -1,0 +1,30 @@
+﻿1. seperator
+2. event log text for rollback paid invoice ( Betaling ongedaan gemaakt )
+3. receipt date adjustable
+4. Stock API pdf
+5.packing list be able to delete
+http://avaxo.be/employees/pack
+
+
+
+the Date
+on the receipt
+http://avaxo.be/stock/receipt/view/id/16
+
+
+
+
+[10:49:56 AM] Jos Senden: Prod Nr. = Item number (this u can find in VOORRAADBEHEER --> Artikelcode)
+Omschrijving = Description (this u can find in VOORRAADBEHEER --> Naam)
+Start = Start count of that product at start of that day (this u can find in www.avaxo.be/employees/pack there will be 1 list for each user)
+Verkocht = items sold of that product (this you have to calculate from the invoices)
+Extra inladen = Extra items to be ordered (this you can find here www.avaxo.be/stock/receipt --> there you have to check employee and current date)
+
+
+Extra bestellingen = extra orders (orders that are not in the truck at the start of the day, so these have to be loaded in the truck for the next day)
+Aantal = Number of items that need to be loaded
+
+
+
+1. xml export ( contact checked )
+2. report

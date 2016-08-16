@@ -1,0 +1,131 @@
+<style type="text/css">
+    .fixlinks a {
+        font-weight: bold;
+        color:#548c03;
+        text-decoration:none;
+    }
+
+    #rights {
+        width:390px;
+    }
+
+    #rights div {
+        float:left;
+        line-height:29px;
+    }
+
+    #rights div.rights-name {
+        width:210px;
+    }
+
+    #rights div.rights-head {
+        width:60px;
+        text-align:center;
+    }
+
+    #rights div.rights-check {
+        width:60px;
+        text-align:center;
+    }
+
+    #rights div.right-group {
+
+    }
+
+</style>
+<?php include(APPLICATION_PATH . '/layouts/settings-sidebar.phtml'); ?>
+<div id="right">
+    <!-- START OVERVIE -->
+    <div class="oerview_Box1 fixlinks">
+        <h2><?= _t('Rechten') ?></h2>
+        <br/>
+        <div style="padding:10px;">
+            <h3><?= $this->escape($this->employee->name); ?></h3>
+            <br/>
+
+            <form action="<?= $this->baseUrl() ?>/settings/employees/save-rights" method="post">
+            <input type="hidden" name="employee_id" value="<?= $this->employee->id ?>" />
+            <table>
+                <tr>
+                    <td>
+                        <?php
+                        $userRights = array();
+                        $grouped = array();
+                        $other = array();
+
+                        if( $this->employee->rights ){
+                            foreach( $this->employee->rights as $right ){
+                                $userRights[] = $right->id;
+                            }
+                        }
+
+                        foreach( $this->rights as $right ){
+                            if( in_array($right->action, array('view', 'edit', 'delete')) ){
+                                if( !array_key_exists($right->group, $grouped) ){
+                                    $grouped[$right->group] = array();
+                                }
+                                $grouped[$right->group][] = $right;
+                            }else{
+                                $other[] = $right;
+                            }
+                        }
+                        ?>
+                        <div id="rights">
+
+                            <?php foreach( $other as $right ): ?>
+                            <div><input type="checkbox" name="rights[<?= $this->escape($right->id); ?>]" class="right-name-<?= $this->escape($right->key); ?>" <?= in_array($right->id, $userRights) ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;&nbsp;<?= $this->escape($right->info) ?></div>
+                            <br  style="clear:both;" />
+                            <?php endforeach; ?>
+
+                            <div class="rights-name">&nbsp;</div>
+                            <div class="rights-head"><a href="#" onclick="rights_mark_all('view');return false;" style="text-decoration:none;"><?= _t('View') ?></a></div>
+                            <div class="rights-head"><a href="#" onclick="rights_mark_all('edit');return false;" style="text-decoration:none;"><?= _t('Edit') ?></a></div>
+                            <div class="rights-head"><a href="#" onclick="rights_mark_all('delete');return false;" style="text-decoration:none;"><?= _t('Delete') ?></a></div>
+
+                            <?php foreach( $grouped as $module => $rights ):
+                            $rights = array_reverse($rights);
+                            ?>
+                            <div class="right-group">
+                                <div class="rights-name"><?= $this->escape(ucfirst($module)) ?></div>
+                                <?php foreach( $rights as $right ): ?>
+                                <div class="rights-check">
+                                    <input type="checkbox" class="right-<?= $this->escape($right->action); ?>" name="rights[<?= $this->escape($right->id); ?>]" <?= in_array($right->id, $userRights) ? 'checked="checked"' : '' ?> />
+                                </div>
+                                <?php endforeach; ?>
+                                <br style="clear:both;" />
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="<?= _t('Opslaan') ?>" class="green-button" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('.right-name-super').change(function(){
+        var all = $('[name^="rights"]');
+
+        if( this.checked ){
+            all.each(function(){ this.checked = true; });
+        }else{
+            all.each(function(){ this.checked = false; });
+        }
+    });
+
+    function rights_mark_all(action){
+        var checked = $('.right-' + action + ':checked');
+        var all = $('.right-' + action);
+
+        if( checked.length ){
+            all.each(function(){ this.checked = false; });
+        }else{
+            all.each(function(){ this.checked = true; });
+        }
+    }
+
+</script>

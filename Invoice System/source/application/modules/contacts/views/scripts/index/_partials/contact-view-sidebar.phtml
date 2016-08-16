@@ -1,0 +1,62 @@
+<?php if( !$this->contact ){
+    return;
+}
+
+$total = "0,00";
+$sum = 0;
+$total_count = 0;
+foreach( $this->contact->finalInvoices as $invoice ) {
+    if ( $invoice->getPaidTime() == 0 ) {
+        $sum += $invoice->total_sum;
+        $total_count++;
+    }
+}
+$total = $sum;
+if ( $total == 0 ) {
+    $total = '0,00';
+} else {
+    //$total = str_replace('.', ',', $total);
+    //$total = number_format($total, 2, ',', '');
+    $total = Utils::numberFormat($total);
+}
+?>
+<div class="layoutright">
+	<a class="open" href="<?= $this->baseUrl() . '/invoices/?from_contact=1&contact_id=' . $this->escape($this->contact->id); ?>" <?php if ( $total!='0,00') echo 'style="background-color:red";'; ?>>&euro; <?=$total?> te ontvangen</a>
+	<div class="clear"></div>
+	<div class="project">
+		<ul>
+            <?php if( Utils::user()->can('invoice_view') ): ?>
+			<li><a href="<?= $this->baseUrl() . '/invoices/?from_contact=2&contact_id=' . $this->escape($this->contact->id); ?>"><?= _t('Alle verkoopfacturen') ?> (<?= count($this->contact->finalInvoices) ?>)</a></li>
+            <?php endif; ?>
+            <?php if( Utils::user()->can('offer_view') ): ?>
+			<li><a href="<?= $this->baseUrl() . '/offers/?contact_id=' . $this->escape($this->contact->id); ?>"><?= _t('Alle offertes') ?> (<?= count($this->contact->finalOffers); ?>)</a></li>
+            <?php endif; ?>
+		</ul>    
+		<ul class="gap">
+            <?php if( Utils::user()->can('invoice_edit') ): ?>
+			<li><a href="<?= $this->baseUrl() . '/invoices/index/new/?contact_id=' . $this->escape($this->contact->id); ?>"><?= _t('Nieuwe factuur') ?></a></li>
+            <?php endif; ?>
+            <!--
+            <?php if( Utils::user()->can('purchase_edit') ): ?>
+			<li><a href="<?= $this->baseUrl() . '/purchases/index/new/?contact_id=' . $this->escape($this->contact->id); ?>"><?= _t('Nieuwe inkoopfactuur') ?></a></li>
+            <?php endif; ?>
+            -->
+            <?php if( Utils::user()->can('offer_edit') ): ?>
+			<li><a href="<?= $this->baseUrl() . '/offers/index/new/?contact_id=' . $this->escape($this->contact->id); ?>"><?= _t('Nieuwe offerte') ?></a></li>
+            <?php endif; ?>
+            <!--
+            <?php if( Utils::user()->can('invoice_edit') ): ?>
+			<li><a href="#"><?= _t('Nieuwe periodieke factuur') ?></a></li>
+            <?php endif; ?>
+            -->
+		</ul>
+	</div>
+<div id="contact-groups" class="group">
+    <?= $this->partial('index/_partials/contact-groups.phtml', array('contact' => $this->contact, 'groups' => $this->groups)); ?>
+</div>
+<!--
+<div id="contact-employees" class="group">
+    <?php // = $this->partial('index/_partials/contact-employees.phtml', array('contact' => $this->contact, 'employees' => $this->employees)); ?>
+</div>
+-->
+</div>

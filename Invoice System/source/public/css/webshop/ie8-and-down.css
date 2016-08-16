@@ -1,0 +1,53 @@
+div.container {
+	width:960px;
+	margin:0 auto;
+}
+
+#mainNav #cart:hover div.cart_content {
+	display: block;
+} 
+
+
+
+
+/* images hover style */
+ul.product_show li div.img div.hover_over a.link{
+	filter:alpha(opacity=0);
+}
+ul.product_show li:hover div.img div.hover_over a.link {
+	filter:alpha(opacity=100);
+}
+ul.product_show li div.img div.hover_over a.cart{ 
+	filter:alpha(opacity=0);
+}
+ul.product_show li:hover div.img div.hover_over a.cart {
+	filter:alpha(opacity=100);
+}
+
+
+
+div.product_tabs #tabs ul.tabNav li {
+	margin-right:2px;
+}
+div.product_tabs #tabs ul.tabNav li a {
+	padding:6px;
+}
+
+
+
+#user_log ol li.row div.inputOuter input[type=radio],
+#user_log ol li.row div.inputOuter input[type=checkbox] {
+	margin:10px 3px 0 0;
+	display: inline-block;
+	float:left;
+}
+#user_log ol li.row div.inputOuter label {
+	background: none;
+	padding-left:0;
+}
+#user_log ol li.row div.inputOuter input[type=radio] + label {
+	background: none;
+}
+#user_log ol li.row div.inputOuter input[type=checkbox] + label {
+	background: none;
+}

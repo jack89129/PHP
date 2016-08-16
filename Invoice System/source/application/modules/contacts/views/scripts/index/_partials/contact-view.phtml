@@ -1,0 +1,151 @@
+    <?= $this->partial('index/_partials/contact-view-sidebar.phtml', array('contact' => $this->contact, 'groups' => $this->groups, 'employees' => $this->employees)) ?>
+    <div class="left">
+    <?php if(!empty($this->contact)){ ?>
+    <h3><?php echo $this->escape($this->contact->company_name) ?> <br>
+        <span><?php echo $this->escape($this->contact->name_reversed)?></span>
+        <span><?php echo $this->escape($this->contact->number) ?></span>
+        <!--<span><?= _t('Functie') ?>: <?php echo $this->escape($this->contact->role) ?></span>-->
+    </h3>
+    <address>
+        <span><?= _t('Company name') ?></span>
+        <?= $this->escape($this->contact->company_name); ?>&nbsp;
+        <br/>
+        <span><?= _t('Voornaam') ?></span>
+        <?= $this->escape($this->contact->firstname) ?>&nbsp;
+        <br />
+        <span><?= _t('Achternaam') ?></span> <?php echo $this->escape($this->contact->lastname) ?>&nbsp;
+        <br/>
+        <span><?= _t('VAT number') ?></span>
+        <?= $this->escape($this->contact->vat_number); ?>&nbsp;
+    </address>
+    <address>
+        <span><?= _t('Adres') ?></span>
+        <?= $this->escape($this->contact->address) ?>&nbsp;
+        <br />
+        <span><?= _t('Postcode en plaats') ?></span>
+        <?= $this->escape($this->contact->postcode) ?>&nbsp;
+        <?= $this->escape($this->contact->city) ?>&nbsp;
+        <br />
+        <span><?= _t('Land') ?></span>
+        <?= $this->escape($this->contact->country) ?>&nbsp;
+    </address>
+    <address>
+        <span><?= _t('E-mailadres') ?></span>
+        <?= $this->escape($this->contact->email_address) ?>&nbsp;
+        <br />
+        <span><?= _t('Telefoonnummer 1') ?></span>
+        <?= $this->escape($this->contact->phone1) ?>&nbsp;
+        <br />
+        <span><?= _t('Telefoonnummer 2') ?></span>
+        <?= $this->escape($this->contact->phone2) ?>&nbsp;
+        <br />
+        <span><?= _t('FAX') ?></span>
+        <?= $this->escape($this->contact->fax) ?>&nbsp;
+        <br />
+        <span><?= _t('Contactpersoon') ?></span>
+        <?= $this->escape($this->contact->contact_person) ?>&nbsp;
+        <br />
+        <!--<span><?= _t('Username') ?></span>
+        <?= $this->escape($this->contact->username) ?>&nbsp;-->
+    </address>
+
+    <?php if( $this->contact->have_delivery ): ?>
+    <address>
+        <h2><?= _t('Levering') ?></h2>
+        <br/>
+
+        <span><?= _t('Voornaam') ?></span>
+        <?= $this->escape($this->contact->delivery_firstname) ?>&nbsp;
+        <br />
+        <span><?= _t('Achternaam') ?></span> <?php echo $this->escape($this->contact->delivery_lastname) ?>&nbsp;
+        <br/>
+        <span><?= _t('Adres') ?></span>
+        <?= $this->escape($this->contact->delivery_address) ?>&nbsp;
+        <br />
+        <span><?= _t('Postcode en plaats') ?></span>
+        <?= $this->escape($this->contact->delivery_postcode) ?>&nbsp;
+        <?= $this->escape($this->contact->delivery_city) ?>&nbsp;
+        <br />
+        <span>Land</span>
+        <?= $this->escape($this->contact->delivery_country) ?>&nbsp;
+        <br/>
+
+    </address>
+    <br/>
+    <?php endif; ?>
+     <!--
+    <address>
+        <h2><?= _t('Openingsuren') ?></h2>
+        <br/>
+        <? $days = array(_t('Maandag'), _t('Dinsdag'), _t('Woensdag'), _t('Donderdag'), _t('Vrijdag'), _t('Zaterdag'), _t('Zondag')); ?>
+        <?php foreach( $days as $index => $day ): ?>
+        
+        <span><?= $this->escape($day) ?></span>
+        <?php $current = $this->contact->getDay($index); ?>
+        
+		<div style="display: inline-block; width: 100px;">
+		<?php
+		if ($current[0] == false) {
+			echo _t('gesloten');
+		} else {
+			$startTime = "";
+			$endTime = "";
+			if ($current[0][0] != false) {
+				$startTime = $current[0][0];
+				if (strpos($startTime, ":") === false) $startTime .= ":00";
+			}
+			if ($current[0][1] != false) {
+				$endTime = $current[0][1];
+				if (strpos($endTime, ":") === false) $endTime .= ":00";
+			}
+			echo $startTime . " - " . $endTime;
+		}
+		?>
+		</div>
+		
+		<div style="display: inline-block; width: 20px;">//</div>
+		
+		<div style="display: inline-block; width: 100px;">
+		<?php
+		if ($current[1] == false) {
+			echo _t('gesloten');
+		} else {
+			$startTime = "";
+			$endTime = "";
+			if ($current[1][0] != false) {
+				$startTime = $current[1][0];
+				if (strpos($startTime, ":") === false) $startTime .= ":00";
+			}
+			if ($current[1][1] != false) {
+				$endTime = $current[1][1];
+				if (strpos($endTime, ":") === false) $endTime .= ":00";
+			}
+			echo $startTime . " - " . $endTime;
+		}
+		?>
+		</div>
+		
+		<br />
+		
+        <?php endforeach; ?>
+
+    </address>
+    -->
+    <br/>
+
+    <?php if( $this->contact->info ): ?>
+        <h2><?= _t('Extra informatie') ?></h2>
+        <div style="padding:10px;line-height: 18px;">
+        <?= Utils::strip_bad_tags($this->contact->info); ?>
+        </div>
+    <?php endif; ?>
+
+    <br/>
+    <?php if( Utils::user()->can('contact_edit') ): ?>
+    <ul class="links">
+        <li class="selected"><a href="javascript:;" onclick="contacts_edit_contact(<?= $this->escape($this->contact->id) ?>);"><?= _t('Debiteur bewerken') ?></a></li>
+        <li class="selected"><a href="javascript:;" onclick="contact_to_wholesaler(<?= $this->escape($this->contact->id) ?>);"><?= _t('Debiteur kopi&euml;ren naar crediteur') ?></a></li>
+    </ul>
+    <?php endif; ?>
+    <?php } ?>
+    </div>

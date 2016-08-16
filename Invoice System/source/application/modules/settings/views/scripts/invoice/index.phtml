@@ -1,0 +1,422 @@
+<?php include(APPLICATION_PATH . '/layouts/settings-sidebar.phtml'); ?>
+
+<style type="text/css">
+    .oerview_Box1 div, .oerview_Box1 fieldset {
+        border: medium none;
+    }
+    .oerview_Box1 fieldset {
+        margin: 0;
+        padding: 0;
+    }
+    form .open_mail_template.green-button {
+        width: 180px;
+        margin-left: 30px;
+        background-image: url('/images/green-button-wide.png');
+    }               
+    a.format_tag {
+        background-color: #DDDDDD;
+        border-radius: 3px 3px 3px 3px;
+        color: #777777;
+        line-height: 33px;
+        padding: 5px 8px;
+        text-decoration: none;
+    }
+    html .cke_skin_kama {
+        width: 85%;
+    }
+    .dropdown-setting-box{
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+    .dropdown-setting-content{
+        padding: 10px 10px 14px 8px;
+        margin: 0;
+        overflow: hidden;
+        -webkit-border-bottom-right-radius: 5px;
+        -webkit-border-bottom-left-radius: 5px;
+        -moz-border-radius-bottomright: 5px;
+        -moz-border-radius-bottomleft: 5px;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;     
+        display:none;
+    }
+    .dropdown-setting-box h2 a {
+        font-family: 'Lato', sans-serif;
+        text-decoration: none;
+        margin-right: 10px;
+        display: block;
+        background: url(/images/up.png) right center no-repeat;
+    }
+    .dropdown-setting-box h2.active {
+        background: url(/images/tab-hover.jpg) left top repeat-x;
+        color: #3B6300;
+    }
+    .dropdown-setting-box h2.active a {
+        text-decoration: none;
+        color: #777;
+        margin-right: 10px;
+        display: block;
+        background: url(/images/down1.png) right center no-repeat;
+    }
+    .dropdown-setting-content .table-search{
+        margin-top: 0px;
+        width: 90%;
+        color: #666666;
+        font-family: 'Lato', sans-serif;
+    }
+</style>
+
+<!-- START RIGHT -->
+<div id="right">
+
+    <!-- START OVERVIE -->
+    <div class="oerview_Box1">           
+        <div class="form" id="settingForm" style="padding-top: 0;">
+            <!--<h3 style="margin:10px 0 -15px 10px;">Factuur instellingen</h3>-->
+            <!--<form action="#" id="settingForm">-->
+            <h2><a href="#this" style="background-image: none;">Factuur instellingen</a></h2>   
+            <div>
+                <fieldset>
+                    <div>
+                        <span style="float: left; width:83%; padding-left:10px;">
+                        Hier kunt u alle instellingen aanpassen welke betrekking hebben tot facturen. Zo kunt u bijvoorbeeld standaard e-mail templates opmaken, de betaaltermijn instellen of eventueel interesten aanrekenen aan uw klanten van het moment er een laadtijdige betaling plaats vindt.<br><br>
+                        Op die manier spaart u straks heel wat werk uit, en zal het systeem dit allemaal voor u invullen.
+                        </span>
+                        <img src="/images/facturen.png" width="70px" alt="" style="float: right;">
+                    </div>
+                </fieldset>
+            </div>                                
+            <div class="dropdown-setting-box">
+                <h2><a href="#this">E-mail templates</a></h2>   
+                <div class="dropdown-setting-content">                                                                                                      
+                <fieldset>                                                                                            
+                    <form>                                
+                        <span style="margin-left: 10px;display: inline-block;width:230px;">E-mailbericht nieuwe factuur</span><input type="button" class="open_mail_template green-button" value="Instellen" ptype="default" href="#mailsettings"/><br>
+                        <span style="margin-left: 10px;display: inline-block;width:230px;">E-mailbericht factuurherinnering</span><input type="button" class="open_mail_template green-button" value="Instellen" ptype="late" href="#mailsettings"/><br>
+                        <span style="margin-left: 10px;display: inline-block;width:230px;">E-mailbericht 2de factuurherinnering</span><input type="button" class="open_mail_template green-button" value="Instellen" ptype="urgent" href="#mailsettings"/><br>
+                        <span style="margin-left: 10px;display: inline-block;width:230px;">E-mailbericht laatste factuurherinnering</span><input type="button" class="open_mail_template green-button" value="Instellen" ptype="judge" href="#mailsettings"/><br>
+                        <span style="margin-left: 10px;display: inline-block;width:230px;">E-mailbericht ontvangen betaling</span><input type="button" class="open_mail_template green-button" value="Instellen" ptype="thanks" href="#mailsettings"/><br>
+                    </form> 
+                </fieldset>
+                </div>
+            </div>
+            <div class="dropdown-setting-box">
+                <h2><a href="#this">Algemene factuur instellingen</a></h2>   
+                <div class="dropdown-setting-content">    
+                    <div class="opslaan-Box overlaybox" style="width: 100%;">
+                    <form id="noticesettings-form" type="invoice">           
+                        <input type="hidden" name="type" value="notice" />
+                        <fieldset>
+                            <h2 class="popup_title"></h2>            
+                            <div class="opslaan selected" style="padding-top: 0;">                                                                                             
+                                <div class="right" style="float: left;width: 98%;">
+                                    <div id="mailsettingsform">             
+                                        <div class="center" style="position: relative;">
+                                            <label style="width: 100%;"><?= _t('Omschrijving op factuur') ?>:</label> 
+                                            <div class="wysiwyg field" id="notice_intro" contenteditable="true" style="width:70%;height:130px; overflow: auto;"><?=Utils::strip_bad_tags($this->intro)?></div>
+                                            <img src="/images/omschrijving.png" style="float: left; margin-left: 3%; width: 20%; left: 43%; top: 0; cursor: pointer;" />
+                                            <input type="hidden" name="intro" value="<?=$this->intro?>" />
+                                        </div>
+                                        
+                                        <div class="center" style="position: relative;">
+                                            <label style="width: 100%;"><?= _t('Afsluiting van factuur') ?>:</label> 
+                                            <div class="wysiwyg field" id="notice_footer" contenteditable="true" style="width:70%;height:130px; overflow: auto;"><?=Utils::strip_bad_tags($this->footer)?></div>
+                                            <img src="/images/footer.png" style="float: left; margin-left: 3%; width: 20%; left: 43%; top: -170px; cursor: pointer;" />
+                                            <input type="hidden" name="footer" value="<?=$this->footer?>" />
+                                        </div>
+                                        
+                                        <div class="center">
+                                            <label style="height:70px; width: 15%;">Beschikbare tags :</label>      
+                                            <a class="format_tag" href="#this" code="client_number">Debiteurnummer</a>
+                                            <a class="format_tag" href="#this" code="client_firstname">Debiteur voornaam</a>
+                                            <a class="format_tag" href="#this" code="client_lastname">Debiteur achternaam</a>                           
+                                            <a class="format_tag" href="#this" code="invoice_number">Factuurnummer</a>
+                                            <a class="format_tag" href="#this" code="invoice_expiration_date">Factuur vervaldatum</a>
+                                            <a class="format_tag" href="#this" code="invoice_total_price">Factuur eindtotaal</a>
+                                            <a class="format_tag" href="#this" code="invoice_creation_date">Factuur aanmaakdatum</a>
+                                            <a class="format_tag" href="#this" code="company_name">Bedrijfsnaam</a>
+                                            <a class="format_tag" href="#this" code="bank_name">Banknaam</a>
+                                            <a class="format_tag" href="#this" code="bank_location">Bankplaats</a>
+                                            <a class="format_tag" href="#this" code="bank_number">Rekeningnummer</a>
+                                            <a class="format_tag" href="#this" code="bank_iban">IBAN</a>
+                                            <a class="format_tag" href="#this" code="bank_bic">BIC/SWIFT</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="submit" class="button gap button-loader"    value="<?= _t('Opslaan') ?>" />
+                            </div>                   
+                            
+                        </fieldset>
+                    </form>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown-setting-box">
+                <h2><a href="#this">Betalingstermijnen</a></h2>   
+                <div class="dropdown-setting-content">   
+                <fieldset>
+                    <form id="mySettingForm">
+                    <div class="invoice-setting-business-wrapper">                  
+                        <label><?=_t('Selecteer uw debiteurgroep')?>:</label>
+                        <select id="business-type">
+                            <option><?=_t('Select Business Type')?></option>
+                            <option value="b2b">B2B-Business to business</option>
+                            <option value="b2c">B2C-Business to customer</option>
+                        </select>           
+                        <div id="b2b-wrapper" style="display: none;clear: both;">
+                            <div>
+                                <label><?=_t('Algemene betalingstermijn')?>:</label>
+                                <select name="setting_invoice[b2b_payment_term]">
+                                    <option value="0">Aantal dagen</option>
+                                    <?php for ( $i = 1; $i < 91; $i++ ): ?>
+                                    <option value="<?=$i?>" <?php if ( $this->b2b_payment_term == $i ) echo 'selected'; ?>><?=$i?> <?=_t('Days')?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                            <div>
+                                <label><?=_t('Betaaltermijn na 1ste herinnering')?>:</label>
+                                <select name="setting_invoice[b2b_first_term]">
+                                    <option value="0">Aantal dagen</option>
+                                    <?php for ( $i = 1; $i < 91; $i++ ): ?>
+                                    <option value="<?=$i?>" <?php if ( $this->b2b_first_term == $i ) echo 'selected'; ?>><?=$i?> <?=_t('Days')?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                            <div>
+                                <label><?=_t('Betaaltermijn na 2de herinnering')?></label>
+                                <select name="setting_invoice[b2b_second_term]">
+                                    <option value="0">Aantal dagen</option>
+                                    <?php for ( $i = 1; $i < 91; $i++ ): ?>
+                                    <option value="<?=$i?>" <?php if ( $this->b2b_second_term == $i ) echo 'selected'; ?>><?=$i?> <?=_t('Days')?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                            <div>
+                                <label><?=_t('Betaaltermijn na laatste herinnering')?></label>
+                                <select name="setting_invoice[b2b_last_term]">
+                                    <option value="0">Aantal dagen</option>
+                                    <?php for ( $i = 1; $i < 31; $i++ ): ?>
+                                    <option value="<?=$i?>" <?php if ( $this->b2b_last_term == $i ) echo 'selected'; ?>><?=$i?> <?=_t('Days')?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="b2c-wrapper" style="display: none;clear: both;">
+                            <div>
+                                <label><?=_t('Algemene betalingstermijn')?>:</label>
+                                <select name="setting_invoice[b2c_payment_term]">
+                                    <option value="0">Aantal dagen</option>
+                                    <?php for ( $i = 1; $i < 91; $i++ ): ?>
+                                    <option value="<?=$i?>" <?php if ( $this->b2c_payment_term == $i ) echo 'selected'; ?>><?=$i?> <?=_t('Days')?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                            <div>
+                                <label><?=_t('Betaaltermijn na 1ste herinnering')?>:</label>
+                                <select name="setting_invoice[b2c_first_term]">
+                                    <option value="0">Aantal dagen</option>
+                                    <?php for ( $i = 1; $i < 91; $i++ ): ?>
+                                    <option value="<?=$i?>" <?php if ( $this->b2c_first_term == $i ) echo 'selected'; ?>><?=$i?> <?=_t('Days')?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                            <div>
+                                <label><?=_t('Betaaltermijn na 2de herinnering')?></label>
+                                <select name="setting_invoice[b2c_second_term]">
+                                    <option value="0">Aantal dagen</option>
+                                    <?php for ( $i = 1; $i < 91; $i++ ): ?>
+                                    <option value="<?=$i?>" <?php if ( $this->b2c_second_term == $i ) echo 'selected'; ?>><?=$i?> <?=_t('Days')?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                            <div>
+                                <label><?=_t('Betaaltermijn na laatste herinnering')?></label>
+                                <select name="setting_invoice[b2c_last_term]">
+                                    <option value="0">Aantal dagen</option>
+                                    <?php for ( $i = 1; $i < 31; $i++ ): ?>
+                                    <option value="<?=$i?>" <?php if ( $this->b2c_last_term == $i ) echo 'selected'; ?>><?=$i?> <?=_t('Days')?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                        </div>                                                   
+                    </div>    
+                    </form>
+                </fieldset>
+                </div>
+            </div>
+            <div class="dropdown-setting-box">
+                <h2><a href="#this">Algemene factuur instellingen</a></h2>   
+                <div class="dropdown-setting-content">   
+                <fieldset>
+                    <form id="mySettingForm">
+                    <div class="invoice-setting-business-wrapper" style="margin-right: 1%; border-right: 1px solid #EEE;">
+                        <h3><span>B2B</span><br><?=_t('Business to Business')?></h3>
+                        <div>
+                            <label><?=_t('Payment term')?></label>
+                            <input type="text" name="setting_invoice[b2b_payment_term]" value="<?=$this->b2b_payment_term?>" /> <?=_t('Days')?><br>
+                            <label><?=_t('1st reminder')?></label>
+                            <input type="text" name="setting_invoice[b2b_first_term]" value="<?=$this->b2b_first_term?>" /> <?=_t('Days')?><br>
+                            <label><?=_t('2nd reminder')?></label>
+                            <input type="text" name="setting_invoice[b2b_second_term]" value="<?=$this->b2b_second_term?>" /> <?=_t('Days')?><br>
+                            <label><?=_t('Land reminder')?></label>
+                            <input type="text" name="setting_invoice[b2b_last_term]" value="<?=$this->b2b_last_term?>" /> <?=_t('Days')?><br>
+                        </div>
+                        <div>
+                            <label><?=_t('If payment is not on time, add interests.')?></label><br>
+                            <input type="radio" id="b2b_interest_yes" name="b2b_has_interest" <?php if($this->b2b_has_interest==1) echo 'checked'; ?>/><label for="b2b_interest_yes"><?=_t('Yes')?></label>
+                            <input type="radio" id="b2b_interest_no" name="b2b_has_interest" <?php if($this->b2b_has_interest==0) echo 'checked'; ?>/> <label for="b2b_interest_no"><?=_t('No')?></label>
+                            <input type="hidden" name="setting_invoice[b2b_has_interest]" value="<?=$this->b2b_has_interest?>"/>
+                        </div>
+                        <div>
+                            <label><?=_t('Add percentage to original invoice')?></label>
+                            <input type="text" name="setting_invoice[b2b_interest_rate]" value="<?=$this->b2b_interest_rate?>"/> % (<?=_t('Percent')?>)<br><br>
+                            <input type="radio" id="b2b_term_day" name="b2b_interest_term" <?php if($this->b2b_interest_term=='day') echo 'checked'; ?>/><label for="b2b_term_day"><?=_t('Each day')?></label><br>
+                            <input type="radio" id="b2b_term_week" name="b2b_interest_term" <?php if($this->b2b_interest_term=='week') echo 'checked'; ?>/><label for="b2b_term_week"><?=_t('Each week')?></label><br>
+                            <input type="radio" id="b2b_term_month" name="b2b_interest_term" <?php if($this->b2b_interest_term=='month') echo 'checked'; ?>/><label for="b2b_term_month"><?=_t('Each month')?></label><br>
+                            <input type="radio" id="b2b_term_off" name="b2b_interest_term" <?php if($this->b2b_interest_term=='off') echo 'checked'; ?>/><label for="b2b_term_off"><?=_t('Off')?></label>
+                            <input type="hidden" name="setting_invoice[b2b_interest_term]" value="<?=$this->b2b_interest_term?>"/>
+                        </div>
+                        <div>
+                            <label><?=_t('Send invoice automatically ?')?></label><br>
+                            <input type="radio" id="b2b_autosend_yes" name="b2b_auto_sendmail" <?php if($this->b2b_auto_sendmail==1) echo 'checked'; ?>/><label for="b2b_autosend_yes"><?=_t('Yes')?></label>
+                            <input type="radio" id="b2b_autosend_no" name="b2b_auto_sendmail" <?php if($this->b2b_auto_sendmail==0) echo 'checked'; ?>/> <label for="b2b_autosend_no"><?=_t('No')?></label>  <br><br>
+                            <input type="hidden" name="setting_invoice[b2b_auto_sendmail]" value="<?=$this->b2b_auto_sendmail?>"/>
+                            <label><?=_t('Attention message! Invoice will only be send automatically if contact has e-mail setup!')?></label>
+                        </div>
+                    </div>
+                    <div class="invoice-setting-business-wrapper">
+                        <h3><span>B2C</span><br><?=_t('Business to Customer')?></h3>
+                        <div>
+                            <label><?=_t('Payment term')?></label>
+                            <input type="text" name="setting_invoice[b2c_payment_term]" value="<?=$this->b2c_payment_term?>" /> <?=_t('Days')?><br>
+                            <label><?=_t('1st reminder')?></label>
+                            <input type="text" name="setting_invoice[b2c_first_term]" value="<?=$this->b2c_first_term?>" /> <?=_t('Days')?><br>
+                            <label><?=_t('2nd reminder')?></label>
+                            <input type="text" name="setting_invoice[b2c_second_term]" value="<?=$this->b2c_second_term?>" /> <?=_t('Days')?><br>
+                            <label><?=_t('Land reminder')?></label>
+                            <input type="text" name="setting_invoice[b2c_last_term]" value="<?=$this->b2c_last_term?>" /> <?=_t('Days')?><br>
+                        </div>
+                        <div>
+                            <label><?=_t('If payment is not on time, add interests.')?></label><br>
+                            <input type="radio" id="b2c_interest_yes" name="b2c_has_interest" <?php if($this->b2c_has_interest==1) echo 'checked'; ?>/><label for="b2c_interest_yes"><?=_t('Yes')?></label>
+                            <input type="radio" id="b2c_interest_no" name="b2c_has_interest" <?php if($this->b2c_has_interest==0) echo 'checked'; ?>/> <label for="b2c_interest_no"><?=_t('No')?></label>
+                            <input type="hidden" name="setting_invoice[b2c_has_interest]" value="<?=$this->b2c_has_interest?>"/>
+                        </div>
+                        <div>
+                            <label><?=_t('Add percentage to original invoice')?></label>
+                            <input type="text" name="setting_invoice[b2c_interest_rate]" value="<?=$this->b2c_interest_rate?>"/> % (<?=_t('Percent')?>)<br><br>
+                            <input type="radio" id="b2c_term_day" name="b2c_interest_term" <?php if($this->b2c_interest_term=='day') echo 'checked'; ?>/><label for="b2c_term_day"><?=_t('Each day')?></label><br>
+                            <input type="radio" id="b2c_term_week" name="b2c_interest_term" <?php if($this->b2c_interest_term=='week') echo 'checked'; ?>/><label for="b2c_term_week"><?=_t('Each week')?></label><br>
+                            <input type="radio" id="b2c_term_month" name="b2c_interest_term" <?php if($this->b2c_interest_term=='month') echo 'checked'; ?>/><label for="b2c_term_month"><?=_t('Each month')?></label><br>
+                            <input type="radio" id="b2c_term_off" name="b2c_interest_term" <?php if($this->b2c_interest_term=='off') echo 'checked'; ?>/><label for="b2c_term_off"><?=_t('Off')?></label>
+                            <input type="hidden" name="setting_invoice[b2c_interest_term]" value="<?=$this->b2c_interest_term?>"/>
+                        </div>
+                        <div>
+                            <label><?=_t('Send invoice automatically ?')?></label><br>
+                            <input type="radio" id="b2c_autosend_yes" name="b2c_auto_sendmail" <?php if($this->b2c_auto_sendmail==1) echo 'checked'; ?>/><label for="b2c_autosend_yes"><?=_t('Yes')?></label>
+                            <input type="radio" id="b2c_autosend_no" name="b2c_auto_sendmail" <?php if($this->b2c_auto_sendmail==0) echo 'checked'; ?>/> <label for="b2c_autosend_no"><?=_t('No')?></label>  <br><br>
+                            <input type="hidden" name="setting_invoice[b2c_auto_sendmail]" value="<?=$this->b2c_auto_sendmail?>"/>
+                            <label><?=_t('Attention message! Invoice will only be send automatically if contact has e-mail setup!')?></label>
+                        </div>
+                    </div>
+                    <div style="clear: both;">
+                        <input type="button" name="save" id="save_invoice_settings" value="Opslaan" class="green-button" />
+                    </div>
+                    <div style="clear: both;">
+                        <span style="margin-left: 10px;display: inline-block;width:230px;">E-mailbericht interest factuurherinnering</span><input type="button" class="open_mail_template green-button" value="Instellen" ptype="interest" href="#mailsettings"/><br>
+                    </div>
+                    </form>
+                </fieldset>
+                </div>
+            </div>
+            <!--</form>-->
+
+        </div>
+
+    </div>
+    <!-- END OVERVIE -->
+
+</div>
+<!-- END RIGHT -->
+
+<div style="display: none;">
+    <div class="opslaan-Box overlaybox" id="mailsettings">
+        <form id="mailsettings-form" type="invoice">
+            <input type="hidden" name="type" id="div_type" />
+            <fieldset>
+                <h2 class="popup_title"></h2>            
+                <div class="opslaan selected">                                                                                             
+                    <div class="right">                                                                                                                                                                          
+                
+                        <div id="mailsettingsform">             
+                            <div class="center">
+                                <label><?= _t('Onderwerp') ?>:</label> 
+                                <div class="wysiwyg field" id="div_subject" contenteditable="true" style="height:auto;">&nbsp;</div>
+                        <input type="hidden" name="subject" value="" />
+                            </div>
+                            
+                            <div class="center">
+                                <label><?= _t('Bericht') ?>:</label> 
+                                <!--<div class="wysiwyg field" id="div_body" contenteditable="true" style="width:500px;height:125px; overflow: auto;"></div>
+                        <input type="hidden" name="body" value="" />-->
+                                <textarea id="settings_invoice_mailbody" name="body" class="grayfield" contenteditable="true" ></textarea>
+                            </div>
+                            
+                            <div class="center">
+                                <label style="height:70px;">Beschikbare tags :</label>
+                                <a class="format_tag" href="#this" code="client_number">Debiteurnummer</a>
+                                <a class="format_tag" href="#this" code="client_firstname">Debiteur voornaam</a>
+                                <a class="format_tag" href="#this" code="client_lastname">Debiteur achternaam</a>
+                                <a class="format_tag" href="#this" code="invoice_number">Factuurnummer</a>
+                                <a class="format_tag" href="#this" code="invoice_expiration_date">Factuur vervaldatum</a>
+                                <a class="format_tag" href="#this" code="invoice_total_price">Factuur eindtotaal</a>
+                                <a class="format_tag" href="#this" code="invoice_creation_date">Factuur aanmaakdatum</a>
+                                <a class="format_tag" href="#this" code="company_name">Bedrijfsnaam</a>
+                                <a class="format_tag" href="#this" code="bank_name">Banknaam</a>
+                                <a class="format_tag" href="#this" code="bank_location">Bankplaats</a>
+                                <a class="format_tag" href="#this" code="bank_number">Rekeningnummer</a>
+                                <a class="format_tag" href="#this" code="bank_iban">IBAN</a>
+                                <a class="format_tag" href="#this" code="bank_bic">BIC/SWIFT</a>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>                   
+                
+                <input type="submit" class="button gap button-loader"    value="<?= _t('Opslaan') ?>" />
+            </fieldset>
+        </form>
+    </div>
+</div>
+                            
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        $('.dropdown-setting-box h2 a').live('click', function() {
+            var alreadyactive = false;
+            if ($(this).parent().hasClass('active')) alreadyactive = true;
+            $('.dropdown-setting-box h2.active').parent().find('div.dropdown-setting-content').slideUp();
+            $('div.dropdown-setting-content').removeClass('active');
+            $('.dropdown-setting-box h2').removeClass('active');
+            if (alreadyactive) return false;
+            $(this).parent().parent().find('div.dropdown-setting-content').slideDown();
+            $(this).parent().parent().find('div.dropdown-setting-content').addClass('active');
+            $(this).parent().addClass('active');
+        }); 
+        
+        $('#business-type').on('change', function(){
+            if ( $('#b2b-wrapper').css('display') != 'none' ) {
+                $('#b2b-wrapper').slideToggle();
+            }
+            if ( $('#b2c-wrapper').css('display') != 'none' ) {
+                $('#b2c-wrapper').slideToggle();
+            }
+            //$('#' + $('#business-type').val() + '-wrapper').css('display', 'block');
+            $('#' + $('#business-type').val() + '-wrapper').slideToggle();
+        });
+        
+        $('.invoice-setting-business-wrapper select').each(function(idx, obj){
+            $(obj).combobox();
+        });
+    });        
+</script>

@@ -1,0 +1,21 @@
+<?= $this->upload(); ?>
+<script type="text/javascript">
+    upload_title        = '<?= _t('Bijlage toevoegen') ?>';
+    upload_validate_url = baseUrl + '/purchases/index/validate-attachment-file';
+    upload_submit_url   = baseUrl + '/purchases/index/create-attachment-purchase';
+    upload_file_types   = <?= json_encode(array_values(SettingsModel::getPurchaseAttachmentTypes())); ?>;
+
+    upload_params = {
+        id: $('[name="purchase[id]"]').val()
+    }
+
+    upload_on_success = function(){
+        log_reload();
+
+        if( typeof purchases_attachments_reload != "undefined" ){
+            purchases_attachments_reload();
+        }
+    }
+
+    upload_init();
+</script>

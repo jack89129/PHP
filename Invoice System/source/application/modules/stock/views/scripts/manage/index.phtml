@@ -1,0 +1,184 @@
+<style type="text/css">
+
+    div.manage_product_name {
+        width:20%;
+    }
+
+    div.manage_product_numeric {
+        width:9%;
+        padding-left:10px;
+        padding-right:10px;
+        text-align:center;
+    }
+
+    div.manage_product_numeric input {
+        width:50%;
+        text-align:right;
+        font-size:11px;
+    }
+
+    div.manage_product_numeric.last {
+        float:right !important;
+    }
+
+    div.manage_product_color {
+        background-color:#f1f1f1;
+    }
+
+
+</style>
+
+<div id="right" class="sub">
+    <?= $this->partial('manage/_partials/sidebar.phtml'); ?>
+</div>
+
+<div id="left" class="sub">
+    <div class="opties_Box">
+        <h2><?= _t('Beheer voorraad') ?></h2>
+
+        <div id="tabs">
+            <ul class="tab" style="padding-left: 0px;">
+                <li><a id="product_group_0" href="javascript:;" onclick="stock_manage_show_group(0);"><?= _t('All') ?></a></li>
+                <?php foreach( $this->groups as $group ): ?>
+                    <li><a id="product_group_<?= $group->id ?>" href="javascript:;" onclick="stock_manage_show_group(<?= $this->escape($group->id) ?>);"><?= $this->escape($group->name); ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <div class="status" style="padding-bottom:1px;">
+            <form id="stock-manage-form">
+            <input type="hidden" name="group" value="<?= $this->escape($this->group); ?>" />
+            <fieldset>
+                <ul>
+                    <li class="gap">
+                        <div class="manage_product_name"><h3><?= _t('Product') ?></h3></div>
+                        <div class="manage_product_numeric"><h3><?= _t('Stock') ?></h3></div>
+                        <?php if( !$this->readonly ): ?>
+                        <div class="manage_product_numeric"><h3><?= _t('Add') ?></h3></div>
+                        <div class="manage_product_numeric"><h3><?= _t('Remove') ?></h3></div>
+                        <div class="manage_product_numeric"><h3><?= _t('After') ?></h3></div>
+                        <div class="manage_product_numeric" style="width: 120px;"><h3><?= _t('Minimum voorraad') ?></h3></div>
+                        <?php endif; ?>
+                    </li>
+                    <?php foreach( $this->products as $product ): ?>
+                        <li class="searchable" data-group_id="<?= $this->escape($product->product_group_id) ?>" style="margin-top:1px;">
+                            <input type="hidden" name="products[<?= $product->id ?>][id]" value="<?= $product->id; ?>" />
+                            <div class="manage_product_name">
+                                <?= $this->escape($product->name); ?>
+                            </div>
+                            <div class="manage_product_numeric">
+                                <span id="product_stock_<?= $product->id ?>"><?= $this->escape($product->stock); ?></span>
+                            </div>
+                            <?php if( !$this->readonly ): ?>
+                            <div class="manage_product_numeric">
+                                <span><input type="text" class="gray-input" name="products[<?= $product->id ?>][add]" value="0" /></span>
+                            </div>
+                            <div class="manage_product_numeric">
+                                <input type="text" class="gray-input" name="products[<?= $product->id ?>][remove]" value="0" />
+                            </div>
+                            <div class="manage_product_numeric manage_product_color"><span id="product_after_<?= $product->id ?>"><?= $this->escape($product->stock); ?></span></div>
+                            <div class="manage_product_numeric">
+                                <input type="text" class="gray-input" name="products[<?= $product->id ?>][min_stock]" value="<?= $this->escape($product->min_stock); ?>" />
+                            </div>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </fieldset>
+            </form>
+        </div>
+        <br style="clear:both;" />
+        <?php if( !$this->readonly ): ?>
+        <div style="text-align:right;">
+        <a class="link" onclick="$('#stock-manage-form').submit();" style="cursor:pointer;color:#000000;font-weight:bold;padding: 7px;padding-left:20px;padding-right:20px;"><?= _t('Opslaan') ?></a>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        $('#stock-manage-form').submit(function(){
+            $.post(baseUrl + '/stock/manage/save', $(this).serialize());
+            return false;
+        });
+
+        $('input[name^="products"]').each(function(){
+            var id = stock_manage_name_to_id(this.name);
+            stock_manage_update_row(id);
+        }).keyup(function(){
+            var id = stock_manage_name_to_id(this.name);
+            stock_manage_update_row(id)
+        }).keydown(function(event){
+            only_numeric(this, event, false);
+        });
+
+        stock_manage_show_group(<?= $this->group; ?>);
+    });
+
+    function stock_manage_update_row(id){
+        var stock = Number($('#product_stock_' + id).text());
+        var add = Number($('input[name="products[' + id + '][add]"]').val()) || 0 ;
+        var remove = Number($('input[name="products[' + id + '][remove]"]').val()) || 0;
+
+        var after = (stock + add) - remove;
+        $('#product_after_' + id).text(after);
+
+        var color = ''
+
+        if(after < 0){
+            color = '#ff0000';
+        }else{
+            color = '#008b00';
+        }
+
+        $('#product_after_' + id).css('color', color).css('font-weight', 'bold');
+    }
+
+    function stock_manage_name_to_id(name){
+        return name.match(/\d+/)[0];
+    }
+
+    function stock_manage_show_group(group){
+        $('[name=group]').val(group);
+        stock_manage_select_tab(group);
+        var items = $('li.searchable');
+            items.show();
+
+        if( group == 0 ){
+            return;
+        }
+
+        items.each(function(){
+            item = $(this)
+            if( item.data('group_id') == group ){
+                item.show()
+            }else{
+                item.hide();
+            }
+        })
+    }
+
+    function stock_manage_select_tab(group){
+        $('#tabs li a').css('background-color', 'transparent');
+        $('#product_group_' + group).css('background-color', '#f1f1f1');
+    }
+
+    function only_numeric(element, event, decimal){
+        if( !(
+                event.keyCode == 9
+                        || (decimal && element.value.indexOf('.') == -1 && (event.keyCode == 110 || event.keyCode == 190)) // . (dot)
+                        || event.keyCode == 8                              // backspace
+                        || event.keyCode == 46                             // delete
+                        || (event.keyCode >= 35 && event.keyCode <= 40)    // arrow keys/home/end
+                        || (event.keyCode >= 48 && event.keyCode <= 57)    // numbers on keyboard
+                        || (event.keyCode >= 96 && event.keyCode <= 105)   // number on keypad
+                )
+                ) {
+            event.preventDefault();
+        }
+    }
+
+</script>

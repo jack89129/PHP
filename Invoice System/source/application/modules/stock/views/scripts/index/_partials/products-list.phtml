@@ -1,0 +1,43 @@
+<div class="news_Box gap products">
+<h2><?= _t('Producten') ?></h2>
+
+<div class="search">
+    <form action="#">
+        <fieldset>
+            <input type="text" onblur="if (this.value == '') {this.value = '<?= _t('Zoek product') ?>';}" onfocus="if(this.value == '<?= _t('Zoek product') ?>') {this.value = '';}" value="<?= _t('Zoek product') ?>" class="field" />
+        </fieldset>
+    </form>
+
+</div>
+
+<div class="scroll-pane">
+    <div class="product">
+        <?php if( $this->products ): ?>
+            <?php foreach( $this->products as $product ): ?>
+            <p class="product-item searchable" data-id="<?= $this->escape($product->id) ?>">
+                <label class="label_check left"><input type="radio" name="products[]" value="<?= $product->id; ?>" /></label>
+                <label>
+                    <?= $this->escape($product->name); ?>
+                    <span style="display:none;">
+                        <?= $this->escape($product->article_code); ?>
+                    </span>
+                </label>
+            </p>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+</div>
+
+<?php if( Utils::user()->can('stock_edit') || Utils::user()->can('stock_delete') ): ?>
+    <ul class="tab">
+        <?php if( Utils::user()->can('stock_edit') ): ?>
+        <li class="selected"><a href="javascript:;" onclick="stock_edit_product(0);"><?= _t('Nieuw') ?></a></li>
+        <?php endif; ?>
+
+        <?php if( Utils::user()->can('stock_delete') ): ?>
+        <li class="last"><a href="javascript:;" onclick="stock_delete_products();"><?= _t('Verwijder') ?></a></li>
+        <?php endif; ?>
+    </ul>
+<?php endif; ?>
+
+</div>

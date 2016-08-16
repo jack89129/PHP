@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<title><?= $this->title ?></title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		
+		<style type="text/css">
+		body {
+			width:800px;
+			font-family: DejaVuSans, Tahoma, Verdana;
+			font-size: 12px;
+			padding:0px;
+			margin:auto;
+			color: #333;
+		}		
+		table td {
+            border: medium none;
+            padding: 0 5px;
+            margin: 0;
+		}        
+        table td h1 {
+            font-size: 18px;
+            line-height: 50px;
+            font-weight: bold;
+            margin: 0;
+            /*text-transform: uppercase;*/
+        }        
+        table td h3 {
+            font-size: 16px;
+            /*line-height: 40px;*/
+            font-weight: bold;
+            margin: 0;
+        }        
+        table td.result_title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+		
+		</style>
+	</head>
+	<body>
+
+    <table style="width:100%;" cellpadding="0" cellspacing="0">
+        <tr>
+            <td colspan="3" align="center" style="border: 2px solid #333; padding: 5px;">
+               <h1>BTW AANGIFTE <?=$this->report_date?></h1>
+            </td>
+        </tr>
+        <?php foreach( $this->result as $section ): ?>
+        <?php if ( strpos($section['label'], 'RESULT') === false): ?>
+            <tr>
+                <td style="border-left:2px solid #333; width: 400px;">&nbsp;</td>
+                <td style="border-right:2px solid #333; width: 200px;">&nbsp;</td>
+                <td style="border-right:2px solid #333; width: 200px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-left:2px solid #333;border-right:2px solid #333;"><h3><?=$section['label']?></h3></td>
+                <td style="border-right:2px solid #333;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-left:2px solid #333; width: 400px;">&nbsp;</td>
+                <td style="border-right:2px solid #333; width: 200px;">&nbsp;</td>
+                <td style="border-right:2px solid #333; width: 200px;">&nbsp;</td>
+            </tr>
+            <?php foreach( $section['rows'] as $res ): ?>
+            <?php if ( $res['code'] == 'XX' || $res['code'] == 'YY' ): ?>
+            <tr>
+                <td style="border-left:2px solid #333; width: 400px;">&nbsp;</td>
+                <td style="border-right:2px solid #333; width: 200px;">&nbsp;</td>
+                <td style="border-right:2px solid #333; width: 200px;">&nbsp;</td>
+            </tr>
+            <?php endif; ?>
+            <tr>
+                <td colspan="2" style="border-left:2px solid #333;border-right:2px solid #333;padding-left: 10px;"><?=$res['category']?></td>
+                <td align="right" style="border-right:2px solid #333;">&euro;<?=sprintf('%.2f', $res['total_excl_vat'])?></td>
+            </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        <?php endforeach; ?>
+        <tr>
+            <td style="border-left:2px solid #333; width: 400px;">&nbsp;</td>
+            <td style="border-right:2px solid #333; width: 200px;">&nbsp;</td>
+            <td style="border-right:2px solid #333; width: 200px;">&nbsp;</td>
+        </tr>
+        <tr>
+            <td align="center" class="result_title" style="border: 2px solid #333; width: 400px;">EINDAFREKENING</td>
+            <td align="center" class="result_title" style="border-top:2px solid #333;border-bottom:2px solid #333;border-right:2px solid #333; width: 200px;">AAN DE STAAT<br>TE BETALEN<br>BEDRAG</td>
+            <td align="center" class="result_title" style="border: 2px solid #333; border-left:none; width: 200px;">DOOR DE STAAT<br>VERSCHULDIGD<br>BEDRAG</td>
+        </tr>
+        <tr><td colspan="3" style="border-left: 2px solid #333;border-right: 2px solid #333;">&nbsp;</td></tr>
+        <?php foreach ( $this->result['result']['rows'] as $res ): ?>
+        <tr>
+            <td style="border-left: 2px solid #333; padding-left: 10px;"><?=$res['category']?></td>
+            <?php if ( $res['code'] == '71' ): ?>
+                <?php if ( floatval($res['total_excl_vat']) > 0 ): ?>
+                    <td align="center">&euro;<?=$res['total_excl_vat']?></td>
+                    <td style="border-right: 2px solid #333;">&nbsp;</td>
+                <?php else: ?>
+                    <td colspan="2" style="border-right: 2px solid #333;" align="center">&nbsp;</td>
+                <?php endif; ?>
+            <?php else: ?>
+                <?php if ( floatval($res['total_excl_vat']) > 0 ): ?>
+                    <td>&nbsp;</td>
+                    <td style="border-right: 2px solid #333;" align="center">&euro;<?=$res['total_excl_vat']?></td>
+                <?php else: ?>
+                    <td colspan="2" style="border-right: 2px solid #333;">&nbsp;</td>
+                <?php endif; ?>
+            <?php endif; ?>
+        </tr>
+        <?php endforeach; ?>
+        <tr><td colspan="3" style="border-left: 2px solid #333;border-right: 2px solid #333;border-bottom: 2px solid #333;">&nbsp;</td></tr>
+    </table>
+		
+	</body>
+</html>

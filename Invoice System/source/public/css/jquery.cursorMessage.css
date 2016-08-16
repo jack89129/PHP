@@ -1,0 +1,36 @@
+/* Generic context menu styles */
+#cursorMessageDiv {
+	position: absolute;
+	z-index: 99999;
+	border: solid 1px #CCC;
+	background: #ffffff;
+	padding: 2px;
+	margin: 0px;
+	display: none;
+}
+
+#cursorMessageDiv.success {
+	padding:10px;
+	border-radius:3px;
+	color:#009900;
+	border:1px solid #009900;
+	font-weight:bold;
+}
+
+#cursorMessageDiv.error {
+	padding:10px;
+	border-radius:3px;
+	color:#FF6A6A;
+	border:1px solid #FF6A6A;
+	font-weight:bold;
+}
+
+#cursorMessageDiv.zero {
+    padding:0px;
+    margin:0px;
+    width:auto;
+    height:auto;
+    border: none;
+    margin-left:4px;
+    margin-top:-12px;
+}

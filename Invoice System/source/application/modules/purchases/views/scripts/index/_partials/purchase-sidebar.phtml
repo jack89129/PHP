@@ -1,0 +1,62 @@
+<h2>Overige instellingen</h2>
+
+<div class="info">
+
+    <ul style="padding-bottom: 0px;">
+        <!-- SAVE -->
+        <?php if( in_array(Zend_Controller_Front::getInstance()->getRequest()->getActionName(), array('new','edit')) && Utils::user()->can('purchase_edit') ): ?>
+        <li><a class="bg10" id="save-purchase" href="javascript:;" onclick="purchase_save();"><?= _t('Opslaan') ?></a></li>
+        <?php endif; ?>
+
+        <!-- Back -->
+        <li><a class="bg1" href="<?= $this->baseUrl() . '/' . $this->current_module; ?>"><span><?= _t('Sluiten') ?></span></a></li>
+
+        <!-- PAY -->
+        <?php if( !$this->purchase->paid_time ): ?>
+        <li><a class="sub" id="pay-purchase" href="#purchase-payment-dialog"><span><?= _t('Registreer betaling') ?></span></a></li>
+        <?php endif; ?>
+
+        <!-- EDIT PURCHASE -->
+        <?php if( in_array(Zend_Controller_Front::getInstance()->getRequest()->getActionName(), array('view')) && Utils::user()->can('purchase_edit') ): ?>
+        <li><a class="sub1" href="<?= $this->baseUrl() . "/purchases/index/edit/id/" . $this->purchase->id; ?>"><span><?= _t('Bewerk inkoopfactuur') ?></span></a></li>
+        <?php endif; ?>
+
+        <!-- ADD ATTACHMENT -->
+        <?php if( Utils::user()->can('purchase_edit') ): ?>
+        <li><a class="sub2" href="javascript:;" onclick="upload_show();"><span><?= _t('Bijlage toevoegen') ?></span></a></li>
+        <?php endif; ?>
+
+        <!-- Print -->
+        <li><a id="sb-download-purchase" class="bg3" href="javascript:;"><span><?= _t('Afdrukken') ?></span></a></li>
+
+        <!-- EXPORT -->
+        <!-- <li><a class="sub3" href="#"><span>Exporteer</span></a></li> -->
+        <!-- DELETE -->
+        <?php if( Utils::user()->can('purchase_delete') ): ?>
+        <li class="last"><a class="bg5" id="sb-delete-purchase" href="javascript:;"><span><?= _t('Verwijder inkoopfactuur') ?></span></a></li>
+        <?php endif; ?>
+    </ul>
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#pay-purchase').fancybox({onStart:function(){
+            purchase_payment_dialog_init([{name:'purchases[]', value:<?= $this->purchase->id; ?>}]);
+        }, onClosed:function(){window.location.reload()}});
+
+        $('#sb-download-purchase').click(function(){
+            window.location = baseUrl + '/purchases/index/pdf/id/' + $('[name="purchase[id]"]').val();
+        });
+
+        $('#sb-delete-purchase').click(function(){
+            if( !confirm('<?= _t('Are you sure?') ?>') ){
+                return;
+            }
+
+            $.post(baseUrl + '/purchases/index/delete/id/' + $('[name="purchase[id]"]').val())
+        });
+    });
+
+</script>

@@ -1,0 +1,110 @@
+<?php 
+    $aboutText = SettingsModel::getWebshopAboutText();
+    $aboutImg = SettingsModel::getWebshopAboutImage();
+?>
+
+<div class="container">
+    <div class="sixteen columns">
+        
+        <div id="slide_outer">
+            <div class="mainslide">
+
+                <div class="pagers center">
+                    <a class="prev slide_prev" href="#prev">Prev</a>
+                    <a class="nxt slide_nxt" href="#nxt">Next</a>
+                </div>
+
+                <ul class="cycle-slideshow clearfix" 
+                data-cycle-fx="scrollHorz"
+                data-cycle-speed="1500" 
+                data-cycle-timeout="5000"
+                data-cycle-slides="> li"
+                data-cycle-pause-on-hover="true"
+                data-cycle-prev="div.pagers a.slide_prev"
+                data-cycle-next="div.pagers a.slide_nxt"
+                >
+                <?php foreach ( $this->default_slider as $img ): ?>
+                <?php if ( $img != "" ): ?>
+                    <li class="clearfix">
+                        <div class="" style="padding:20px 20px 25px; height:350px;">
+                            <img alt="" src="<?=$img?>" style="width:100%; height: 100%;">
+                        </div>
+                    </li>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                <?php if ( !empty($this->result) ): ?>
+                <?php foreach ( $this->result as $row ): ?>
+                <?php if ( $row['discount'] != 0 ): ?>
+                    <li class="clearfix">
+                        <div class="slide_img">
+                            <img src="<?=$row['main_img']?>" alt="">
+                        </div>
+                        <div class="flex-caption">
+                            <h5>Momenteel in promotie!<br><span><?=$row['name']?></span></h5>
+                            <p>
+                                <?=$row['short_description']?>
+                            </p>
+                            <a href="/shop"><span>Bekijk</span>
+                                <?php //if ( $row['discount'] != 0 ): ?>
+                                <span class="shadow">
+                                <i style="text-decoration: line-through; font-size: 15px;">&euro;<?=Utils::numberFormat($row['price'])?></i>
+                                </span>
+                                <span class="shadow">&euro;<?=Utils::numberFormat($row['price']*(100-$row['discount'])/100)?>
+                                </span>
+                                <?php //else: ?>
+<!--                                <span class="shadow">&euro;<?=Utils::numberFormat($row['price'])?></span> -->
+                                <?php //endif; ?>
+                            </a>
+                        </div>
+                    </li>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                <?php endif; ?>
+                </ul>
+            </div>
+            <div class="shadow_left"></div>
+            <div class="shadow_right"></div>
+        </div>
+
+    </div>
+    <div class="sixteen columns">
+        <div class="box_head">
+            <h3>Over ons</h3>
+        </div><!--end box_head -->
+
+        <div class="seven columns alpha">
+            <div class="welcome_img">
+                <img src="<?=$aboutImg?>" alt="">
+            </div>
+        </div><!--end four-->
+
+        <div class="nine columns omega">
+            <div class="welcome_text">
+                <?= $aboutText ?>
+<!--                <a class="gray_btn" href="#">Take Quick Tour</a> -->
+            </div>
+        </div><!--end fourteen-->
+    </div><!--end sixteen-->
+    <div class="sixteen columns">
+        <div id="tagLine" class="clearfix">
+            <div class="eleven columns">
+                <h5>
+                    Begin nu <span>met winkelen op onze webshop!</span><br>
+                    <small>Waar wacht u nog op? Neem gerust een kijkje in ons online assortiment</small>
+                </h5>
+            </div>
+            <div class="four columns" style="text-align:right; float:right;">
+                <a class="red_btn" href="/shop/index">Naar producten!</a>
+            </div>
+            
+        </div><!--end tagLine-->
+    </div><!--end sixteen-->
+</div><!-- container -->
+    
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        
+    });
+
+</script>

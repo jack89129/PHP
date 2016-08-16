@@ -1,0 +1,627 @@
+
+/*====================================================
+	this is style for the plugin, don't edit or edit carfully (product_img)
+======================================================*/
+/* Etalage container (large thumb + small thumbs): */
+#etalage{
+	display: none;
+}
+/* Large thumbnail: */
+#etalage .etalage_thumb{
+	background: #f7f7f7 url(../../images/webshop/icons/loading.gif) center no-repeat;
+	border: 1px solid #e0e0e0;
+	padding: 6px;
+}
+/* Large thumbnail - image (in case you want to add a border around the image within the frame) */
+#etalage .etalage_thumb_image{
+	border:1px solid #f4f4f4;
+}
+
+/* Small thumbnails: */
+#etalage .etalage_small_thumbs li{
+	background: #f2f2f2;
+	border: 1px solid #e0e0e0;
+	margin: 10px;
+	padding: 2px;
+}
+#etalage .etalage_small_thumbs li:hover {
+	cursor: pointer;
+}
+/* The one on the left that makes them slide */
+#etalage ul li.etalage_smallthumb_first{ }
+/* The one on the right that makes them slide */
+#etalage ul li.etalage_smallthumb_last{ }
+/* The currently active one */
+#etalage ul li.etalage_smallthumb_active{
+	border:2px solid #e81962;
+}
+/* Zoomed image area: */
+#etalage .etalage_zoom_area,
+.etalage_zoom_area{
+	background: #f7f7f7 url(../../images/webshop/icons/loading.gif) center no-repeat;
+	border: 1px solid #e0e0e0;
+	padding: 6px;
+	-webkit-box-shadow: 0 0 5px #ddd;
+	-moz-box-shadow: 0 0 5px #ddd;
+	box-shadow: 0 0 5px #ddd;
+}
+
+/* Magnifier area (thumbnail hovering rectangle): */
+#etalage .etalage_magnifier{
+	background: white;
+	border: 1px solid #bbb;
+}
+
+/* Icon that will apear at the left bottom of the large thumbnail (optional): */
+#etalage .etalage_icon{
+	background: url(../../images/webshop/icons/zoom.png) no-repeat;
+	width: 14px;
+	height: 14px;
+}
+
+/* Hint that will apear at the top right of the large thumbnail (optional): */
+#etalage .etalage_hint{
+	background: url(../../images/webshop/icons/hint.gif) no-repeat;
+	width: 130px;
+	height: 57px;
+}
+
+/* Description area (optional) */
+#etalage .etalage_description{
+	background: white;
+	font-style: italic;
+	margin: 10px;
+	padding: 6px 10px;
+}
+
+
+#hidden {
+	display:none;
+}
+/*
+------------------------------------ FUNCTIONALITY --------------------------------------
+  The following CSS serves to make Etalage function properly. Don't edit or edit carefully.
+-----------------------------------------------------------------------------------------
+*/
+
+.etalage, .etalage_thumb, .etalage_thumb_image, .etalage_source_image, .etalage_zoom_preview, .etalage_icon, .etalage_hint{ display:none }
+.etalage, .etalage ul, .etalage li, .etalage img, .etalage_hint, .etalage_icon, .etalage_description{ margin:0; padding:0; border:0; list-style:none }
+.etalage, .etalage_magnifier div, .etalage_magnifier div img, .etalage_small_thumbs ul, ul .etalage_small_thumbs li, .etalage_zoom_area div, .etalage_zoom_img{ position:relative }
+.etalage img, .etalage li{ -webkit-user-select:none; -khtml-user-select:none; -moz-user-select:none; -o-user-select:none; user-select:none; -webkit-user-drag:none; -moz-user-drag:none; user-drag:none }
+.etalage, .etalage_small_thumbs li{ float:left }
+.etalage_right{ float:right }
+.etalage li{ position:absolute }
+.etalage img{ vertical-align:bottom; max-width:none }
+.etalage_magnifier{ cursor:crosshair }
+.etalage_magnifier div, .etalage_small_thumbs{ overflow:hidden }
+.etalage_magnifier div img{ display:none }
+.etalage_icon, .etalage_hint{ cursor:default; width:0; height:0; overflow:hidden }
+.etalage_small_thumbs li.vertical{ float:none }
+.etalage_zoom_area div{ overflow:hidden; z-index:997 }
+.etalage_zoom_preview{ position:absolute; z-index:998 }
+.etalage_zoom_img, .etalage_hint{ z-index:999 }
+.etalage{ direction:ltr }
+div.etalage_description{ position:absolute; bottom:0; left:0; z-index:999 }
+div.etalage_description.rtl{ direction:rtl; text-align:right }
+
+
+
+/*============================= product_desc ====================*/
+div.product_desc div.pro_desc_conent {
+	padding:4px 3px;
+	display: block;
+	margin-bottom:6px;
+	background:url('../../images/webshop/icons/bg_dotted.png') repeat 0 0;
+}
+div.product_desc div h6 {
+	background:#fff;
+	padding:12px;
+	margin:0;
+}
+div.product_desc div h5 {
+	background:#fff;
+	padding:8px 12px;
+	display: block;
+	font-weight: 700;
+	margin:0;
+	color:#e81962;
+}
+div.product_desc div h5 small {
+	float:right;
+	font-size:11px;
+	color:#777;
+	font-weight: 400;
+}
+/* div.pro_desc_list ul */
+div.product_desc div div.pro_desc_list {
+	background:#fff;
+	padding:12px;
+	margin:0;
+	display: block;
+}
+div.product_desc div.pro_desc_list ul {
+	display: block;
+	margin:0;
+	padding:0;
+}
+div.product_desc div.pro_desc_list ul li {
+	display: block;
+	margin:0;
+	padding:0;
+}
+div.product_desc div.pro_desc_list ul li strong {
+	width:35%;
+	display: inline-block;
+}
+
+/* div.pro_desc_rate ul */
+div.product_desc div div.pro_desc_rate {
+	background:#fff;
+	padding:12px;
+	margin:0;
+	display: block;
+	border-top:1px solid #ddd;
+}
+div.product_desc div div.pro_desc_rate h6 {
+	display: block;
+	margin:0;
+	padding:0;
+}
+/* stars ul */
+div.product_desc div div.pro_desc_rate ul {
+	padding:0;
+	margin:0;
+	margin-top:-12px;
+}
+div.product_desc div div.pro_desc_rate ul li {
+	display: inline-block;
+	width:15px;
+	height:15px;
+	font:0/0 a;
+	background:url('../../images/webshop/icons/big_stars.png') no-repeat left top;
+}
+
+/*================= div.inputs ======================*/
+div.product_desc div.inputs {
+	padding:12px;
+	background:#fff;
+	border-top:1px solid #ddd;
+}
+/* form */
+div.product_desc div.inputs form {
+	float:left;
+	width:50%;
+}
+div.product_desc div.inputs form label {
+	float:left;
+	display: block;
+	margin-bottom:6px;
+}
+
+/* anchers buttons */
+div.product_desc div.inputs ul.pro_buttons {
+	float:right;
+}
+div.product_desc div.inputs ul.pro_buttons li {
+	display: block;
+	margin-bottom:6px;
+	position: relative;
+}
+div.product_desc div.inputs ul.pro_buttons li span {
+	position: absolute;
+	top:-10px;
+	left:0;
+	width:100%;
+	padding:12px 0;
+	display: none;
+	background:#f7f7f7;
+	border:1px solid #e0e0e0;
+}
+div.product_desc div.inputs ul.pro_buttons li:hover span {
+	display: block;
+}
+div.product_desc div.inputs ul.pro_buttons li:hover span a {
+	padding-left:12px;
+	display:block;
+	font-weight: 600;
+}
+
+
+
+/*================== product_tab ==========================*/
+div.product_tabs {
+	margin-top:60px;
+}
+div.product_tabs #tabs ul.tabNav {
+	margin-bottom:30px;
+}
+div.product_tabs #tabs ul.tabNav li {
+	display: inline-block;
+	margin:0 10px 0 0;
+	padding:3px;
+	background:url('../../images/webshop/icons/bg_dotted.png') repeat 0 0;
+	position: relative;
+}
+div.product_tabs #tabs ul.tabNav li:last-child {
+	margin:0;
+}
+div.product_tabs #tabs ul.tabNav li a {
+	background-color: #fff;
+	padding:6px 12px;
+	display: block;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+div.product_tabs #tabs ul.tabNav li a.currentTab {
+	background: #e81962;
+	color:#fff;
+}
+div.product_tabs #tabs ul.tabNav li a.currentTab:after {
+	content:'';
+	width:13px;
+	height:7px;
+	margin-left:-6px;
+	display: block;
+	position: absolute;
+	left:50%;
+	bottom:-3px;
+	background:url('../../images/webshop/icons/red_bottom_arrow.png') no-repeat left top;
+}
+
+/*===== tabs content =======*/
+div.product_tabs #tabs div.tabContent {
+	height:400px;
+	overflow: hidden;
+	padding:12px;
+	margin:0;
+}
+
+/*========== single reviews ============*/
+div.product_tabs #tabs div.tabContent div.single_review {
+	padding-bottom:12px;
+	margin-bottom:14px;
+	border-bottom:1px solid #ddd;
+
+	-webkit-box-shadow: 0 1px 0 #fff;
+	-moz-box-shadow: 0 1px 0 #fff;
+	-o-box-shadow: 0 1px 0 #fff;
+	box-shadow: 0 1px 0 #fff;
+}
+div.product_tabs #tabs div.tabContent div.single_review h6 {
+	margin-bottom:6px;
+}
+div.product_tabs #tabs div.tabContent div.single_review h6 span {
+	font-weight: 400;
+	font-size:12px;
+	color:#666;
+	text-transform: none;
+}
+div.product_tabs #tabs div.tabContent div.single_review p {
+	margin:0;
+	padding:0;
+}
+
+
+/*========================== make_review ==================*/
+div.make_review {
+	margin-top:60px;
+	padding:4px 3px;
+	display: block;
+	background:url('../../images/webshop/icons/bg_dotted.png') repeat 0 0;
+}
+/* form */
+div.make_review form {
+	background:#fff;
+	display: block;
+}
+div.make_review form fieldset {
+	padding:0;
+	display: block;
+	width: 100%;
+}
+div.make_review form fieldset label,
+div.make_review form fieldset div {
+	display: block;
+	padding:10px 12px;
+}
+div.make_review form fieldset label strong,
+div.make_review form fieldset div strong {
+	width:100%;
+	display: block;
+	font-size: 12;
+	line-height: 12px;
+	margin-bottom:6px;
+	font-weight: 600;
+	color:#666;
+	text-transform: uppercase;
+}
+div.make_review form fieldset label input[type=text],
+div.make_review form fieldset label textarea {
+	width: 92%;
+	padding:0 10px;
+	height:35px;
+	line-height:34px;
+	font-size:12px;
+	margin:0;
+	background:#fff;
+	border:1px solid #ddd;
+	/* inner shadow */
+	-webkit-box-shadow: inset 0 1px 0 #f0f0f0;
+	-moz-box-shadow: inset 0 1px 0 #f0f0f0; 
+	-o-box-shadow: inset 0 1px 0 #f0f0f0; 
+	box-shadow: inset 0 1px 0 #f0f0f0; 
+}
+div.make_review form fieldset label textarea {
+	height:150px;
+}
+
+div.make_review form fieldset div input[type=text]{
+	float:left;
+	padding:0 10px;
+	height:30px;
+	line-height:30px;
+	font-size:12px;
+	display: inline;
+	background:#fff;
+	border:1px solid #ddd;
+	/* inner shadow */
+	-webkit-box-shadow: inset 0 1px 0 #f0f0f0;
+	-moz-box-shadow: inset 0 1px 0 #f0f0f0; 
+	-o-box-shadow: inset 0 1px 0 #f0f0f0; 
+	box-shadow: inset 0 1px 0 #f0f0f0; 
+}
+div.make_review form fieldset div img {
+	float:left;
+	margin-left:12px;
+	height:30px;
+	line-height:30px;
+	border:1px solid #ddd;
+	/* inner shadow */
+	-webkit-box-shadow: inset 0 1px 0 #f0f0f0;
+	-moz-box-shadow: inset 0 1px 0 #f0f0f0; 
+	-o-box-shadow: inset 0 1px 0 #f0f0f0; 
+	box-shadow: inset 0 1px 0 #f0f0f0; 
+}
+div.make_review form fieldset label span {
+	height:auto;
+	padding:0;
+	margin-right:12px;
+}
+div.make_review form fieldset label input[type=radio]{
+	width:auto;
+	float:left;
+	padding:0;
+	margin-right:12px;
+	height:auto;
+	cursor: pointer;
+	border:none;
+	box-shadow: none;
+	cursor:pointer;
+}
+div.make_review form div.submit {
+	padding:12px;
+	margin-top:12px;
+	background:#f9f9f9;
+	border-top:1px solid #e0e0e0;
+}
+
+
+/*================ related_pro ===================*/
+div.related_pro {
+	clear:both;
+	padding-top:60px;
+}
+
+/* ul */
+div.related_pro ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow: hidden;
+	width: 100%;
+	display: block;
+}
+div.related_pro ul li {
+	text-align:center;
+	border-bottom:1px solid #cecece;
+	/* box shadow */
+	-moz-box-shadow:inset 0 -1px 0 #fff;
+	-webkit-box-shadow:inset 0 -1px 0 #fff;
+	-o-box-shadow:inset 0 -1px 0 #fff;
+	box-shadow:inset 0 -1px 0 #fff;
+	/* transition */
+	-moz-transition: all .2s linear;
+	-webkit-transition: all .2s linear;
+	-o-transition: all .2s linear;
+	transition: all .2s linear;
+	width: 220px;
+	float: left;
+	display: block;
+	margin-right: 20px;
+}
+div.related_pro ul li:hover {
+	border-color:#e81962;
+}
+div.related_pro ul li div.img {
+	position:relative;
+	border:1px solid #e0e0e0;
+	display: block;
+	margin:0 0 14px 0;
+	overflow: hidden;
+	height:207px;
+}
+div.related_pro ul li div.img div.offer_icon {
+	position:absolute;
+	top:0;
+	left:0;
+	width:86px;
+	height:86px;
+	display: block;
+	z-index:200;
+	background:url('../../images/webshop/icons/offer_icon.png') no-repeat left top;
+}
+div.related_pro ul li div.img img {
+	border:none;
+	width:100%;
+	display:block;
+}
+/* hover over */
+div.related_pro div.img div.hover_over {
+	position:absolute;
+	top:0;
+	left:0;
+	display:block;
+	background:rgba(250,250,250,.5);
+	width:100%;
+	height:100%;
+	cursor:pointer;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	opacity: 0;
+}
+div.related_pro div.img div.hover_over a {
+	text-indent: -999999px;
+	position:absolute;
+	top:50%;
+	margin-top:-16px;
+	margin-left:0;
+	display:block;
+	width:42px;
+	height:38px;
+	background-color:#e81962;
+}
+div.related_pro div.img div.hover_over a:hover {
+	background-color:#444;
+}
+div.related_pro div.img div.hover_over a.link{
+	left:0; /*left:30%;*/
+	background-image: url('../../images/webshop/icons/link.png');
+	background-repeat:no-repeat; 
+	background-position:50% 50%;
+}
+div.related_pro div.img div.hover_over a.cart {
+	right:0; /*right:30%;*/
+	background-image: url('../../images/webshop/icons/cart.png');
+	background-repeat:no-repeat; 
+	background-position:50% 50%;
+}
+
+/* h5, h6 hover */
+div.related_pro ul li:hover h5,
+div.related_pro ul li:hover h6 a {
+	color:#e81962;
+}
+div.related_pro ul li:hover h6 a:hover {
+	text-decoration: underline;
+}
+
+div.related_pro ul li h5 span.sale_offer {
+	color:#999;
+	text-decoration: line-through;
+}
+/*========================= end ====================*/
+
+
+
+
+/* #Media Queries
+================================================== */
+
+/* Smaller than standard 960 (devices and browsers) */
+@media only screen and (max-width: 959px) {}
+
+/* Tablet Portrait size to standard 960 (devices and browsers) */
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+	ul.etalage {
+		margin-bottom: 60px;
+	}
+	/* product desc */
+	div.product_desc form {
+		float:none;
+		width:100%;
+		display: block;
+	}
+	div.product_desc ul.pro_buttons {
+		float:none;
+		width:100%;
+		display: block;
+	}
+	/* product tabs */
+	div.product_tabs #tabs ul.tabNav li {
+		padding:0;
+		margin:0;
+		border:1px solid #ddd;
+	}
+	div.product_tabs #tabs ul.tabNav li a {
+		padding:6px 3px;
+	}
+	div.product_tabs #tabs ul.tabNav li a.currentTab:after {
+		bottom:-6px;
+	}
+	/* make_review */
+	div.make_review form fieldset div input[type=text]{
+		float:none;
+		margin-bottom:6px;
+	}
+	div.make_review form fieldset div img{
+		float:none;
+		margin:0;
+	}
+
+}
+
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+	ul.etalage {
+		margin-bottom: 60px;
+	}
+
+	/* product tabs */
+	div.product_tabs #tabs ul.tabNav li {
+		padding:0;
+		margin:0;
+		display:block;
+		border-top:1px solid #ddd;
+	}
+	div.product_tabs #tabs ul.tabNav li a {
+		padding:6px 12px;
+	}
+	div.product_tabs #tabs ul.tabNav li a.currentTab:after {
+		bottom:-6px;
+		z-index:100;
+	}
+}
+
+/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	ul.etalage {
+		margin-bottom: 60px;
+	}
+}
+
+/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+@media only screen and (max-width: 479px) {
+	ul.etalage {
+		margin-bottom: 60px;
+	}
+	/* product desc */
+	div.product_desc form {
+		float:none;
+		width:100%;
+		display: block;
+	}
+	div.product_desc ul.pro_buttons {
+		float:none;
+		width:100%;
+		display: block;
+	}
+	/* make_review */
+	div.make_review form fieldset div input[type=text]{
+		float:none;
+		margin-bottom:6px;
+	}
+	div.make_review form fieldset div img{
+		float:none;
+		margin:0;
+	}
+}

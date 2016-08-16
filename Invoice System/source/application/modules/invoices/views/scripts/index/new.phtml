@@ -1,0 +1,407 @@
+			<?php
+				$this->headScript()->appendFile($this->baseUrl() . "/js/avaxo_invoice.js");
+				$this->headScript()->appendFile($this->baseUrl() . "/js/jquery.ui.datepicker.js");
+                $settingModel = new SettingsModel();
+                $empSettingModel = new EmpSettingModel();
+                
+                $user = new Zend_Session_Namespace('user');
+                $emp_id = $user->id;
+                $tableColor = SettingsModel::getContactTableColor();
+                $logoPath = SettingsModel::getContactDefaultLogoPath();
+			?>
+<style type="text/css">
+#set_invoice_paid_both, #add_offer_to_invoice {
+    background: url("/images/link.jpg") repeat-x scroll left top transparent;
+    border: 1px solid #62AF53;
+    line-height: 28px;
+    margin-left: 5%;
+    padding: 0;
+    text-align: center;
+    text-decoration: none;
+    color: #3E7323;
+    float: left;
+    width: 90%;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+#set_invoice_paid_both:hover, #add_offer_to_invoice:hover {
+    opacity: 0.8;
+}
+</style>
+			<!-- START RIGHT -->
+			<div id="right" class="sub">
+				
+				<!-- START NEWS -->
+                <!--
+				<div class="news_Box">
+                	
+                    <h2>Informatie</h2>
+                    
+                    <div class="text">
+                    	
+                        <p><strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</strong> Nulla erat nisl, sodales dignissim cursus quis, tincidunt vitae lorem. </p>
+                        
+                        <p>Proin semper felis nec libero sagittis iaculis. Donec congue pretium odio in volutpat. Nam vitae euismod justo.</p>
+                    
+                    </div>
+                    
+                </div>
+                -->
+				<!-- END OPTIES -->
+				
+                <!-- START NEWS -->
+				<div class="news_Box sub" style="margin-top:0px;">
+
+                    <?= $this->render('index/_partials/invoice-sidebar.phtml'); ?>
+
+                </div>
+
+                <?= $this->render('index/_partials/invoice-annex-sidebar.phtml'); ?>
+
+                <?php if( $this->invoice->proforma ): ?>
+                <div id="proforma-status">
+                    <?= $this->render('index/_partials/proforma-status-sidebar.phtml'); ?>
+                </div>
+                <?php endif; ?>
+
+                <div id="log">
+                </div>
+
+				<!-- END OPTIES -->
+
+			</div>
+			<!-- END RIGHT -->
+
+			<!-- START LEFT -->
+			<div id="left" class="sub">
+            <form id="invoice-form" action="<?= $this->baseUrl(); ?>/invoices/index/auto-save" method="post"  style="max-width: 1140px;">
+            <input type="hidden" name="invoice[id]" value="<?= $this->escape($this->invoice->id) ?>" />
+            <input type="hidden" name="invoice[proforma]" value="<?= $this->escape($this->invoice->proforma); ?>" />
+            <input type="hidden" name="invoice[credit]" value="<?= $this->escape($this->invoice->credit); ?>" />
+            <input type="hidden" name="final" value="0" />
+            <input type="hidden" name="force_edit" value="<?= $this->escape($this->force_edit) ?>" />
+            <input type="hidden" name="contact[is_b2b]" id="contact_is_b2b" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->is_b2b : ""); ?>" />
+            <input type="hidden" name="invoice_b2b_payment_end_date" id="invoice_b2b_payment_end_date" value="<?=$this->b2b_end_date?>" />
+            <input type="hidden" name="invoice_b2c_payment_end_date" id="invoice_b2c_payment_end_date" value="<?=$this->b2c_end_date?>" />
+				<!-- START PURCHASE -->
+				<div class="purchase_Box sub">
+                        
+                        <div class="big">
+                       
+                            <div class="main sub" style="width:836px;">
+                            <?php if ( $this->invoice->proforma == 1 && $this->invoice->proforma_status == 'accepted' ): ?>
+                                <span style="margin-left: 15px; display: block; margin-bottom: 5px; text-align: center;">
+                                Deze offerte werd geaccepteerd op <?=date('m-d-Y', $this->invoice->paid_time)?> omstreeks <?=date('H:m', $this->invoice->paid_time)?>. Wenst u de offerte te factureren?
+                                </span>
+                                <a href="#this" id="add_offer_to_invoice" onclick="set_proformas_status('invoice')">
+                                    Offerte <?=$this->invoice->number?> nu factureren!            
+                                </a>
+                            <?php endif; ?>
+                            <div class="left">
+                                
+                                <?php if( $this->providerLogo()->exists() ): ?>
+                                	<img src="<?= $logoPath ?>" alt="" style="width:250px;"/>
+                                <?php endif; ?>
+
+                            </div>
+                                                
+                            <div class="right" style='padding-left:0px;float:right;width:450px;'>
+                                <?= $this->partial('index/_partials/invoice-contact-info.phtml'); ?>
+                            </div>
+                            <br style="clear:both;" />
+
+                            <div class="deb" style="margin-left:61px;">
+
+                                <fieldset class="invoice">
+                                    <input type="hidden" name="invoice[contact_id]" data-contact-name="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->company_name : ''); ?>" data-contact-id="<?= $this->escape($this->invoice->contact_id); ?>" value="<?= $this->escape($this->invoice->contact_id); ?>" />
+                                    <input type="hidden" name="contact_number" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->number : '') ; ?>" />
+                                    <span><?= _t('Debiteur') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input <?= $this->invoice->contact ? 'invoice-contact' : '' ?>" style="display:inline;width:175px;padding-left:30px;" name="contact[company_name]" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->company_name : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('Voornaam') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:75px;padding-left:30px;" name="contact[firstname]" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->firstname : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('Achternaam') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:75px;padding-left:30px;" name="contact[lastname]" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->lastname : '') ; ?>" />
+                                    <br/>
+                                    <br/>
+                                    <span><?= _t('Adres') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:200px;" name="contact[address]" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->address : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('Postcode') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[postcode]" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->postcode : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('Plaats') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[city]" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->city : '') ; ?>" />
+                                    <br/>
+                                    <br/>
+                                    <span><?= _t('Land') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:200px;" name="contact[country]" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->country : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('E-mail') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[email_address]" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->email_address : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('BTW') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[vat_number]" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->vat_number : '') ; ?>" />
+                                    &nbsp;
+                                    <?php $is_b2b = $this->invoice->contact ? $this->invoice->contact->is_b2b : 0; ?>
+                                    <span id="contact_vat_status" style="<?php if ( $is_b2b==1 ) { echo 'color:#73C83F;'; } else { echo 'color:#CC0000;'; } ?> line-height:25px; font-size:15px;width:5px"><?php if ( $is_b2b==1 ) { echo 'V'; } else { echo 'X'; }?></span>
+                                    &nbsp;
+                                    <br><br>
+                                    <span style="width:203px;<?php if(!$this->invoice->contact) echo 'display:none';?>" id="invoice_update_exist_contact">
+                                    <label class="label_check2">
+                                        <input type="checkbox" name="save_contact" />
+                                    </label>
+                                    <label style="line-height: 29px;font-weight:normal;color:#666666;">&nbsp;&nbsp;&nbsp;&nbsp;<?= _t('Sla wijzigingen op in adresboek') ?></label>
+                                    </span>
+                                    <span id="msg_add_contact" style="margin-left: 90px; margin-top: 10px; width:100%; display: none;">Deze klant zal toegevoegd worden aan uw debiteuren</span>
+                                </fieldset>
+
+                            </div>
+                            
+                            </div>
+                            <div class="factur" style="width:722px;">
+                                <ul>
+                                    <li><?= _t('klantnummer') ?>: <span id="contact_number"></span></li>
+                                    <li>
+                                    <?php if( !$this->invoice->proforma ): ?>
+                                    <?= _t('factuurnummer') ?>:
+                                    <?php else: ?>
+                                    <?= _t('Offertenummer') ?>:
+                                    <?php endif; ?>
+                                    	<span id="invoice_number"><?= $this->escape($this->invoice->number); ?></span>
+										<input type="text" name="invoice[number]" style="width:82px;display:none;" value="<?= $this->escape($this->invoice->number); ?>" />
+										
+										<?php if( $this->invoice->parent ): ?>
+                                        <?= _t('ouder factuur') ?>:
+                                    	<span><a style="text-decoration:none;" href="<?= $this->baseUrl(); ?>/invoices/index/view/id/<?= $this->escape($this->invoice->parent->id); ?>" target="_blank"><?= $this->escape($this->invoice->parent->number); ?></a></span>
+                                    	<?php endif; ?>
+                                    </li>
+                                    <li>
+                                    <?php if( !$this->invoice->proforma ): ?>
+                                    <?= _t('factuurdatun') ?>:
+                                    <?php else: ?>
+                                    <?= _t('Offertedatum') ?>:
+                                    <?php endif; ?>
+                                    	<span id="invoice_date"><?= $this->escape(date(Constants::DATE_FORMAT, $this->invoice->invoice_time)); ?></span>
+                                    	<input type="text" name="invoice[invoice_time]" class="gray-input" placeholder="dd-mm-jjjj" style="width:70px;display:none;" value="<?= $this->escape(date(Constants::DATE_FORMAT, $this->invoice->invoice_time)); ?>" />
+                                    </li>
+
+                                    <li class="last"><?= _t('vervaldatum') ?>:
+                                        <span id="expire_date"><?= $this->escape(date(Constants::DATE_FORMAT, $this->invoice->expire_time)); ?></span>
+                                        <input type="text" name="invoice[expire_time]" class="gray-input" placeholder="dd-mm-jjjj" style="width:70px;display:none;" value="<?= $this->escape(date(Constants::DATE_FORMAT, $this->invoice->expire_time)); ?>" />
+                                    </li>
+                                </ul>
+                                <img class="fac" src="<?= $this->baseUrl(); ?>/images/<?= $this->invoice->proforma ? 'off.jpg' : ($this->invoice->credit ? 'cre-fac.jpg' : 'fac.jpg') ?>" alt="" />
+                                                            
+                            </div>
+
+                            <div class="product" style="background-color:transparent;padding-top:5px;padding-bottom:5px;">
+                                <table style="width:722px;margin-bottom: 40px;">
+                                    <tr>
+                                        <td style="width:205px;"><?= _t('Geheugensteun') ?>:&nbsp;<br><span style="font-size:11px;">(Wordt niet weergegeven op <?= $this->invoice->proforma ? 'offerte':'factuur'?>)</span></td>
+                                        <td>
+                                            <div class="gray-input wysiwyg" style="height:auto;"><?= Utils::strip_bad_tags($this->invoice->info); ?>&nbsp;</div>
+                                            <input type="hidden" name="invoice[info]" value="<?= $this->escape($this->invoice->info) ?>" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><?= _t('Omschrijving op ') ?><?= $this->invoice->proforma ? 'offerte':'factuur'?>:&nbsp;</td>
+                                        <td>
+                                            <div class="gray-input wysiwyg" style="height:auto;"><?= Utils::strip_bad_tags($this->invoice->intro); ?>&nbsp;</div>
+                                            <input type="hidden" name="invoice[intro]" value="<?= $this->escape($this->invoice->intro) ?>" />
+                                            <input type="hidden" name="intro_pattern" value="<?= $this->escape($this->invoice->intro_pattern) ?>" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div style="width:722px;margin-left:60px;text-align:right;">
+                            	<!--
+                                <span style="float:right;line-height: 28px;">
+                                    <label class="label_check2" style="margin-right: 5px;">
+                                        <input type="checkbox" name="vat_included" />
+                                    </label>
+                                    <?= _t('VAT included') ?>
+                                </span>
+                            	-->
+								<span style="float: right; line-height: 28px;">
+									<?= _t('Onderstaande ingevoerde prijzen zijn : '); ?>
+									<select style="width: 120px;" name="vat_included">         
+                                        <option value="0"><?= _t('Exclusief BTW'); ?></option>
+                                        <option value="1"><?= _t('BTW inbegrepen'); ?></option>
+									</select>
+								</span>
+                                <br style="clear:both;" />
+                            </div>
+
+                            <div class="product" style="background-color: <?=$tableColor?>;">
+                                
+                                <ul style="padding-left:58px;">
+                                    <li class="gap"><?= _t('Aantal') ?></li>
+                                    <li style="padding-left:10px;padding-right:0px;width:265px;"><?= _t('Omschrijving') ?></li>
+                                    <li class="gap"><?= _t('BTW') ?></li>
+                                    <li class="" style="padding-right:20px;"><?= _t('Kort.') ?> %</li>
+                                    <li style="width:60px;padding-right:20px;"><?= _t('Prijs p/stk') ?></li>
+                                    <li style="padding-right: 20px; text-align: right; width: 110px;"><?= _t('Totaal excl. btw') ?></li>
+                                    <!--<li class="last"><?= _t('Categorie') ?></li>-->
+                                </ul>    
+                                        
+                            </div>
+
+							<div id="sortableproducts">
+								<?php $invoice_row_index = 0; ?>
+								<?php foreach( $this->invoice->products as $product ): ?>
+								<?= $this->partial('index/new/invoice-row.phtml', array('product' => $product, 'products' => $this->products, 'invoice_row_index' => $invoice_row_index++, 'contact_intro' => $this->invoice->contact!=NULL ? $this->invoice->contact->is_intro : 0 )); ?>
+								<?php endforeach; ?>
+							</div>
+							<input type="hidden" id="invoice_row_index" value="<?= $invoice_row_index; ?>" />
+                            <div class="rule">
+                            
+                                <h4 onclick="invoice_add_row()" style="cursor:pointer;"><a><?= _t('Factuurregel toevoegen') ?></a></h4>
+                                
+                                <ul>
+                                    <li>
+                                        <div class="first">&nbsp;</div>
+                                        <div class="second" style="line-height: 30px;"><?= _t('Korting') ?>&nbsp;&nbsp;%</div>
+                                        <div class="third"><input type="text" name="invoice[discount]" class="gray-input" style="width:40px;text-align:right;" value="<?= $this->escape($this->invoice->discount); ?>" /></div>
+                                    </li>
+                                    <li>
+                                        
+                                        <div class="first">
+                                            
+                                            &nbsp;
+                                            
+                                        </div>
+                                        
+                                        <div class="second">
+                                            
+                                            <?= _t('Korting') ?>
+                                            
+                                        </div>
+                                       
+                                        <div class="third">
+                                            
+                                            <nobr>&nbsp;&euro; <font id="total_discount">0.00</font></nobr>
+                                            
+                                        </div>
+                                    
+                                    </li>
+                                    <li>
+                                        
+                                        <div class="first">
+                                            
+                                            &nbsp;
+                                            
+                                        </div>
+                                        
+                                        <div class="second">
+                                            
+                                            <?= _t('Totaal excl. BTW') ?>
+                                            
+                                        </div>
+                                       
+                                        <div class="third">
+                                            
+                                            <nobr>&nbsp;&euro; <font id="total_excluding_vat">0.00</font></nobr>
+                                            
+                                        </div>
+                                    
+                                    </li>
+                                    <li>
+                                        
+                                        <div class="first">
+                                            
+                                            &nbsp;
+                                            
+                                        </div>
+                                        
+                                        <div class="second">
+                                            
+                                            <?= _t('Totaal BTW') ?>
+                                            
+                                        </div>
+                                       
+                                        <div class="third">
+                                            
+                                            <nobr>&nbsp;&euro; <font id="total_vat">0.00</font></nobr>
+                                            
+                                        </div>
+                                    
+                                    </li>
+                                </ul>    
+                                <ul>
+                                    <li>
+                                        
+                                        <div class="first">
+                                            
+                                            &nbsp;
+                                            
+                                        </div>
+                                        
+                                        <div class="second">
+                                            
+                                            <?= _t('Totaal incl. BTW') ?>
+                                            
+                                        </div>
+                                       
+                                        <div class="third">
+                                            
+                                            <nobr>&nbsp;&euro; <font id="total_including_vat">0.00</font></nobr>
+                                            
+                                        </div>
+                                    
+                                    </li>
+                                </ul>    
+                                
+                                
+                            </div>
+                            <div id="intro_text" style="text-align:center;margin-top:50px;margin-bottom:-50px;width:722px;margin-left:60px;">
+                            <?php if ( $this->invoice->contact != NULL ): ?>
+                            <?php if ( $this->invoice->contact->is_intro == 1 ): ?>                
+                                <p>Intracommunautaire levering vrij van BTW bij toepassing van artikel 39bis, 1 W.B.T.W.</p>
+                            <?php else: ?>
+                                <p>&nbsp;</p>
+                            <?php endif; ?>
+                            <?php endif; ?>
+                            </div>
+                            <input type="hidden" name="intro_value" id="intro_value" value="<?= $this->invoice->contact ? $this->invoice->contact->is_intro : ''?>" />
+                            
+                            <div class="text" style="width:auto;margin-left:61px;width:682px;">
+                               <div class="wysiwyg" style="height:auto;"><?= $this->invoice->notice == '' ? '&nbsp;': Utils::strip_bad_tags($this->invoice->notice); ?></div>
+                               <input type="hidden" name="invoice[notice]" value="<?= $this->escape($this->invoice->notice); ?>" />
+                               <input type="hidden" name="notice_pattern" value="<?= $this->escape($this->invoice->notice_pattern); ?>" />
+                            </div>
+                        
+                        </div>
+                
+                    
+                </div>
+				<!-- END PURCHASE -->
+                </form>
+			</div>
+			<!-- END LEFT -->
+		
+		<?= $this->partial('index/_partials/invoice-send-dialog.phtml', array('enable_dont_send' => true, 'credit' => $this->invoice->credit, 'proforma' => $this->invoice->proforma)); ?>
+        <?= $this->partial('index/_partials/contact-add-dialog.phtml'); ?>
+        <?= $this->render('index/_partials/invoice-payment/dialog.phtml'); ?>
+        <?= $this->partial('index/_partials/upload.phtml', array('proforma' => $this->invoice->proforma, 'credit' => $this->invoice->credit)); ?>
+			

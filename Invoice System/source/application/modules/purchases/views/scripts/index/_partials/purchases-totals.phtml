@@ -1,0 +1,44 @@
+<?php if( $this->totals ): ?>
+<style type="text/css">
+
+    .purchases-totals-table {
+        width:100%;
+        margin-top:10px;
+    }
+
+    .purchases-totals-table td {
+        line-height: 18px;
+    }
+
+</style>
+<div class="news_Box sub">
+    <div class="collapse">
+
+        <h2><span><?= _t('Totalen') ?><a class="i-down"></a></span></h2>
+
+        <div class="info" id="annexes">
+            <table class="purchases-totals-table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>- <?= _t('BTW') ?></th>
+                    <th>+ <?= _t('BTW') ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <?php foreach( $this->totals as $total ): ?>
+                <tr>
+                    <td><b><?= $this->escape($total['label']); ?></b></td>
+                    <td style="text-align: center;">&euro; <?= Utils::numberFormat($total['sum_no_vat']); ?></td>
+                    <td style="text-align: center;">&euro; <?= Utils::numberFormat($total['sum']); ?></td>
+                </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <br/>
+            <!--<div style="text-align:left;font-size:11px;"><?= _t('Bovenstaande totalen zijn berekent volgens de geselecteerde tab of geselecteerde inkopen.') ?></div>-->
+        </div>
+    </div>
+</div>
+
+<?php endif; ?>

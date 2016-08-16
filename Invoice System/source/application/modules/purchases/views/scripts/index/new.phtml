@@ -1,0 +1,256 @@
+			<?php
+				$this->headScript()->appendFile($this->baseUrl() . "/js/avaxo_purchase.js");
+				$this->headScript()->appendFile($this->baseUrl() . "/js/jquery.ui.datepicker.js");
+                
+                $tableColor = SettingsModel::getContactTableColor();  
+			?>
+			<!-- START RIGHT -->
+			<div id="right" class="sub">
+
+				<div class="news_Box sub" style="margin-top:0px;">
+                    <?= $this->render('index/_partials/purchase-sidebar.phtml'); ?>
+                </div>
+
+                <?= $this->render('index/_partials/purchase-attachment-sidebar.phtml'); ?>
+
+                <div id="log">
+                </div>
+
+			</div>
+
+			<!-- START LEFT -->
+			<div id="left" class="sub">
+            <form id="purchase-form" action="<?= $this->baseUrl(); ?>/purchases/index/auto-save" method="post"  style="max-width: 1140px;">
+            <input type="hidden" id="purchase_id" name="purchase[id]" value="<?= $this->escape($this->purchase->id) ?>" />
+            <input type="hidden" name="force_edit" value="<?= $this->escape($this->force_edit) ?>" />
+            <input type="hidden" name="contact[is_b2b]" id="contact_is_b2b" value="<?= $this->escape($this->purchase->contact ? $this->purchase->contact->is_b2b : ""); ?>" />
+				<!-- START PURCHASE -->
+				<div class="purchase_Box sub">
+                        
+                        <div class="big">
+                       
+                            <div class="main sub" style="width:836px;">
+
+                            <div class="deb" style="margin-left:61px;">
+
+                                <fieldset class="purchase">
+                                    <input type="hidden" name="purchase[contact_id]" data-contact-name="<?= $this->escape($this->purchase->contact ? $this->purchase->contact->company_name : ''); ?>" data-contact-id="<?= $this->escape($this->purchase->contact_id); ?>" value="<?= $this->escape($this->purchase->contact_id); ?>" />
+                                    <span><?= _t('Crediteur') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input <?= $this->purchase->contact ? 'purchase-contact' : '' ?>" style="display:inline;width:175px;padding-left:30px;" name="contact[company_name]" value="<?= $this->escape($this->purchase->contact ? $this->purchase->contact->name : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('Voornaam') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:75px;padding-left:30px;" name="contact[firstname2]" value="<?= $this->escape($this->purchase->contact ? $this->purchase->contact->firstname2 : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('Achternaam') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:75px;padding-left:30px;" name="contact[lastname2]" value="<?= $this->escape($this->purchase->contact ? $this->purchase->contact->lastname2 : '') ; ?>" />
+                                    <br/>
+                                    <br/>
+                                    <span><?= _t('Adres') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:200px;" name="contact[address]" value="<?= $this->escape($this->purchase->contact ? $this->purchase->contact->address : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('Postcode') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[postcode]" value="<?= $this->escape($this->purchase->contact ? $this->purchase->contact->postcode : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('Plaats') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[city]" value="<?= $this->escape($this->purchase->contact ? $this->purchase->contact->city : '') ; ?>" />
+                                    <br/>
+                                    <br/>
+                                    <span><?= _t('Land') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:200px;" name="contact[country]" value="<?= $this->escape($this->purchase->contact ? $this->purchase->contact->country : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('E-mail') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[email_address]" value="<?= $this->escape($this->purchase->contact ? $this->purchase->contact->email_address : '') ; ?>" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <span><?= _t('BTW') ?>:</span>
+                                    &nbsp;
+                                    <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[vat_number]" value="<?= $this->escape($this->purchase->contact ? $this->purchase->contact->vat_number : '') ; ?>" />
+                                    &nbsp;
+                                    <?php $is_b2b = $this->purchase->contact ? $this->purchase->contact->is_b2b : 0; ?>
+                                    <span id="contact_vat_status" style="<?php if ( $is_b2b==1 ) { echo 'color:#73C83F;'; } else { echo 'color:#CC0000;'; } ?> line-height:25px; font-size:15px;width:5px"><?php if ( $is_b2b==1 ) { echo 'V'; } else { echo 'X'; }?></span>
+                                    &nbsp;
+                                    <br><br>
+                                    <span style="width:203px;<?php if(!$this->purchase->contact) echo 'display:none';?>" id="purchase_update_exist_contact">
+                                    <label class="label_check2">
+                                        <input type="checkbox" name="save_contact" />
+                                    </label>
+                                    <label style="line-height: 29px;font-weight:normal;color:#666666;">&nbsp;&nbsp;&nbsp;&nbsp;<?= _t('Sla wijzigingen op in adresboek') ?></label>
+                                    </span>
+                                    <span id="msg_add_contact" style="margin-left: 90px; margin-top: 10px; width:100%; display: none;">Deze klant zal toegevoegd worden aan uw crediteuren</span>
+                                </fieldset>
+
+                            </div>
+                            
+                            </div>
+                            <div class="factur" style="width:722px;">
+                                <ul>
+                                    <li><?= _t('klantnummer') ?>: <span id="contact_number"></span></li>
+                                    <li><?= _t('factuurnummer') ?>:
+                                    	<span id="purchase_number"><?= $this->escape($this->purchase->number); ?></span>
+										<input type="text" name="purchase[number]" style="width:82px;display:none;" value="<?= $this->escape($this->purchase->number); ?>" />
+                                    </li>
+                                    <li><?= _t('factuurdatun') ?>:
+                                    	<span id="purchase_date"><?= $this->escape(date(Constants::DATE_FORMAT, $this->purchase->invoice_time)); ?></span>
+                                    	<input type="text" name="purchase[invoice_time]" class="gray-input" placeholder="dd-mm-jjjj" style="width:70px;display:none;" value="<?= $this->escape(date(Constants::DATE_FORMAT, $this->purchase->invoice_time)); ?>" />
+                                    </li>
+
+                                    <li class="last"><?= _t('vervaldatum') ?>:
+                                        <span id="expire_date"><?= $this->escape(date(Constants::DATE_FORMAT, $this->purchase->expire_time)); ?></span>
+                                        <input type="text" name="purchase[expire_time]" class="gray-input" placeholder="dd-mm-jjjj" style="width:70px;display:none;" value="<?= $this->escape(date(Constants::DATE_FORMAT, $this->purchase->expire_time)); ?>" />
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="product" style="background-color:transparent;padding-top:5px;padding-bottom:5px;">
+                                <table style="width:722px;margin-bottom: 40px;">
+                                    <tr>
+                                        <td style="width:100px;"><?= _t('Geheugensten') ?>:&nbsp;</td>
+                                        <td>
+                                            <div class="gray-input wysiwyg" style="height:auto;"><?= Utils::strip_bad_tags($this->purchase->info); ?>&nbsp;</div>
+                                            <input type="hidden" name="purchase[info]" value="<?= $this->escape($this->purchase->info) ?>" />
+                                        </td>
+                                    </tr>
+                                    <!--<tr>
+                                        <td><?= _t('Voorwoord') ?>:&nbsp;</td>
+                                        <td>
+                                            <div class="gray-input wysiwyg" style="height:auto;"><?= Utils::strip_bad_tags($this->purchase->intro); ?>&nbsp;</div>
+                                            <input type="hidden" name="purchase[intro]" value="<?= $this->escape($this->purchase->intro) ?>" />
+                                        </td>
+                                    </tr>-->
+                                </table>
+                            </div>
+
+                            <div style="width:722px;margin-left:60px;text-align:right;">
+                                  <span style="float: right; line-height: 28px;">
+                                    <?= _t('Onderstaande ingevoerde prijzen zijn : '); ?>
+                                    <select style="width: 120px;" name="vat_included">         
+                                        <option value="0"><?= _t('Exclusief BTW'); ?></option>
+                                        <option value="1"><?= _t('BTW inbegrepen'); ?></option>
+                                    </select>
+                                </span>
+                                <br style="clear:both;" />
+                            </div>
+
+                            <div class="product" style="background-color: <?=$tableColor?>;">
+                                
+                                <ul style="padding-left:58px;">
+                                    <li class="gap"><?= _t('Aantal') ?></li>
+                                    <li style="padding-left:10px;padding-right:0px;width:265px;"><?= _t('Omschrijving') ?></li>
+                                    <li class="gap"><?= _t('BTW') ?></li>
+                                    <li class="" style="padding-right:20px;"><?= _t('Kort.') ?> %</li>
+                                    <li style="width:60px;padding-right:20px;"><?= _t('Prijs p/stk') ?></li>
+                                    <li style="padding-right: 20px; text-align: right; width: 110px;"><?= _t('Totaal excl. btw') ?></li>         
+                                </ul>                           
+                                        
+                            </div>
+
+							<div id="sortableproducts">
+								<?php $purchase_row_index = 0; ?>
+								<?php foreach( $this->purchase->products as $product ): ?>
+								<?= $this->partial('index/new/purchase-row.phtml', array('product' => $product, 'products' => $this->products, 'purchase_row_index' => $purchase_row_index++)); ?>
+								<?php endforeach; ?>
+							</div>
+							<input type="hidden" id="purchase_row_index" value="<?= $purchase_row_index; ?>" />
+                            <div class="rule">
+                            
+                                <h4 onclick="purchase_add_row()" style="cursor:pointer;"><a><?= _t('Inkoop toevoegen') ?></a></h4>
+                                
+                                <ul>
+                                    <li>
+                                        <div class="first">&nbsp;</div>
+                                        <div class="second" style="line-height: 30px;"><?= _t('Korting') ?>&nbsp;&nbsp;%</div>
+                                        <div class="third"><input type="text" name="purchase[discount]" class="gray-input" style="width:40px;text-align:right;" value="<?= $this->escape($this->purchase->discount); ?>" /></div>
+                                    </li>
+                                    <li>
+                                        
+                                        <div class="first">
+                                            &nbsp;
+                                        </div>
+                                        
+                                        <div class="second">
+                                            <?= _t('Korting') ?>
+                                        </div>
+                                       
+                                        <div class="third">
+                                            <nobr>&nbsp;&euro; <font id="total_discount">0.00</font></nobr>
+                                        </div>
+                                    
+                                    </li>
+                                    <li>
+                                        
+                                        <div class="first">
+                                            &nbsp;
+                                        </div>
+                                        
+                                        <div class="second">
+                                            <?= _t('Totaal excl. BTW') ?>
+                                        </div>
+                                       
+                                        <div class="third">
+                                            <nobr>&nbsp;&euro; <font id="total_excluding_vat">0.00</font></nobr>
+                                        </div>
+                                    
+                                    </li>
+                                    <li>
+                                        <div class="first">
+                                            &nbsp;
+                                        </div>
+                                        
+                                        <div class="second">
+                                            <?= _t('Totaal BTW') ?>
+                                        </div>
+                                       
+                                        <div class="third">
+                                            <nobr>&nbsp;&euro; <font id="total_vat">0.00</font></nobr>
+                                        </div>
+                                    
+                                    </li>
+                                </ul>    
+                                <ul>
+                                    <li>
+                                        
+                                        <div class="first">
+                                            &nbsp;
+                                        </div>
+                                        
+                                        <div class="second">
+                                            <?= _t('Totaal incl. BTW') ?>
+                                        </div>
+                                       
+                                        <div class="third">
+                                            <nobr>&nbsp;&euro; <font id="total_including_vat">0.00</font></nobr>
+                                        </div>
+                                    
+                                    </li>
+                                </ul>    
+                                
+                                
+                            </div>
+
+                        </div>
+
+
+                    <br/>
+                    <div id="purchase-attachments" style="margin-left:10px;"><?= $this->partial('index/show-attachment.phtml'); ?></div>
+                    
+                </div>
+				<!-- END PURCHASE -->
+                </form>
+			</div>
+			<!-- END LEFT -->
+
+        <?= $this->render('index/_partials/purchase-payment/dialog.phtml'); ?>
+        <?= $this->partial('index/_partials/upload.phtml'); ?>

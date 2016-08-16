@@ -1,0 +1,25 @@
+<style type="text/css">
+    .fixlinks a {
+        font-weight: bold;
+        color:#548c03;
+        text-decoration:none;
+    }
+</style>
+<?php include(APPLICATION_PATH . '/layouts/settings-sidebar.phtml'); ?>
+<div id="right">
+    <!-- START OVERVIE -->
+    <div class="oerview_Box1 fixlinks">
+        <h2><?= _t('Werknemers') ?></h2>
+        <br/>
+        <table style="width:100%;">
+            <tbody>
+            <?php foreach( $this->employees as $employee ): ?>
+                <tr style="line-height:22px;">
+                    <td><a href="<?= $this->baseUrl() ?>/employees/?employee_id=<?= $employee->id ?>"><?= $this->escape($employee->name); ?></a></td>
+                    <td style="width:40px;"><a href="<?= $this->baseUrl() ?>/settings/employees/rights?employee_id=<?= $employee->id ?>"><?= _t('rechten') ?></a></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

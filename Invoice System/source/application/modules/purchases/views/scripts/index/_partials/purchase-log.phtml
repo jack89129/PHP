@@ -1,0 +1,72 @@
+<style type="text/css">
+
+    .purchase_log ul {
+        border:none;
+        width:100%;
+        margin-left:2px;
+        margin-right:2px;
+    }
+
+    .purchase_log li{
+        border:none;
+        padding:0px;
+        margin:0px;
+        width:100%;
+        height:auto;
+    }
+
+    .purchase_log li a, .purchase_log li a:hover {
+        background:none;
+        padding:0px;
+        margin:0px;
+        height:auto;
+        display:inline;
+    }
+
+    .purchase_log li.log-date {
+        font-size:10px;
+        font-weight:bold;
+        line-height:15px;
+        margin-bottom: 5px;
+        margin-top:5px;
+        border-bottom:1px solid #e1e1e1;
+    }
+
+    .purchase_log li.log-text {
+        margin-left:10px;
+        line-height:22px;
+    }
+
+    .purchase_log .info {
+        width:100%;
+    }
+
+</style>
+<?php if( $this->purchase->logs ): ?>
+<div class="news_Box sub purchase_log">
+    <div class="collapse">
+        <h2><span><?= _t('Purchase Log') ?><a class="i-down"></a></span></h2>
+
+        <div class="info">
+            <ul>
+                <?php
+                    if( $this->purchase->logs ){
+                        $last_date = null;
+                        foreach( $this->purchase->logs as $log ){
+                            $date = date(Constants::DATE_HOUR_MINUTE_FORMAT, $log->created_time);
+                            if( $last_date != $date ){
+                                echo '<li class="log-date">', $date, "</li>";
+                                $last_date = $date;
+                            }
+
+                            echo '<li class="log-text">', str_replace('%baseUrl%', $this->baseUrl(), $log->text), '</li>';
+                        }
+                    }else{
+                        echo '<li class="log-text" style="text-align: center;width:230px;">' . _t('No log information!') . '</li>';
+                    }
+                    ?>
+            </ul>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

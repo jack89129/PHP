@@ -1,0 +1,100 @@
+/*Header Menu Stylesheet Icons*/
+
+.navicon-home >a:first-child:before, .navicon-briefcase >a:first-child:before, .navicon-image >a:first-child:before, .navicon-admin >a:first-child:before, .navicon-chat >a:first-child:before, .navicon-brush >a:first-child:before, .navicon-mail >a:first-child:before, .navicon-pencil >a:first-child:before, .navicon-preview >a:first-child:before, .navicon-link >a:first-child:before, .navicon-download >a:first-child:before, .navicon-rss >a:first-child:before, .navicon-shoppingcart >a:first-child:before, .navicon-piggybank >a:first-child:before, .navicon-scissors >a:first-child:before, .navicon-help >a:first-child:before, .navicon-shoppingbasket >a:first-child:before, .navicon-map >a:first-child:before, .navicon-camera >a:first-child:before, .navicon-globe >a:first-child:before, .navicon-money >a:first-child:before {
+	content: "";
+	display: block;
+	float: left;
+	height: 20px;
+	width: 30px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin-right: 0;
+	margin-left: -15px;
+	margin-top: -5px;
+}
+
+/*navigation icon backgrounds*/
+
+.navicon-home >a:first-child:before {
+	background-image: url('../images/icons/home_gray.png')
+}
+
+.navicon-briefcase >a:first-child:before {
+	background-image: url('../images/icons/briefcase_gray.png')
+}
+
+.navicon-image >a:first-child:before {
+	background-image: url('../images/icons/image_gray.png')
+}
+
+.navicon-admin >a:first-child:before {
+	background-image: url('../images/icons/admin_gray.png')
+}
+
+.navicon-chat >a:first-child:before {
+	background-image: url('../images/icons/chat_gray.png')
+}
+
+.navicon-brush >a:first-child:before {
+	background-image: url('../images/icons/brush_gray.png')
+}
+
+.navicon-mail >a:first-child:before {
+	background-image: url('../images/icons/mail_gray.png')
+}
+
+.navicon-pencil >a:first-child:before {
+	background-image: url('../images/icons/pencil_gray.png')
+}
+
+.navicon-preview >a:first-child:before {
+	background-image: url('../images/icons/preview_gray.png')
+}
+
+.navicon-download >a:first-child:before {
+	background-image: url('../images/icons/download_gray.png')
+}
+
+.navicon-link >a:first-child:before {
+	background-image: url('../images/icons/link_gray.png')
+}
+
+.navicon-rss >a:first-child:before {
+	background-image: url('../images/icons/rss_gray.png')
+}
+
+.navicon-shoppingcart >a:first-child:before {
+	background-image: url('../images/icons/shopping_cart_gray.png')
+}
+
+.navicon-piggybank >a:first-child:before {
+	background-image: url('../images/icons/piggy_bank_gray.png')
+}
+
+.navicon-scissors >a:first-child:before {
+	background-image: url('../images/icons/scissors_gray.png')
+}
+
+.navicon-help >a:first-child:before {
+	background-image: url('../images/icons/help_gray.png')
+}
+
+.navicon-shoppingbasket >a:first-child:before {
+	background-image: url('../images/icons/shopping_basket_gray.png')
+}
+
+.navicon-map >a:first-child:before {
+	background-image: url('../images/icons/map_gray.png')
+}
+
+.navicon-camera >a:first-child:before {
+	background-image: url('../images/icons/camera_gray.png')
+}
+
+.navicon-globe >a:first-child:before {
+	background-image: url('../images/icons/globe_gray.png')
+}
+
+.navicon-money >a:first-child:before {
+	background-image: url('../images/icons/money_gray.png')
+}

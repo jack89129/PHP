@@ -1,0 +1,17 @@
+<div style="display: none;">
+    <div id="add-group-dialog" class="betalingen-Box" style="width:300px;height:170px;overflow:auto;">
+        <form id="add-group-form">
+            <fieldset>
+                <h2><?= _t('Nieuwe debiteurgroep') ?></h2>
+            </fieldset>
+            <div class="center">
+                <div class="first">
+                    <h3><?= _t('Contactgroep') ?>:</h3>
+                    <br/>
+                    <input type="text" name="name" style="width:280px;" class="gray-input" value="<?= _t('Contactgroepen naam') ?>" onfocus="if(this.value=='<?= _t('Contactgroepen naam') ?>') this.value='';" onblur="if(this.value=='') this.value='<?= _t('Contactgroepen naam') ?>';" />
+                </div>
+                <input type="submit" class="button" value="Opslaan">
+            </div>
+        </form>
+    </div>
+</div>

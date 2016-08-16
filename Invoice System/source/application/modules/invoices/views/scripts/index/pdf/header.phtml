@@ -1,0 +1,9 @@
+<table style="width: 100%;">
+	<tr>
+		<td style="width: 50%; text-align: left;"><?php if( $this->providerLogo()->exists() ): ?>
+		<img src="<?= $this->providerLogo()->url(); ?>" alt="" /> <?php endif; ?>
+		</td>
+		<td style="width: 50%; text-align: right;"><img class="fac"
+			src="<?= $this->baseUrl(); ?>/images/fac.jpg" alt="" /></td>
+	</tr>
+</table>

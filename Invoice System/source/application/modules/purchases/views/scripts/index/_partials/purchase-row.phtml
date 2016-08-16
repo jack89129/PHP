@@ -1,0 +1,43 @@
+<li class="product1 <?= $this->product->product && $this->product->product->expense_tag && $this->product->product->expense_tag->id == $this->hltc ? 'hltc' : '' ?>" style="margin:0px;margin-bottom:2px;">
+    <?php if( $this->edit ): ?>
+    <input type="hidden" name="row[<?= $this->index; ?>]" value="<?= $this->index; ?>" />
+    <input type="hidden" name="ord[]" value="<?= $this->index; ?>" />
+    <div style="margin-left:10px;">
+    <a href="javascript:;" onmouseup="setTimeout(purchase_auto_save,0)" class="sorthandle"><img class="sort" src="<?= $this->baseUrl(); ?>/images/img2.jpg" alt="" /></a>
+    <a href="javascript:;" onclick="purchase_remove_row(this)"><img class="del" src="<?= $this->baseUrl(); ?>/images/img3.jpg" alt="" /></a>
+    </div>
+    <?php endif; ?>
+    <div class="first" style="<?= $this->edit ? 'width:400px;' : ''; ?>">
+        <?php if( $this->edit ): ?>
+        <div style="width:90%;float:left;margin-left:10px;margin-right:10px;">
+            <div id="product_description_<?= $this->index ?>" class="gray-input wysiwyg" style="width:100%;height:auto;"><?= Utils::strip_bad_tags($this->product->description) ?>&nbsp;</div>
+            <input type="hidden" name="product[<?= $this->index; ?>][description]" value="<?= $this->escape($this->product->description); ?>" />
+        </div>
+        <input  type="hidden" name="product[<?= $this->index ?>][product_id]" value="<?= $this->escape($this->product->product_id); ?>" />
+        <?php else: ?>
+        <div class="wysiwyg">
+        <?= Utils::strip_bad_tags($this->product->description); ?>
+        </div>
+        <?php endif; ?>
+        &nbsp;
+    </div>
+    <div class="second">&euro;
+        <?php if( $this->edit ): ?>
+            &nbsp;
+            <input class="gray-input" style="width:40px;text-align:right;" type="text" name="product[<?= $this->index ?>][sum]" value="<?= Utils::numberFormat($this->product->total_excl_vat); ?>" />
+            <?php else: ?>
+            <?= Utils::numberFormat($this->product->total_excl_vat); ?>
+            <?php endif; ?>
+    </div>
+    <div class="foruth" style="width:80px;white-space:nowrap;">
+        <?php if( $this->edit ): ?>
+        &nbsp;
+        <input class="gray-input" style="width:40px;text-align:right;" type="text" name="product[<?= $this->index ?>][vat]" value="<?= (int) $this->product->vat; ?>" /> &nbsp;%
+        <?php else: ?>
+        <?= $this->escape((int)$this->product->vat); ?>%
+        <?php endif; ?>
+    </div>
+    <div id="product_total_<?= $this->index ?>" class="third" style="float:left !important;text-align:right;width:60px;<?php $this->edit ? 'line-height: 28px;' : ''; ?>">
+        &euro; <?= Utils::numberFormat($this->product->total_sum); ?>
+    </div>               
+</li>

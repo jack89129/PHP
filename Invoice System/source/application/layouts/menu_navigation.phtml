@@ -1,0 +1,122 @@
+<div class="form">
+    <form action="<?= $this->baseUrl() ?>/search" method="get">
+        <fieldset>
+            <input class="btn" type="button">
+            <input name="search" onblur="if (this.value == '') {this.value = '<?= _t('Trefwoord') ?>';}" onfocus="if(this.value == '<?= _t('Trefwoord') ?>') {this.value = '';}" value="<?= _t('Trefwoord') ?>" class="field" type="text">
+            <!--<a href="<?= $this->baseUrl() ?>/settings/contact" class="setting">setting</a>-->
+        </fieldset>
+    </form>
+
+</div>
+
+<? if($this->current_module == "contacts"){ ?>
+
+	<ul class="white">
+        <?php if( Utils::user()->can('contact_edit') ): ?>
+		<li><a href="javascript:;" onclick="contacts_edit_contact(0);"><span><span class="bg sub2"><?= _t('Nieuwe debiteur') ?></span></span></a></li>
+        <!--<li><a id="contacts-import-link" href="#contacts-import-dialog"><span><span class="bg sub3"><?= _t('Import contacten') ?></span></span></a></li>-->
+        <?php endif; ?>
+        <!--<li><a href="<?= $this->baseUrl() ?>/contacts/index/export-contacts"><span><span class="bg sub4"><?= _t('Export contacten') ?></span></span></a></li>-->
+	</ul>
+
+<?php }?>      
+
+<? if($this->current_module == "agenda"){ ?>
+
+    <ul class="white">                                       
+        <li><a href="<?= $this->baseUrl() ?>/agenda/index/day" onclick=""><span><span class="bg sub6"><?= _t('Dag') ?></span></span></a></li>
+        <li><a href="<?= $this->baseUrl() ?>/agenda/index/week"><span><span class="bg sub6"><?= _t('Week') ?></span></span></a></li>
+        <li><a href="<?= $this->baseUrl() ?>/agenda"><span><span class="bg sub6"><?= _t('Maand') ?></span></span></a></li>
+    </ul>
+
+<?php }?>
+
+<?php if($this->current_module == "employees"){?>
+
+	<ul class="white">
+        <?php if( Utils::user()->can('employee_edit') ): ?>
+		<li><a href="javascript:;" onclick="employees_edit_employee(0);"><span><span class="bg sub2"><?= _t('Nieuwe Werknemers') ?></span></span></a></li>
+        <?php endif; ?>
+        <?php if( Utils::user()->can('employee_pack_view') ): ?>
+        <li><a href="<?= $this->baseUrl() ?>/employees/pack"><span><span class="bg sub2"><?= _t('Paklijst opmaken') ?></span></span></a></li>
+        <?php endif; ?>
+	</ul>
+
+<?php }?>
+
+<? if($this->current_module == "wholesalers"){ ?>
+
+<ul class="white">
+    <?php if( Utils::user()->can('wholesaler_edit') ): ?>
+    <li><a href="javascript:;" onclick="wholesalers_edit_wholesaler(0);"><span><span class="bg sub2"><?= _t('Nieuwe crediteur') ?></span></span></a></li>
+    <!--<li><a id="wholesalers-import-link" href="#wholesalers-import-dialog"><span><span class="bg sub3"><?= _t('Import wholesalers') ?></span></span></a></li>-->
+    <?php endif; ?>
+    <!--<li><a href="<?= $this->baseUrl() ?>/wholesalers/index/export-wholesalers"><span><span class="bg sub4"><?= _t('Export wholesalers') ?></span></span></a></li>-->
+</ul>
+
+<?php }?>
+
+
+<?php if($this->current_module == "stock"){?>
+
+	<ul class="white">
+        <?php if( Utils::user()->can('stock_receipt_view') ): ?>
+		<li><a href="<?= $this->baseUrl() ?>/stock/receipt"><span><span class="bg sub2"><?= _t('Bestel bon') ?></span></span></a></li>
+        <?php endif; ?>
+        <?php if( Utils::user()->can('stock_manage_view') ): ?>
+		<li><a href="<?= $this->baseUrl() ?>/stock/manage"><span><span class="bg sub2"><?= _t('Beheer voorraad') ?></span></span></a></li>
+        <?php endif; ?>
+	</ul>
+
+<?php }?>  
+			
+			
+			
+<?php if($this->current_module == "invoices" || $this->current_module == "offers"){?>
+
+                <?php if( in_array(Zend_Controller_Front::getInstance()->getRequest()->getActionName(), array('new', 'view'))): ?>
+                <ul class="white">
+					<li><a href="#sendinvoice" id="sendinvoice-button"><span><span class="bg sub5"><?= _t('%s versturen', $this->invoice->proforma ? _t('Offerte') : ($this->invoice->credit ? _t('Credit-Factuur') : _t('Factuur'))) ?></span></span></a></li>
+					<li><a href="#downloadinvoice" id="downloadinvoice"><span><span class="bg sub3"><?= _t('%s downloaden', $this->invoice->proforma ? _t('Offerte') : ($this->invoice->credit ? _t('Credit-Factuur') : _t('Factuur'))) ?></span></span></a></li>
+					<!-- <li><a href="#exportinvoice" class="fancybox"><span> <span class="bg sub4"><?= _t('%s exporteren', $this->current_module == _t('offers') ? _t('Offerte') : ($this->invoice->credit ? _t('Credit-Factuur') : _t('Factuur'))) ?></span></span></a></li> -->
+				</ul>
+                <?php endif; ?>
+
+
+<?php }?>
+
+<?php if($this->current_module == "settings"){ ?>
+
+<?php if( in_array(Zend_Controller_Front::getInstance()->getRequest()->getControllerName(), array('index'))): ?>
+    <ul class="white">
+        <?php if( Utils::user()->can('settings_tags_view') ): ?>
+        <li><a href="<?= $this->baseUrl() ?>/settings/tags"><span><span class="bg sub7"><?= _t('Categorieen') ?></span></span></a></li>
+        <?php endif; ?>
+    </ul>
+<?php endif; ?>
+
+<?php if( in_array(Zend_Controller_Front::getInstance()->getRequest()->getControllerName(), array('tags'))): ?>
+    <ul class="white">
+        <?php if( Utils::user()->can('settings_tags_edit') ): ?>
+        <li><a id="tags-add-category-link" href="#tags-category-dialog"><span><span class="bg sub2"><?= _t('Add category') ?></span></span></a></li>
+        <li><a id="tags-add-tag-link" href="#tags-tag-dialog"><span><span class="bg sub2"><?= _t('Add tag') ?></span></span></a></li>
+        <?php endif; ?>
+    </ul>
+<?php endif; ?>
+
+
+<?php }?>
+<?php 
+    $has_permission = SettingsModel::getPermissionPurchase();
+?>
+<?php if($this->current_module == "reports"){ ?>
+    <ul class="white">
+        <li><a href="<?= $this->baseUrl() ?>/reports/index/index"><span><span class="bg sub6"><?= _t('Resultaten') ?></span></span></a></li>
+        <li><a href="<?= $this->baseUrl() ?>/reports/index/unpaid-invoices-total"><span><span class="bg sub8"><?= _t('Debiteuren') ?></span></span></a></li>
+        <?php if ( $has_permission ): ?>
+        <li><a href="<?= $this->baseUrl() ?>/reports/index/unpaid-purchases-total"><span><span class="bg sub8"><?= _t('Crediteuren') ?></span></span></a></li>
+        <?php endif; ?>
+        <li><a href="<?= $this->baseUrl() ?>/reports/index/vat"><span><span class="bg sub7"><?= _t('BTW-Aangifte') ?></span></span></a></li>
+    </ul>
+<?php } ?>
+			

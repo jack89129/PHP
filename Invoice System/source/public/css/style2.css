@@ -1,0 +1,25 @@
+table.table-list{
+    width: 80%;
+}
+
+table.table-list tr.color {
+    background: none repeat scroll 0 0 #F1F1F1;
+    height: 31px;
+    line-height: 31px;
+}
+
+table.table-list tr {
+    height: 31px;
+    line-height: 31px;
+}
+table.table-list tr.gap {
+    background: url("../images/info-bg1.jpg") repeat-x scroll left top #D9D9D9;
+    height: 35px;
+    line-height: 35px;
+}
+
+table.table-list tr td {
+	padding-left: 10px;
+}
+
+ 

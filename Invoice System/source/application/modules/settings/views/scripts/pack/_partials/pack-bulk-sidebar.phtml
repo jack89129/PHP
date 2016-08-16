@@ -1,0 +1,59 @@
+<div class="news_Box">
+    <h2><?= _t('Overige instellingen') ?></h2>
+
+    <div class="info">
+
+        <div class="info">
+            <ul style="padding-bottom: 0px;">
+                <!-- PDF -->
+                <li class="last"><a class="bg3" id="pdf-bulk-pack" href="javascript:;"><span><?= _t('Afdrukken') ?></span></a></li>
+                <!-- DELETE -->
+                <?php if( Utils::user()->can('employee_pack_delete') ): ?>
+                <li class="last"><a class="bg5" id="delete-bulk-pack" href="javascript:;"><span><?= _t('Verwijder packlijst') ?></span></a></li>
+                <?php endif; ?>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function packs_collect_checked(){
+        var ids = []
+        var checked = $('#tabs div.tab-wrapper:visible input[type=checkbox]:checked');
+        for( var i = 0; i < checked.length; i++ ){
+            if( checked[i].value > 0 ){
+                ids.push({name:'packs[]', value:checked[i].value});
+            }
+        }
+
+        return $.param(ids);
+    }
+
+    $(document).ready(function(){
+
+        $('#pdf-bulk-pack').click(function(){
+            if( params = packs_collect_checked() ){
+                var form = $($('#form-' + $('#tabs div.tab-wrapper:visible')[0].id));
+                form.attr('action', baseUrl + '/settings/pack/bulk-pdf/');
+                form.submit();
+            }else{
+                alert('<?= _t('Select at least one pack!') ?>');
+            }
+
+        });
+
+        $('#delete-bulk-pack').click(function(){
+            if( !confirm('<?= _t('Are you sure?') ?>') ){
+                return;
+            }
+
+            if( params = packs_collect_checked() ){
+                $.post(baseUrl + "/settings/pack/delete-bulk/", params);
+            }else{
+                alert('<?= _t('Select at least one pack!') ?>');
+            }
+        })
+    });
+</script>

@@ -1,0 +1,174 @@
+<?php if ( $this->logged_in ): ?>
+<div class="container">
+    <div id="user_log" class="clearfix">
+        <div class="nine columns">
+            <h6>You're member of our webshop! You can buy products in <a href="/shop" class="webshop_link">here</a></h6>
+        </div>
+    </div>
+</div>
+<?php else: ?>
+<!-- strat the main content area -->
+    
+<div class="container">
+
+        <div id="user_log" class="clearfix">
+<!--
+            <div class="nine columns">
+                <div class="register">
+                    <div class="box_head">
+                        <h3>Maak account aan</h3>
+                    </div>
+
+                    <h6>Heeft u al een account, log dan in aan de rechterkant.</h6>
+
+                    <form>
+                        <ol>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="company">Bedrijfsnaam <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="company" type="text" name="company" value="" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="firstname">Voornaam <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="firstname" type="text" name="firstname" value="" placeholder="John">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="lastname">Achternaam <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="lastname" type="text" name="lastname" value="" placeholder="Smith">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="email">E-mailadres <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="email" type="text" name="" value="" placeholder="example@example.com">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="btw">BTW nummer </label>
+                                <div class="inputOuter">
+                                <input id="btw" type="text" name="btw" value="" placeholder="0895.653.755">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="tele">Telefoonnummer 1 </label>
+                                <div class="inputOuter">
+                                <input id="tele1" type="text" name="tele1" value="" placeholder="0126598745 or 555-987-456">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="tele">Telefoonnummer 2 </label>
+                                <div class="inputOuter">
+                                <input id="tele2" type="text" name="tele2" value="" placeholder="0126598745 or 555-987-456">
+                                </div>
+                            </li>
+                        </ol>
+
+                        <ol>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="username">Gebruikersnaam <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="username" type="text" name="username" value="" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="userpwd">Wachtwoord <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="userpwd" type="password" name="userpwd" value="" placeholder="********************">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="confirmpwd">Wachtwoord(herhalen)<em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="confirmpwd" type="password" name="confirmpwd" value="" placeholder="********************">
+                                </div>
+                            </li>
+                        </ol>
+                        <ol>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="firstName">&nbsp;</label>
+                                <div class="inputOuter button">
+                                <a href="#" class="red_btn">Maak account aan</a>
+                                </div>
+                            </li>
+                        </ol>
+                    </form>
+
+                </div>
+            </div><!--end nine-->
+
+
+
+            <div class="seven columns">
+                <div class="login">
+                    <div class="box_head">
+                        <h3>Inloggen</h3>
+                    </div><!--end box_head -->
+                    <?php if ( !empty($this->message) ): ?>
+                    <h6 style="color: firebrick;"><?=$this->message?></h6>
+                    <?php endif; ?>
+                    <!--<h6>Nog geen account? Registreer aan de linkerkant.</h6>-->
+
+                    <form id="loginForm" method="post" action="/shop/signin">
+                        <ol>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="loginuser">Gebruikersnaam <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="loginuser" type="text" name="loginuser" value="" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="loginpass">Wachtwoord <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="loginpass" type="password" name="loginpass" value="" placeholder="">
+                                <!--<small><a href="#">Forget your Password?</a></small>-->
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="firstName">&nbsp;</label>
+                                <div class="inputOuter button">
+                                <a href="#" class="red_btn" id="signin">Inloggen</a>
+                                </div>
+                            </li>
+                        </ol>
+                    </form>
+
+                </div><!--end login-->
+                
+            </div><!--end seven-->
+
+        </div><!--end user_log-->
+
+</div><!--end container-->
+<!-- end the main content area -->
+<?php endif; ?>
+    
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#signin').on('click', function(){
+            if ( $('#loginuser').val() == "" ) {
+                alert("Please input user name!")
+                $('#loginuser').focus();
+                return;
+            }
+            if ( $('#loginpass').val() == "" ) {
+                alert("Please input password!")
+                $('#loginpass').focus();
+                return;
+            }
+            var oForm = $('#loginForm');
+            oForm.submit();
+        });
+        
+        $('#loginpass').on('keydown', function(event){
+            if ( event.keyCode == 13 ) {
+                $('#signin').click();
+            }
+        });
+    });
+
+</script>

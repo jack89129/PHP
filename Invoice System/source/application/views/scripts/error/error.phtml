@@ -1,0 +1,12 @@
+<h1><?= _t('Er is een fout opgetreden') ?></h1>
+<div class="horizontal-line"></div>
+<?php 
+echo $this->message;
+?>
+:
+<?php
+	if( APPLICATION_ENV == "development" || APPLICATION_ENV == 'testing' ){
+		echo nl2br($this->info);
+	}
+?>
+<br/>

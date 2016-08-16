@@ -1,0 +1,390 @@
+<?php
+    $this->headScript()->appendFile($this->baseUrl() . "/js/avaxo_agenda.js");
+?>
+
+<style type="text/css">     
+#left.sub {
+    margin-right: 0;
+}
+#right.sub {
+    margin-left: 10px;
+}
+.oerview_Box1 p {
+    border-bottom: medium none;
+}
+.jspScrollable {
+    width: 175px !important;
+}
+.jspContainer {
+    width: 175px !important;
+}
+.btn_wrapper {
+    text-align: center;
+}
+.btn_wrapper input {
+/*    width: 100px;
+    height: 25px;*/
+}
+input[type=checkbox] {
+}
+.oerview_Box1 .location label {
+    float: none;
+    font-size: 15px;
+    margin-right: 15px;
+    padding: 0;
+}
+.oerview_Box1 .location label:first-child {
+    float: left;
+    height: 50px;
+    font-size: 12px;
+    padding-left: 11px;
+}
+.oerview_Box1 .field {
+    float: none;
+}
+</style>
+
+<!-- START RIGHT -->
+<div id="result_Box">
+    <div class="sub" id="right">
+        <div id="log">  
+        </div>                
+    </div>
+    <!-- START OVERVIE -->
+    <div class="oerview_Box1 sub" id="left">
+
+        <h2>Reservation Data</h2>
+
+        <div class="form">                                             
+            <form action="/agenda/index/save" id="detailForm" method="post">
+                <input type="hidden" name="idx" value="<?=$this->reserve->id?>" />
+                <input type="hidden" name="reserve[reserved_date]" value="<?=$this->selected_date?>" />
+                <input type="hidden" name="reserve[status]" id="status" value="1" />
+                <input type="hidden" name="reserve[contact_id]" data-contact-name="<?= $this->escape($this->reserve->contact ? $this->reserve->contact->company_name : ''); ?>" data-contact-id="<?= $this->escape($this->reserve->contact_id); ?>" value="<?= $this->escape($this->reserve->contact_id); ?>" />
+                <fieldset>
+                    <div>
+                        <label>Status</label>
+                        <?php if ( $this->reserve->status == 1 ): ?>
+                            <label>This reservation is confirmed.</label>
+                        <?php elseif ( $this->reserve->status == 2 ): ?>
+                            <label>This reservation is optional.</label>
+                        <?php endif; ?>
+                    </div>
+                
+                    <div>
+
+                        <label>Bedrijfsnaam</label>
+                        <input type="text" class="field" name="contact[company_name]" value="<?= $this->escape($this->reserve->contact? $this->reserve->contact->company_name : '') ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Voornaam</label>
+                        <input type="text" class="field" name="contact[firstname]" value="<?= $this->escape($this->reserve->contact? $this->reserve->contact->firstname : '') ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Achternaam</label>
+                        <input type="text" class="field" name="contact[lastname]" value="<?= $this->escape($this->reserve->contact? $this->reserve->contact->lastname : '') ?>" />
+
+                    </div>
+
+                    <div>
+                        <label>Adres</label>
+
+                    </div>
+                    
+                    <div>
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Straat & Nr</label>
+                        <input type="text" class="field" style="width:23%;" name="reserve[street]" value="<?= $this->escape($this->reserve->street) ?>"/>
+                        <input type="text" class="field" style="width:23%;margin-left:3%;" name="reserve[addrnr]" value="<?= $this->escape($this->reserve->addrnr) ?>" />
+
+                    </div>
+                    
+                    <div>
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Postcode & Gemeente</label>
+                        <input type="text" class="field" style="width:23%;" name="reserve[post]" value="<?= $this->escape($this->reserve->post) ?>"  />
+                        <input type="text" class="field" style="width:23%;margin-left:3%;" name="reserve[city]" value="<?= $this->escape($this->reserve->city) ?>" />
+
+                    </div>
+
+                    <div>
+
+                        <label>Telefoonnummer</label>
+                        <input type="text" class="field" name="reserve[phone]" value="<?= $this->escape($this->reserve->phone) ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>GSM nr</label>
+                        <input type="text" class="field" name="reserve[cellphone]" value="<?= $this->escape($this->reserve->cellphone) ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>E-Mail</label>
+                        <input type="text" class="field" name="reserve[mail]" value="<?= $this->escape($this->reserve->mail) ?>" />
+
+                    </div>
+
+                    <div>
+
+                        <label>BTW nummer</label>
+                        <input type="text" class="field" name="reserve[vat]" value="<?= $this->escape($this->reserve->vat) ?>" />
+
+                    </div>
+
+                    <div>
+
+                        <label>Opmerkingen voor factuur</label>
+                        <textarea class="field" name="reserve[special_invoice_requirement]" ><?= $this->escape($this->reserve->special_invoice_requirement) ?></textarea>
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Type feest</label>
+                        <select name="reserve[party_type]">
+                        <?php if ( !empty($this->party_type_list) ): ?>
+                        <?php foreach ( $this->party_type_list as $partyType ): ?>
+                            <option value="<?=$partyType->id?>" <?php if ( $this->reserve->party_type == $partyType->id ) echo 'selected'; ?>><?=$partyType->type?></option>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                        </select>
+
+                    </div>
+                    
+                    <div>
+                        <label>Aantal volwassenen & Kinderen</label>
+                        <input type="text" class="field" style="width:23%;" name="reserve[adults]" value="<?= $this->escape($this->reserve->adults) ?>"/>
+                        <input type="text" class="field" style="width:23%;margin-left:3%;" name="reserve[children]" value="<?= $this->escape($this->reserve->children) ?>" />
+                    </div>
+                    
+                    <div>
+                        <label>Begintijd</label>
+                        <input type="hidden" id="start_time" name="reserve[start_time]" value="<?=$this->escape($this->reserve->start_time)?>" />
+                        <select id="start_hour">
+                            <?php for($h=0;$h<24;$h++): ?>
+                            <option value="<?=$h?>" <?php if($h==$this->start_hour) echo 'selected'; ?>>
+                            <?php if ( $h < 10 ) echo '0';?><?=$h?>
+                            </option>
+                            <?php endfor; ?>
+                        </select>&nbsp;&nbsp;u&nbsp;&nbsp;
+                        <select id="start_minute">
+                            <?php for($m=0;$m<60;$m+=15): ?>
+                            <option value="<?=$m?>" <?php if($m==$this->start_minute) echo 'selected'; ?>><?php if ( $m < 10 ) echo '0';?><?=$m?></option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label>Eindtijd</label>
+                        <input type="hidden" id="end_time" name="reserve[end_time]" value="<?=$this->escape($this->reserve->end_time)?>" />
+                        <select id="end_hour">
+                            <?php for($h=0;$h<24;$h++): ?>
+                            <option value="<?=$h?>" <?php if($h==$this->end_hour) echo 'selected'; ?>>
+                            <?php if ( $h < 10 ) echo '0';?><?=$h?>
+                            </option>
+                            <?php endfor; ?>
+                        </select>&nbsp;&nbsp;u&nbsp;&nbsp;
+                        <select id="end_minute">
+                            <?php for($m=0;$m<60;$m+=15): ?>
+                            <option value="<?=$m?>" <?php if($m==$this->end_minute) echo 'selected'; ?>><?php if ( $m < 10 ) echo '0';?><?=$m?></option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label>Reservatie aangenomen door</label>
+                        <select name="reserve[created_user]">
+                            <option value="0" <?php if($this->reserve->created_user == 0) echo 'selected'; ?>>Agnes</option>
+                            <option value="1" <?php if($this->reserve->created_user == 1) echo 'selected'; ?>>Bart</option>
+                            <option value="2" <?php if($this->reserve->created_user == 2) echo 'selected'; ?>>Jos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="location">
+                        <label>Locatie</label>
+                        <div>
+                        <?php $seq = 0; ?>
+                        <?php if ( !empty($this->selected_locations) ): ?>
+                        <?php foreach ($this->selected_locations as $location): ?>
+                        <input type="checkbox" name="location[<?=$location->id?>]" id="location[<?=$location->id?>]" value="<?=$location->name?>" checked/>
+                        <label for="location[<?=$location->id?>]"><?=$location->name?></label>
+                        <?php $seq++; if ( $seq == 5 ) echo '<br/>'; ?>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                        <?php if ( !empty($this->locations) ): ?>
+                        <?php foreach ($this->locations as $location): ?>
+                        <input type="checkbox" name="location[<?=$location->id?>]" id="location[<?=$location->id?>]" value="<?=$location->name?>"/>
+                        <label for="location[<?=$location->id?>]"><?=$location->name?></label>
+                        <?php $seq++; if ( $seq == 5 ) echo '<br/>'; ?>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                        </div>
+                    </div>
+                    
+                    <div>
+
+                        <label>Notities</label>
+                        <textarea class="field" name="reserve[comment]" ><?= $this->escape($this->reserve->comment) ?></textarea>
+
+                    </div>
+                    
+                    <div class="btn_wrapper">
+                        <input type="button" name="reserve" value="Reserve" onclick="onReserve();" class="green-button">
+                        <input type="button" name="optional" value="Optional" onclick="onOptional();" class="green-button">         
+                        <input type="button" name="delete" value="Delete" onclick="onDelete();" class="green-button">
+                        <input type="button" name="print" value="Dagoverzicht" onclick="onDayView();" class="green-button">
+                        <input type="button" name="email" value="Email" onclick="" class="green-button" id="btn_sendmail" href="#send_email">
+                    </div>
+
+                </fieldset>
+                
+                <fieldset id="agenda_print_wrapper">
+                    <h2>Receptie / Ontvangst</h2>
+                      <div class="location">
+                        <label>Ontvangst met :</label>
+                        <?php foreach ($this->receptions as $reception): ?>
+                        <input id="<?=$reception->name?>" type="radio" name="reserve[reception_id]" value="<?=$reception->id?>" <?php if($this->reserve->reception_id == $reception->id) echo 'checked="checked"'; ?>><label for="<?=$reception->name?>">&nbsp;<?=$reception->name?></label>
+                        <?php endforeach; ?>                                                                                              
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Aantal hapjes :</label>
+                        <select name="reserve[hapje_count]" style="margin-bottom: 15px;font-size: 16px;height: 24px;">
+                            <?php for($i=1;$i<16;$i++): ?>
+                            <option value="<?=$i?>" <?php if ($this->reserve->hapje_count == $i) echo 'selected'; ?>><?=$i?></option>
+                            <?php endfor; ?>
+                        </select>
+                        <div id="hapje_wrapper">
+                            <?php $idx = 1; ?>
+                            <?php foreach($this->hapjes as $hapje): ?>
+                            <p><input type="hidden" name="hapje_id[<?=$idx?>]" class="hapje_id" value="<?=$hapje['hapje_id']?>"/><label>&nbsp;</label>Hapje<?=$idx?> : <input type="text" class="field hapje" data-hapje-name="<?=$hapje['hapje']?>" name="hapje[<?=$idx?>]" value="<?=$hapje['hapje']?>"></p>
+                            <?php $idx++; ?>
+                            <?php endforeach; ?>
+                            <!--<p><input type="hidden" name="hapje_id1" class="hapje_id" value="0"/><label>&nbsp;</label>Hapje1 : <input type="text" class="field hapje" data-hapje-name="" name="hapje1"></p>-->
+                        </div>
+
+                    </div>
+                    
+                    <h2>Menu / Buffet</h2>  
+                    <?php $old = 0; $num = 1; ?>
+                    <?php foreach ( $this->agenda_menus as $menu ): ?>   
+                    <?php if ( $old != $menu['id'] ): ?>
+                        <?php if ( $old > 0 ): ?>
+                            <input type="hidden" id="max" value="<?=$num?>" /></div></div>
+                            <?php $num = 1; ?>
+                        <?php endif; ?>
+                        <?php $old = $menu['id']; ?>
+                        <div class="location">
+                            <?php if ( !empty($menu['agenda_id']) ): ?>
+                            <label><input type="checkbox" name="menu_opt[<?=$menu['id']?>]" class="menu_opt" idx="<?=$menu['id']?>" checked="checked" value="<?=$menu['id']?>"/> <?=$menu['type']?> :</label>
+                            <input id="menu<?=$menu['id']?>_aan" type="radio" name="menu_select[<?=$menu['id']?>]" value="0" <?php if($menu['buffet']==0) echo 'checked="checked"'; ?>><label for="menu<?=$menu['id']?>_aan">&nbsp;Aan tafel</label>
+                            <input id="menu<?=$menu['id']?>_buf" type="radio" name="menu_select[<?=$menu['id']?>]" value="1" <?php if($menu['buffet']==1) echo 'checked="checked"'; ?>><label for="menu<?=$menu['id']?>_buf">&nbsp;Buffet</label>
+                            <div id="menu_opt<?=$menu['id']?>_wrapper">
+                                <p>
+                                    <input type="hidden" name="menu_pid[<?=$menu['id']?>][0]" value="<?=$menu['menu_id']?>" class="menu_id"/>
+                                    <input type="text" class="txt_amount field" name="menu_amount[<?=$menu['id']?>][0]" value="<?=$menu['amount']?>" data-prod-name="<?=$menu['prodname']?>"/>
+                                    <input type="text" name="menu_pname[<?=$menu['id']?>][0]" class="txt_prod_name field" value="<?=$menu['prodname']?>"/>
+                                    <a href="javascript:;" style="margin-right: 5px;" onclick="agenda_add_menu('<?=$menu['id']?>', this)"><img class="plus" alt="" src="/images/plus.jpg" style="display: inline;"></a>
+                                    <a href="javascript:;" onclick="agenda_delete_menu(this)"><img class="del" alt="" src="/images/img3.jpg" style="display: inline;"></a>
+                                </p>
+                            <?php $num++; ?>
+                            <?php else: ?>
+                            <label><input type="checkbox" name="menu_opt[<?=$menu['id']?>]" class="menu_opt" idx="<?=$menu['id']?>"/> <?=$menu['type']?> :</label>
+                            <input id="menu<?=$menu['id']?>_aan" type="radio" name="menu_select[<?=$menu['id']?>]" disabled><label for="menu<?=$menu['id']?>_aan">&nbsp;Aan tafel</label>
+                            <input id="menu<?=$menu['id']?>_buf" type="radio" name="menu_select[<?=$menu['id']?>]" disabled><label for="menu<?=$menu['id']?>_buf">&nbsp;Buffet</label>
+                            <div id="menu_opt<?=$menu['id']?>_wrapper">
+                            <?php endif; ?>
+                    <?php else: ?>
+                        <p>
+                            <input type="hidden" name="menu_pid[<?=$menu['id']?>][<?=$num-1?>]" value="<?=$menu['menu_id']?>" class="menu_id"/>
+                            <input type="text" class="txt_amount field" name="menu_amount[<?=$menu['id']?>][<?=$num-1?>]" value="<?=$menu['amount']?>" data-prod-name="<?=$menu['prodname']?>"/>
+                            <input type="text" name="menu_pname[<?=$menu['id']?>][<?=$num-1?>]" class="txt_prod_name field" value="<?=$menu['prodname']?>"/>
+                            <a href="javascript:;" style="margin-right: 5px;" onclick="agenda_add_menu('<?=$menu['id']?>', this)"><img class="plus" alt="" src="/images/plus.jpg" style="display: inline;"></a>
+                            <a href="javascript:;" onclick="agenda_delete_menu(this)"><img class="del" alt="" src="/images/img3.jpg" style="display: inline;"></a>
+                        </p>
+                        <?php $num++; ?>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                    <input type="hidden" id="max" value="<?=$num?>" /></div></div>
+                    
+                    <h2>Drankenformule</h2>
+                    <div class="location">
+
+                        <label>Drankenformule :</label>
+                        <input id="exclusief" type="radio" name="reserve[drink]" value="0" <?php if ( $this->reserve->drink == 0 ) echo 'checked="checked"'; ?>><label for="exclusief">&nbsp;Exclusief dranken</label>
+                        <input id="drankenformule" type="radio" name="reserve[drink]" value="1" <?php if ( $this->reserve->drink == 1 ) echo 'checked="checked"'; ?>><label for="drankenformule">&nbsp;Drankenformule</label>
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Aantal uren :</label>
+                        <select name="reserve[hours]" style="margin-bottom: 15px;font-size: 16px;height: 24px;">
+                            <?php for($i=1;$i<13;$i++): ?>
+                            <option value="<?=$i?>" <?php if($this->reserve->hours == $i) echo 'selected'; ?>><?=$i?></option>
+                            <?php endfor; ?>
+                        </select>
+
+                    </div>
+                    
+                    <div class="btn_wrapper">                                                     
+                        <input type="button" name="print" value="Print" onclick="onPrint();" class="green-button">
+                    </div>
+                </fieldset>
+                
+            </form>
+
+        </div>
+
+    </div>
+    <!-- END OVERVIE -->  
+
+</div>
+<!-- END RIGHT -->
+
+<div style="display: none;">
+    <div class="opslaan-Box overlaybox" id="send_email">
+        <form id="sendemail-form">
+            <fieldset>
+                <div class="opslaan selected">              
+                    <div class="right">
+                    
+                        <h3><?= _t('Per e-mail versturen') ?></h3>
+                        <p><?= _t('De %s zal als een PDF bijlage toegevoegd worden aan de standaard e-mail', ($this->credit ? _t('credit-factuur') : _t('factuur'))) ?></p>
+                
+                        <div id="sendmailform">
+                            <div class="center">
+                                <label><?= _t('Aan') ?>:</label> <input type="text" name="agenda_email" class="field" value="" />
+                            </div>
+                            
+                            <div class="center">
+                                <label><?= _t('Onderwerp') ?>:</label> 
+                                <div class="wysiwyg field" id="div_subject" contenteditable="true" style="height:auto;"></div>
+                                <input type="hidden" name="agenda_subject" value="" />
+                            </div>
+                            
+                            <div class="center">
+                                <label><?= _t('Bericht') ?>:</label> 
+                                <div class="wysiwyg field" id="div_body" contenteditable="true" style="width:500px;height:125px; overflow: auto;"></div>
+                                <input type="hidden" name="agenda_body" value="" />
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+                
+                <input type="submit" class="button gap button-loader" value="<?= _t('Versturen') ?>" />
+            </fieldset>
+        </form>
+    </div>
+</div>

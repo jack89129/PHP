@@ -1,0 +1,42 @@
+<div id="purchase-attachments-content">
+    <?php if( $this->attachment ): ?>
+    <?php $embedTypes = array('pdf' => 'width:100%;height:1180px;'); ?>
+    <?php $imageTypes = array('jpg' => '', 'png' => '', 'gif' => ''); ?>
+    <br/>
+    <div class="attachment-wrap-<?= $this->escape($this->attachment->id); ?>">
+        <h2><?= $this->escape($this->attachment->name); ?></h2>
+
+        <?= $this->render('index/_partials/show-attachment-prevnext.phtml') ?>
+
+        <?php $fileType = strtolower(pathinfo($this->attachment->filename, PATHINFO_EXTENSION)); ?>
+
+        <?php if( array_key_exists($fileType, $embedTypes) ){ ?>
+        <br/>
+        <embed src="<?= $this->baseUrl() . $this->attachment->toUrl(); ?>#zoom=90" style="<?= $embedTypes[$fileType]; ?>"></embed>
+        <?php }elseif( array_key_exists($fileType, $imageTypes) ){ ?>
+        <br/>
+        <a href="<?= $this->baseUrl() . $this->attachment->toUrl(); ?>" target="_blank"><img src="<?= $this->baseUrl() . $this->attachment->toUrl(); ?>" style="max-width:100%;<?= $imageTypes[$fileType]; ?>" /></a>
+        <?php } ?>
+
+        <div class="download" style="margin-top:5px;">
+            <p><?= _t('Dit is bijlage') ?> <?= $this->escape($this->attachment->filename) ?>: <a href="<?= $this->baseUrl() . $this->attachment->toUrl(); ?>" target="_blank"><?= _t('download') ?></a> <?= _t('of') ?> <a href="javascript:;" onclick="purchases_attachment_delete(<?= $this->attachment->id?>);" data-id="<?= $this->escape($this->attachment->id); ?>"><?= _t('verwijder') ?></a></p>
+        </div>
+        <?= $this->render('index/_partials/show-attachment-prevnext.phtml') ?>
+        <br/>
+    </div>
+    <?php endif; ?>
+</div>
+
+<script type="text/javascript">
+    var purchase_last_attachment_id = 0;
+    function reload_attachments(attachment){
+        if( attachment == undefined ){
+            attachment = purchase_last_attachment_id;
+        }
+
+        purchase_last_attachment_id = attachment;
+        $.post(baseUrl + '/purchases/index/attachments', {id:$('[name="purchase[id]"]').val(), attachment:attachment}).success(function(data){
+            $('#purchase-attachments').html(data.attachment);
+        });
+    }
+</script>

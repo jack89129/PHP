@@ -1,0 +1,164 @@
+<?php include(APPLICATION_PATH . '/layouts/settings-sidebar.phtml'); ?>
+
+<style type="text/css">
+   #settingForm div div {
+       border-bottom: none;
+       padding: 0 0 5px;
+   }
+</style>
+
+<!-- START RIGHT -->
+<div id="right">
+
+    <!-- START OVERVIE -->
+    <div class="oerview_Box1">
+
+        <h2>Overheids rapporten</h2>
+
+        <div class="form">
+            <form action="#" id="settingForm" enctype="multipart/form-data" method="post">
+                <h3 style="margin:10px 0 -15px 10px;">PDF Afdrukken</h3>
+                <fieldset>                    
+                    <div>
+
+                        <label>Klanten Listing (BTW)</label>
+                        <div>
+                            <a href="#" class="btn" name="first-pdf-print" id="first-pdf-print">PDF AFDRUKKEN</a>
+                            <select name="year1" style="margin:7px 9px;" id="year1">
+                                <?php for ( $y=2013; $y<2021; $y++ ): ?>
+                                <option value="<?=$y?>" <?php if($y==$this->year) echo 'selected'; ?>><?=$y?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div>
+
+                        <label>BTW Aangifte</label>
+                        <div>
+                            <a href="#" class="btn" name="btwag-print" id="btwag-print">PDF AFDRUKKEN</a>
+                            <select name="year2" style="margin:7px 9px;" id="year2">
+                                <?php for ( $y=2013; $y<2021; $y++ ): ?>
+                                <option value="<?=$y?>" <?php if($y==$this->year) echo 'selected'; ?>><?=$y?></option>
+                                <?php endfor; ?>
+                            </select>
+                            <select name="month2" id="month2">
+                                <?php for ( $m=1; $m<13; $m++ ): ?>
+                                <option value="<?=$m?>" <?php if($m==$this->month) echo 'selected'; ?>><?=$m?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div>
+
+                        <label>BTW Aangifte Buitenland</label>
+                        <div>
+                            <a href="#" class="btn" name="all-customer-print" id="all-customer-print">PDF AFDRUKKEN</a>
+                            <select name="year3" style="margin:7px 9px;" id="year3">
+                                <?php for ( $y=2013; $y<2021; $y++ ): ?>
+                                <option value="<?=$y?>" <?php if($y==$this->year) echo 'selected'; ?>><?=$y?></option>
+                                <?php endfor; ?>
+                            </select>
+                            <select name="month3" id="month3">
+                                <?php for ( $m=1; $m<13; $m++ ): ?>
+                                <option value="<?=$m?>" <?php if($m==$this->month) echo 'selected'; ?>><?=$m?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+
+                    </div>
+                </fieldset>
+                <h3 style="margin:10px 0 -15px 10px;">XML Bestand aanmaken</h3>
+                <fieldset>                    
+                    <div>
+
+                        <label>Klanten Listing (BTW)</label>
+                        <div>
+                            <a href="#" class="btn" name="all-customer-print" id="all-customer-print">BESTAND AANMAKEN</a>
+                            <select name="year4" style="margin:7px 9px;" id="year4">
+                                <?php for ( $y=2013; $y<2021; $y++ ): ?>
+                                <option value="<?=$y?>" <?php if($y==$this->year) echo 'selected'; ?>><?=$y?></option>
+                                <?php endfor; ?>
+                            </select>
+                            <select name="month4" id="month4">
+                                <?php for ( $m=1; $m<13; $m++ ): ?>
+                                <option value="<?=$m?>" <?php if($m==$this->month) echo 'selected'; ?>><?=$m?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div>
+
+                        <label>BTW Aangifte</label>
+                        <div>
+                            <a href="#" class="btn" name="btn_btwag" id="btn_btwag">BESTAND AANMAKEN</a>
+                            <select name="year5" style="margin:7px 9px;" id="year5">
+                                <?php for ( $y=2013; $y<2021; $y++ ): ?>
+                                <option value="<?=$y?>" <?php if($y==$this->year) echo 'selected'; ?>><?=$y?></option>
+                                <?php endfor; ?>
+                            </select>
+                            <select name="month5" id="month5">
+                                <?php for ( $m=1; $m<13; $m++ ): ?>
+                                <option value="<?=$m?>" <?php if($m==$this->month) echo 'selected'; ?>><?=$m?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div>
+
+                        <label>BTW Aangifte Buitenland</label>
+                        <div>
+                            <a href="#" class="btn" name="all-customer-xml" id="all-customer-xml">BESTAND AANMAKEN</a>
+                            <select name="year" style="margin:7px 9px;" id="year">
+                                <?php for ( $y=2013; $y<2021; $y++ ): ?>
+                                <option value="<?=$y?>" <?php if($y==$this->year) echo 'selected'; ?>><?=$y?></option>
+                                <?php endfor; ?>
+                            </select>
+                            <select name="month" id="month">
+                                <?php for ( $m=1; $m<13; $m++ ): ?>
+                                <option value="<?=$m?>" <?php if($m==$this->month) echo 'selected'; ?>><?=$m?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+
+                    </div>
+                </fieldset>
+                
+            </form>
+
+        </div>
+
+    </div>
+    <!-- END OVERVIE -->
+
+</div>
+<!-- END RIGHT -->
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        if ( $('#first-pdf-print') ) {
+            $('#first-pdf-print').live('click', function(){
+                var year = $('#year1').val();
+                var url = baseUrl + '/settings/pdf/pdf?year=' + year;
+                window.location.href = url;
+            });
+        }
+        $('#btn_btwag').on('click', function(){
+            window.location = baseUrl + "/settings/pdf/btwag?year=" + $('#year5').val() + "&month=" + $('#month5').val();
+        });
+        $('#all-customer-xml').on('click', function(){
+            window.location = baseUrl + "/settings/pdf/xml?year=" + $('#year').val() + "&month=" + $('#month').val();
+        });
+        $('#btwag-print').on('click', function(){
+            var year = $('#year2').val();
+            var month = $('#month2').val();
+            var url = baseUrl + '/reports/index/vat?type=government&export=pdf&year=' + year + '&month=' + month;
+            window.location.href = url;
+        });
+    });
+
+</script>

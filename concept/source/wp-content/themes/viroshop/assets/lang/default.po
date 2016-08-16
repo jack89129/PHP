@@ -1,0 +1,622 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Viroshop\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-12 10:52+1200\n"
+"PO-Revision-Date: 2013-02-12 10:53+1200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: archive.php:33 blog.php:43
+msgid "Author"
+msgstr ""
+
+#: archive.php:34 blog.php:44
+msgid "Category"
+msgstr ""
+
+#: archive.php:36 blog.php:46 category.php:37 tag.php:38
+msgid "0 comments"
+msgstr ""
+
+#: archive.php:36 blog.php:46 category.php:37 tag.php:38
+msgid "1 comment"
+msgstr ""
+
+#: archive.php:36 blog.php:46 category.php:37 tag.php:38
+#, php-format
+msgid "% comments"
+msgstr ""
+
+#: archive.php:42 blog.php:52
+msgid "Read More"
+msgstr ""
+
+#: blog.php:60
+msgid "« Newer"
+msgstr ""
+
+#: blog.php:60
+msgid "Older »"
+msgstr ""
+
+#: blog.php:63
+msgid "No articles found."
+msgstr ""
+
+#: comments.php:13
+msgid ""
+"This post is password protected. Enter the password to view any comments."
+msgstr ""
+
+#: comments.php:18
+msgid "no comments"
+msgstr ""
+
+#: comments.php:18
+msgid "<span>1</span> comment"
+msgstr ""
+
+#: comments.php:18
+msgid "<span>%</span> comments"
+msgstr ""
+
+#: comments.php:21 comments.php:32
+msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
+msgstr ""
+
+#: comments.php:22 comments.php:33
+msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: comments.php:60
+msgid "No trackback or pingback available for this article"
+msgstr ""
+
+#: comments.php:73
+msgid "&nbsp;"
+msgstr ""
+
+#: comments.php:90 includes/pixelstores/shortcodes/shortcodes.php:68
+msgid "Name"
+msgstr ""
+
+#: comments.php:92 includes/pixelstores/shortcodes/shortcodes.php:75
+msgid "Email"
+msgstr ""
+
+#: comments.php:94
+msgid "Website"
+msgstr ""
+
+#: comments.php:101
+msgid "Your comment"
+msgstr ""
+
+#: comments.php:102
+#, php-format
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
+msgstr ""
+
+#: comments.php:103
+#, php-format
+msgid ""
+"Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\" title=\"Log out of "
+"this account\">Log out?</a>"
+msgstr ""
+
+#: comments.php:108
+msgid "Leave a <span>Reply</span>"
+msgstr ""
+
+#: comments.php:109
+#, php-format
+msgid "Leave a <span>Reply</span> to %s"
+msgstr ""
+
+#: comments.php:110
+msgid "Cancel reply"
+msgstr ""
+
+#: comments.php:111
+msgid "Post Comment"
+msgstr ""
+
+#: header.php:35 header.php:36 includes/theme_woocommerce.php:121
+#: includes/theme_woocommerce.php:122
+msgid "View Cart"
+msgstr ""
+
+#: header.php:36 includes/theme_woocommerce.php:122
+msgid "You have"
+msgstr ""
+
+#: includes/theme_customize.php:72
+msgid "Color Scheme"
+msgstr ""
+
+#: includes/theme_customize.php:79
+msgid "Header"
+msgstr ""
+
+#: includes/theme_customize.php:85
+msgid "Background"
+msgstr ""
+
+#: includes/theme_customize.php:91
+msgid "Logo"
+msgstr ""
+
+#: includes/theme_customize.php:97
+msgid "Shopping Cart"
+msgstr ""
+
+#: includes/theme_customize.php:103
+msgid "Menu"
+msgstr ""
+
+#: includes/theme_customize.php:109
+msgid "Price Tag"
+msgstr ""
+
+#: includes/theme_customize.php:115
+msgid "Sidebar"
+msgstr ""
+
+#: includes/theme_customize.php:121
+msgid "Catalogue"
+msgstr ""
+
+#: includes/theme_customize.php:137
+msgid "Colour Scheme"
+msgstr ""
+
+#: includes/theme_customize.php:155
+msgid "Top Margin"
+msgstr ""
+
+#: includes/theme_customize.php:168
+msgid "Bottom Margin"
+msgstr ""
+
+#: includes/theme_customize.php:185
+msgid "Background Pattern"
+msgstr ""
+
+#: includes/theme_customize.php:198
+msgid "Background Image"
+msgstr ""
+
+#: includes/theme_customize.php:211
+msgid "Background Color"
+msgstr ""
+
+#: includes/theme_customize.php:225
+msgid "Firefly"
+msgstr ""
+
+#: includes/theme_customize.php:241
+msgid "Upload Logo"
+msgstr ""
+
+#: includes/theme_customize.php:258
+msgid "Display Cart"
+msgstr ""
+
+#: includes/theme_customize.php:271
+msgid "Total Color"
+msgstr ""
+
+#: includes/theme_customize.php:284
+msgid "Total Text Shadow"
+msgstr ""
+
+#: includes/theme_customize.php:297
+msgid "Cart Info Color"
+msgstr ""
+
+#: includes/theme_customize.php:315
+msgid "Search Box"
+msgstr ""
+
+#: includes/theme_customize.php:332
+msgid "Text Color"
+msgstr ""
+
+#: includes/theme_customize.php:345
+msgid "Text Shadow"
+msgstr ""
+
+#: includes/theme_customize.php:358
+msgid "Top Gradient"
+msgstr ""
+
+#: includes/theme_customize.php:371
+msgid "Bottom Gradient"
+msgstr ""
+
+#: includes/theme_customize.php:384
+msgid "Corner Color"
+msgstr ""
+
+#: includes/theme_customize.php:402
+msgid "Title Color"
+msgstr ""
+
+#: includes/theme_customize.php:415
+msgid "Link Color"
+msgstr ""
+
+#: includes/theme_customize.php:428
+msgid "Link Hover Color"
+msgstr ""
+
+#: includes/theme_customize.php:446
+msgid "Display Price Tags"
+msgstr ""
+
+#: includes/theme_customize.php:460
+msgid "Display Product Summary"
+msgstr ""
+
+#: includes/theme_functions.php:63
+msgid "Header Navigation"
+msgstr ""
+
+#: includes/theme_functions.php:64
+msgid "Logged In Navigation"
+msgstr ""
+
+#: includes/theme_functions.php:73 includes/theme_functions.php:156
+msgid "Home"
+msgstr ""
+
+#: includes/theme_functions.php:74
+msgid "Set Up Your Menu"
+msgstr ""
+
+#: includes/theme_functions.php:89
+msgid "Search"
+msgstr ""
+
+#: includes/theme_functions.php:158 includes/pixelstores/options.php:142
+msgid "Blog"
+msgstr ""
+
+#: includes/theme_woocommerce.php:5
+msgid "WooCommerce must be installed"
+msgstr ""
+
+#: includes/pixelstores/options.php:40
+msgid "Modern"
+msgstr ""
+
+#: includes/pixelstores/options.php:41
+msgid "Classic"
+msgstr ""
+
+#: includes/pixelstores/options.php:47
+msgid "General"
+msgstr ""
+
+#: includes/pixelstores/options.php:51
+msgid "Responsive"
+msgstr ""
+
+#: includes/pixelstores/options.php:52
+msgid "Responsive mobile friendly design."
+msgstr ""
+
+#: includes/pixelstores/options.php:58
+msgid "Menu Icons"
+msgstr ""
+
+#: includes/pixelstores/options.php:59
+msgid "Enable icon styles for the header menu."
+msgstr ""
+
+#: includes/pixelstores/options.php:65
+msgid "Products Per Page"
+msgstr ""
+
+#: includes/pixelstores/options.php:66
+msgid "How many products to show per page in the Catalogue."
+msgstr ""
+
+#: includes/pixelstores/options.php:73
+msgid "Custom CSS"
+msgstr ""
+
+#: includes/pixelstores/options.php:74
+msgid "Enable the custom stlyesheet in the /assets/ directory."
+msgstr ""
+
+#: includes/pixelstores/options.php:79
+msgid "Contact Email"
+msgstr ""
+
+#: includes/pixelstores/options.php:85
+msgid "Google Analytics"
+msgstr ""
+
+#: includes/pixelstores/options.php:86
+msgid "Insert your analytical code."
+msgstr ""
+
+#: includes/pixelstores/options.php:91
+msgid "Homepage"
+msgstr ""
+
+#: includes/pixelstores/options.php:95
+msgid "Featured Products"
+msgstr ""
+
+#: includes/pixelstores/options.php:96
+msgid "Display featured products on the homepage."
+msgstr ""
+
+#: includes/pixelstores/options.php:102
+msgid "Featured Text"
+msgstr ""
+
+#: includes/pixelstores/options.php:108
+msgid "Products"
+msgstr ""
+
+#: includes/pixelstores/options.php:109
+msgid "How many products to show."
+msgstr ""
+
+#: includes/pixelstores/options.php:116
+msgid "Display"
+msgstr ""
+
+#: includes/pixelstores/options.php:117
+msgid "How many products to scroll."
+msgstr ""
+
+#: includes/pixelstores/options.php:124
+msgid "Branding"
+msgstr ""
+
+#: includes/pixelstores/options.php:129
+msgid "Sidebar Skin"
+msgstr ""
+
+#: includes/pixelstores/options.php:136
+msgid "Favicon"
+msgstr ""
+
+#: includes/pixelstores/options.php:137
+msgid "Upload your favicon."
+msgstr ""
+
+#: includes/pixelstores/options.php:146
+msgid "Blog Posts"
+msgstr ""
+
+#: includes/pixelstores/options.php:147
+msgid "Number of blog posts per page."
+msgstr ""
+
+#: includes/pixelstores/options.php:153
+msgid "Breadcrumbs"
+msgstr ""
+
+#: includes/pixelstores/options.php:154
+msgid "Display breadcrumbs on post."
+msgstr ""
+
+#: includes/pixelstores/options.php:160
+msgid "Featured Image"
+msgstr ""
+
+#: includes/pixelstores/options.php:161
+msgid "Display featured image on blog post."
+msgstr ""
+
+#: includes/pixelstores/options.php:167
+msgid "Share Buttons"
+msgstr ""
+
+#: includes/pixelstores/options.php:168
+msgid "Display social share buttons on post."
+msgstr ""
+
+#: includes/pixelstores/options.php:174
+msgid "Twitter ID"
+msgstr ""
+
+#: includes/pixelstores/options.php:179
+msgid "Footer"
+msgstr ""
+
+#: includes/pixelstores/options.php:183
+msgid "Copyright"
+msgstr ""
+
+#: includes/pixelstores/options.php:184
+msgid "Custom copyright footer text."
+msgstr ""
+
+#: includes/pixelstores/inc/options-framework.php:170
+#: includes/pixelstores/inc/options-framework.php:364
+msgid "Theme Options"
+msgstr ""
+
+#: includes/pixelstores/inc/options-framework.php:238
+msgid "Click OK to reset. Any theme settings will be lost!"
+msgstr ""
+
+#: includes/pixelstores/inc/options-framework.php:270
+msgid "Default options restored."
+msgstr ""
+
+#: includes/pixelstores/inc/options-framework.php:313
+msgid "Options saved."
+msgstr ""
+
+#: includes/pixelstores/inc/options-medialibrary-uploader.php:26
+msgid "Theme Options Media"
+msgstr ""
+
+#: includes/pixelstores/inc/options-medialibrary-uploader.php:129
+msgid "Upload"
+msgstr ""
+
+#: includes/pixelstores/inc/options-medialibrary-uploader.php:152
+msgid "View File"
+msgstr ""
+
+#: includes/pixelstores/inc/options-medialibrary-uploader.php:289
+msgid "Gallery"
+msgstr ""
+
+#: includes/pixelstores/inc/options-medialibrary-uploader.php:289
+msgid "Previously Uploaded"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:232
+msgid "No Repeat"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:233
+msgid "Repeat Horizontally"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:234
+msgid "Repeat Vertically"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:235
+msgid "Repeat All"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:248
+msgid "Top Left"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:249
+msgid "Top Center"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:250
+msgid "Top Right"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:251
+msgid "Middle Left"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:252
+msgid "Middle Center"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:253
+msgid "Middle Right"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:254
+msgid "Bottom Left"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:255
+msgid "Bottom Center"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:256
+msgid "Bottom Right"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:269
+msgid "Scroll Normally"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:270
+msgid "Fixed in Place"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:345
+msgid "Normal"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:346
+msgid "Italic"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:347
+msgid "Bold"
+msgstr ""
+
+#: includes/pixelstores/inc/options-sanitize.php:348
+msgid "Bold Italic"
+msgstr ""
+
+#: includes/pixelstores/shortcodes/shortcodes.php:82
+msgid "Message"
+msgstr ""
+
+#: includes/pixelstores/shortcodes/shortcodes.php:87
+msgid "Send Message"
+msgstr ""
+
+#: includes/pixelstores/widgets/widget-best-sellers.php:33
+msgid "Best Sellers"
+msgstr ""
+
+#: includes/pixelstores/widgets/widget-best-sellers.php:121
+msgid "Title:"
+msgstr ""
+
+#: includes/pixelstores/widgets/widget-best-sellers.php:124
+msgid "Number of products to show:"
+msgstr ""
+
+#: includes/pixelstores/widgets/widget-best-sellers.php:128
+msgid "Hide free products"
+msgstr ""
+
+#: includes/pixelstores/widgets/widget-login.php:40
+msgid "Members"
+msgstr ""
+
+#: includes/pixelstores/widgets/widget-login.php:41
+msgid "Your username or password seems to be incorrect."
+msgstr ""
+
+#: includes/pixelstores/widgets/widget-login.php:55
+msgid "Error"
+msgstr ""
+
+#: includes/pixelstores/widgets/widget-login.php:59
+msgid "Try Again"
+msgstr ""
+
+#: includes/pixelstores/widgets/widget-login.php:67
+msgid "Username"
+msgstr ""
+
+#: includes/pixelstores/widgets/widget-login.php:68
+msgid "Password"
+msgstr ""
+
+#: includes/pixelstores/widgets/widget-login.php:69
+msgid "Login"
+msgstr ""
+
+#: includes/sliders/functions.php:6
+msgid "Image Custom Link"
+msgstr ""
+
+#: includes/sliders/functions.php:9
+msgid ""
+"Add a custom link, internal or external, to open on click over the image."
+msgstr ""

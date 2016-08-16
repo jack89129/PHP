@@ -1,0 +1,41 @@
+<?php                                
+if( !$this->wholesaler ){
+    return;
+}
+$total = "0,00";
+$sum = 0;
+$total_count = 0;
+if ( $this->wholesaler->unpaidPurchases ) {
+foreach( $this->wholesaler->unpaidPurchases as $purchase ) {
+    if ( $purchase->getPaidTime() == 0 ) {
+        $sum += $purchase->total_sum;
+        $total_count++;
+    }
+}
+}
+$total = $sum;
+if ( $total == 0 ) {
+    $total = '0,00';
+} else {
+    $total = Utils::numberFormat($total);
+}
+?>
+<div class="layoutright">
+    <a class="open" href="<?= $this->baseUrl() . '/purchases/?from_contact=1&contact_id=' . $this->escape($this->wholesaler->id); ?>" <?php if ( $total!='0,00') echo 'style="background-color:red";'; ?>>&euro; <?=$total?> te betalen</a>
+    <div class="clear"></div>
+    <div class="project">
+        <ul>
+            <?php if( Utils::user()->can('purchase_view') ): ?>
+            <li><a href="<?= $this->baseUrl() . '/purchases/?from_contact=2&contact_id=' . $this->escape($this->wholesaler->id); ?>"><?= _t('Alle verkoopfacturen') ?> (<?= count($this->wholesaler->unpaidPurchases) ?>)</a></li>
+            <?php endif; ?>                       
+        </ul>    
+        <ul class="gap">                                   
+            <?php if( Utils::user()->can('purchase_edit') ): ?>
+            <li><a href="<?= $this->baseUrl() . '/purchases/index/new/?contact_id=' . $this->escape($this->wholesaler->id); ?>"><?= _t('Nieuwe inkoopfactuur') ?></a></li>
+            <?php endif; ?>                                          
+        </ul>
+    </div>
+    <div id="wholesaler-groups" class="group">
+        <?= $this->partial('index/_partials/wholesaler-groups.phtml', array('wholesaler' => $this->wholesaler, 'groups' => $this->groups)); ?>
+    </div>
+</div>

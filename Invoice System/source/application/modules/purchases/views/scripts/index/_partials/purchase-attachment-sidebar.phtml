@@ -1,0 +1,89 @@
+<div  id="attachments">
+<style>
+    #attachments {
+        width:100%;
+    }
+
+    #attachments ul {
+        width:100%;
+    }
+
+    #attachments li {
+        width:100%;
+        height:auto;
+        min-height: 39px;
+    }
+
+    #attachments li:hover {
+        background-color: #feffd3;
+    }
+
+    #attachments .attachment-edit {
+        line-height: normal;
+    }
+
+    #attachments .attachment-edit a {
+        background:none;
+        display: inline;
+        line-height: normal;
+        padding:0;
+    }
+</style>
+<?php if( $this->purchase->attachments ): ?>
+<div class="news_Box sub">
+    <div class="collapse">
+
+        <h2><span><?= _t('Bijlagen') ?><a class="i-down"></a></span></h2>
+
+        <div class="info">
+            <ul class="gap">
+                <?php foreach( $this->purchase->attachments as $attachment ): ?>
+                <li>
+                    <div id='attachment-<?= $attachment->id ?>'>
+                        <a class="bg9" href="<?= $this->baseUrl() . $attachment->toUrl() ?>" target="_blank"><?= $this->escape($attachment->name); ?></a>
+                        <div class="attachment-edit" style="text-align:right;display:none;margin-bottom:2px;padding-right:5px;width:230px;">
+                            <a href="javascript:;" onclick="purchases_attachment_edit(<?= $attachment->id ?>);"><?= _t('wijzig') ?></a>
+                             -
+                            <a href="javascript:;" onclick="purchases_attachment_delete(<?= $attachment->id ?>);"><?= _t('verwijder') ?></a>
+                        </div>
+                    </div>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<script type="text/javascript">
+    $('#attachments li').mouseenter(function(){
+        $(this).find('div.attachment-edit').show();
+    });
+
+    $('#attachments li').mouseleave(function(){
+        $(this).find('div.attachment-edit').hide();
+    });
+
+    function purchases_attachment_edit(id){
+        $.post(baseUrl + '/purchases/index/attachment-edit', {id:id}).success(function(data){
+            $('#attachment-' + data.id).html(data.attachment_edit);
+        })
+    }
+
+    function purchases_attachment_delete(id){
+        if( !confirm('<?= _t('Weet je zeker dat?') ?>') ){
+            return;
+        }
+
+        $.post(baseUrl + '/purchases/index/attachment-delete', {id:id}).success(function(){
+            purchases_attachments_reload();
+        })
+    }
+
+    function purchases_attachments_reload(){
+        $.post(baseUrl + '/purchases/index/attachments-reload/', {id:<?= $this->purchase->id ?>}).success(function(data){
+           $('#attachments').replaceWith(data.attachments);
+        });
+        reload_attachments(0);
+    }
+</script>
+</div>

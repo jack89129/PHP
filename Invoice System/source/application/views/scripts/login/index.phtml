@@ -1,0 +1,61 @@
+<style type="text/css">
+
+    #content {
+        width:500px;
+        padding:20px;
+        margin:auto;
+    }
+
+    #login form label {
+        display: inline-block;
+        line-height: 32px;
+        margin-bottom: 5px;
+    }
+
+    #login form label.l-left {
+        float:left;
+    }
+
+    #login form label.l-right {
+        float:right;
+    }
+
+    #login form span.label {
+        display: inline-block;
+        /*width:80px;*/
+    }
+
+    #login form span input {
+        width:130px;
+    }
+
+
+</style>
+<div id="login" style="width:500px;margin:auto;">
+    <h2><?= _t('Login') ?></h2>
+    <br/>
+    <div style="margin: 10px;">
+    <?php if( $this->error ): ?>
+    <div style="color:#ff0000;font-weight:bold;margin:10px;margin-left:0px;"><?= $this->escape($this->error); ?></div>
+    <?php endif; ?>
+    <?php if( $this->msg ): ?>
+    <div style="color:#73C83F;font-weight:bold;margin:10px;margin-left:0px;"><?= $this->escape($this->msg); ?></div>
+    <?php endif; ?>
+    <form method="post" action="/login">
+        <label class="l-left">
+            <span class="label"><?= _t('Username') ?>:</span>
+            <span><input type="text" name="username" class="gray-input" value="<?= $this->escape($this->username); ?>" /></span>
+        </label>
+        <label class="l-right">
+            <span class="label"><?= _t('Password') ?>:</span>
+            <span><input type="password" name="password" class="gray-input" /></span>
+        </label>
+        <div style="text-align: right;">
+            <input type="button" class="green-button" value="Wachtwoord vergeten" onclick="document.location.href='/forgot'" style="background-image: url('/images/green-button-wide.png'); width: 176px;">
+			<input type="button" class="green-button" value="Registreer" onclick="document.location.href='/register'">
+            <input type="submit" value="<?= _t('Login') ?>" class="green-button" />
+        </div>
+    </form>
+    </div>
+
+</div>

@@ -1,0 +1,84 @@
+<?php include(APPLICATION_PATH . '/layouts/settings-sidebar.phtml'); ?>
+<div id="right">
+    <!-- START OVERVIE -->
+    <div class="oerview_Box1">
+        <h2><?= _t('Activiteit') ?></h2>
+
+        <div class="opties_Box" style="padding:0px;min-height:inherit;height:auto;">
+            <div class="search">
+
+                <form id="main-activity-form" action="" method="get">
+                    <input type="hidden" name="page" />
+                    <table>
+                    <tr style="line-height:26px;"><td><?= _t('Bekijk') ?>:&nbsp;&nbsp;</td>
+                        <td>
+                        <select name="employee_id" onchange="$(this).parents('form').submit()">
+                            <option value="0"><?= _t('Selecteer een werknemer') ?></option>
+                            <?php foreach( $this->employees as $employee ): ?>
+                            <option <?= $employee->id == $this->employee_id ? 'selected="selected"' : ''; ?> value="<?= $this->escape($employee->id); ?>"><?= $this->escape($employee->name); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <select name="target" onchange="$(this).parents('form').submit()">
+                            <option value="0"><?= _t('Select module') ?></option>
+                            <?php foreach( $this->modules as $module ): ?>
+                            <option <?= $module->target === $this->target ? 'selected="selected"' : ''; ?> value="<?= $this->escape($module->target); ?>"><?= $this->escape(_t($module->target)); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;
+                        <span><?= _t('Date') ?>:&nbsp;</span>
+                        <input type="text" class="gray-input" style="width:68px;" onchange="$(this).parents('form').submit();" name="date_from" value="<?= $this->date_from ? date(Constants::DATE_FORMAT, $this->date_from) : ''; ?>" />
+
+                        <input type="text" class="gray-input" style="width:68px;" onchange="$(this).parents('form').submit();" name="date_to" value="<?= $this->date_to ? date(Constants::DATE_FORMAT, $this->date_to) : ''; ?>" />
+                    </td>
+                    </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+        <div style="min-height: 300px;">
+            <?php if( $this->result ): ?>
+            <table style="width:100%;">
+            <thead>
+                    <tr>
+                        <th style="text-align: left;"><?= _t('Description') ?></th>
+                        <th style="text-align: left;"><?= _t('Module') ?></th>
+                        <th style="text-align: left;"><?= _t('Employee') ?></th>
+                        <th>Time</th>
+                    </tr>
+            </thead>
+            <tbody>
+            <?php foreach( $this->result as $log ): ?>
+                <tr style="line-height:26px;">
+                    <td><?= Utils::strip_bad_tags(str_replace('{%baseUrl%}', $this->baseUrl(), $log->text)); ?></td>
+                    <td style="width:120px;"><?= $this->escape(_t($log->target)); ?></td>
+                    <td style="width:120px;"><?= $this->escape($log->employee->name); ?></td>
+                    <td style="width:180px;text-align:center;"><?= date('d-m-Y \o\m H:i', $log->created_time); ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+            </table>
+            <?php endif; ?>
+        </div>
+
+        <?= $this->paginate($this->page, $this->total, $this->per_page)->html('javascript:result_page({page});'); ?>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $('[name="employee_id"]').combobox({input_class:'round-drop-down'});
+    $('[name="target"]').combobox({input_class:'round-drop-down'});
+    $('[name="date_from"]').datepicker({dateFormat:'dd-mm-yy'});
+    $('[name="date_to"]').datepicker({dateFormat:'dd-mm-yy'});
+
+    function result_page(page){
+        $('[name="page"]').val(page).parent('form').submit();
+    }
+</script>

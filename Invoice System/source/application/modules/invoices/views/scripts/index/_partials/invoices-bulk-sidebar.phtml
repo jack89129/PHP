@@ -1,0 +1,105 @@
+<div class="collapse">
+
+	<h2><span><?= _t('Overige instellingen') ?><a class="i-down"></a></span></h2>
+	
+	<div class="info" id="othersettings">
+		<ul class="gap">
+			<!-- Pay -->
+            <?php if( !$this->proforma ): ?>
+			<li><a id="sb-pay-invoices" href="#invoice-payment-dialog" class="bg8" href="javascript:;"><span><?= _t('Betaald') ?></span></a></li>
+            <?php endif; ?>
+
+            <!-- Send -->
+			<li><a id="sb-send-invoices" class="bg2" href="javascript:;"><span><?= _t('Verzenden') ?></span></a></li>
+
+            <!-- Print -->
+			<li><a id="sb-download-invoices" class="bg3" href="javascript:;"><span><?= _t('Afdrukken') ?></span></a></li>
+
+			<!-- Creadit -->
+			<!-- <li><a id="sb-credit-invoices" class="bg1" href="javascript:;"><span><?= _t('Crediteren') ?></span></a></li> -->
+
+			<!-- Duplicate -->
+            <?php if( ($this->proforma && Utils::user()->can('offer_edit')) || (!$this->proforma && Utils::user()->can('invoice_edit')) ) : ?>
+			<li><a id="sb-duplicate-invoices" class="bg4" href="javascript:;"><span><?= _t('Dupliceren') ?></span></a></li>
+            <?php endif; ?>
+
+			<!-- Delete -->
+            <?php if( ($this->proforma && Utils::user()->can('offer_delete')) || (!$this->proforma && Utils::user()->can('invoice_delete')) ) : ?>
+			<li class="last"><a id="sb-delete-invoices" class="bg5" href="javascript:;"><span><?= _t('Verwijderen') ?></span></a></li>
+            <?php endif; ?>
+		</ul>
+		
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	function invoices_collect_checked(){
+		var ids = []
+		var checked = $('#tabs div.tab-wrapper:visible input[type=checkbox]:checked');
+		for( var i = 0; i < checked.length; i++ ){
+			if( checked[i].value > 0 ){
+				ids.push({name:'invoices[]', value:checked[i].value});
+			}
+		}
+		
+		return $.param(ids);
+	}
+
+    function invoices_check_selected(){
+        var invoices = invoices_collect_checked();
+        invoice_payment_dialog_init(invoices);
+    }
+
+	$(document).ready(function(){
+
+        $('#sb-pay-invoices,  #markaspaid').fancybox({onStart:invoices_check_selected, onClosed:function(){window.location.reload()}});
+
+		$('#sb-send-invoices').click(function(){
+			if( params = invoices_collect_checked() ){
+				$.post(baseUrl + '/invoices/index/bulk-email/', params);
+			}else{
+				alert('Selecteer minstens 1 <?=$this->current_module=='offers'? 'offerte':'factuur'?>!');
+			}
+		});
+
+		$('#sb-download-invoices').click(function(){
+			if( params = invoices_collect_checked() ){
+				var form = $($('#form-' + $('#tabs div.tab-wrapper:visible')[0].id));
+				form.attr('action', baseUrl + '/invoices/index/bulk-pdf/');
+				form.submit();
+			}else{
+				alert('Selecteer minstens 1 <?=$this->current_module=='offers'? 'offerte':'factuur'?>!');
+			}
+			
+		});
+
+		$('#sb-credit-invoices').click(function(){
+			if( params = invoices_collect_checked() ){
+				$.post(baseUrl + '/invoices/index/bulk-credit/', params);
+			}else{
+				alert('Selecteer minstens 1 <?=$this->current_module=='offers'? 'offerte':'factuur'?>!');
+			}
+		});
+
+		$('#sb-duplicate-invoices').click(function(){
+			if( params = invoices_collect_checked() ){
+				$.post(baseUrl + '/invoices/index/bulk-duplicate/', params);
+			}else{
+				alert('Selecteer minstens 1 <?=$this->current_module=='offers'? 'offerte':'factuur'?>!');
+			}
+		});
+		
+		$('#sb-delete-invoices').click(function(){
+			if( confirm('Bent u zeker dat u deze <?=$this->current_module=='offers'? 'offerte':'factuur'?> wenst te verwijderen?') ){
+				if( params = invoices_collect_checked() ){
+                    show_loader(2000);
+					$.post(baseUrl + '/invoices/index/bulk-delete/', params);
+				}else{
+					alert('Selecteer minstens 1 <?=$this->current_module=='offers'? 'offerte':'factuur'?>!');
+				}
+			}
+		});
+	});
+
+</script>

@@ -1,0 +1,41 @@
+<?= $this->partial('index/_partials/employee-view-sidebar.phtml', array('employee' => $this->employee, 'groups' => $this->groups)) ?>
+<div class="left">
+<?php if(!empty($this->employee)){ ?>
+<h3><?php echo $this->escape($this->employee->lastname) ?>, <?php echo $this->escape($this->employee->firstname) ?> <span>Functie: <?php echo $this->escape($this->employee->role) ?></span></h3>
+<address>
+    <span><?= _t('Voornaam') ?></span>
+    <?= $this->escape($this->employee->firstname) ?>&nbsp;
+    <br />
+    <span><?= _t('Achternaam') ?></span> <?php echo $this->escape($this->employee->lastname) ?>&nbsp;
+</address>
+<address>
+    <span><?= _t('Adres') ?></span>
+    <?= $this->escape($this->employee->address) ?>&nbsp;
+    <br />
+    <span><?= _t('Postcode en plaats') ?></span>
+    <?= $this->escape($this->employee->postcode) ?>&nbsp;
+    <?= $this->escape($this->employee->city) ?>&nbsp;
+    <br />
+    <span><?= _t('Land') ?></span>
+    <?= $this->escape($this->employee->country) ?>&nbsp;
+</address>
+<address>
+    <span><?= _t('E-mailadres') ?></span>
+    <?= $this->escape($this->employee->email_address) ?>&nbsp;
+    <br />
+    <span><?= _t('Telefoonnummers') ?></span>
+    <?= $this->escape($this->employee->phone) ?>&nbsp;
+</address>
+<address>
+    <span><?= _t('Username') ?></span>
+    <?= $this->escape($this->employee->username) ?>&nbsp;
+    <br />
+</address>
+<br style="clear:both;" />
+<?php if( Utils::user()->can('employee_edit') ): ?>
+<ul class="links">
+    <li class="selected"><a href="javascript:;" onclick="employees_edit_employee(<?= $this->escape($this->employee->id) ?>);"><?= _t('Werknemer bewerken') ?></a></li>
+</ul>
+<?php endif; ?>
+<?php } ?>
+</div>

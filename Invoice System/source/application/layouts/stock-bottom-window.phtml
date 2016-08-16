@@ -1,0 +1,39 @@
+<div class="bottomWidnow">
+    <input type="button" style="border: medium none; background: none repeat scroll 0% 0% transparent; position: absolute; z-index: 1000; left: 99px;" class="" value=" " id="copyright" />
+	<?php if (isset($this->minstock_products)) : ?>
+        <span class="bottomwinbtn botnlief"><img src="<?= $this->baseUrl(); ?>/images/footer-stock-img.png" alt="" /></span>
+        
+        <!-- START CONTENT -->
+        <div class="vries-Box" style="display: none;">
+                    
+            <form action="#">
+                <fieldset>
+                    
+                    <span class="link bottomwinbtn">edit</span>
+                    
+                    <div class="vries">
+                        <div class="bg" style="padding: 10px;border-radius:5px;">
+                            <?php foreach( $this->minstock_products as $product ): ?>
+                                <p style="color:#ff0000;font-weight:bold;"><?= _t('Product "%s" heeft zonet het minimale aantal in voorraad bereikt! Nog maar %s aanwezig!', array('<a style="text-decoration:none;color:#548C03;" href="' . $this->baseUrl() . '/stock/index/?product_id=' . $product->id . '">' . $this->escape($product->name) . '</a>',$product->stock, $product->min_stock)) ?></p>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            
+        </div>
+        <!-- END CONTENT -->
+    <?php endif; ?>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		<?php $show_box = (isset($this->show_box) && $this->show_box) ? "true" : "false"; ?>
+		$(".vries-Box").toggle(<?= $show_box ?>);
+		
+		$('span.link.bottomwinbtn').click(function() {
+			$.post(baseUrl + '/stock/index/update-min-stock-box').success(function(data) {
+				//alert("update-min-stock-box success");
+			});
+		});
+	});
+</script>

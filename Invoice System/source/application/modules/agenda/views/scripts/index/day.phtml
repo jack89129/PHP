@@ -1,0 +1,422 @@
+<?php
+    $this->headScript()->appendFile($this->baseUrl() . "/js/avaxo_agenda.js");
+?>
+
+<?php 
+    $m = $this->calc_month;
+    $y = $this->calc_year;
+    
+    $num_last_month = date('t', strtotime($y.'-'.($m-1).'-01'));
+    $num_cur_month = date('t', strtotime($y.'-'.$m.'-01'));
+    $first_day_num = date('w', strtotime($y.'-'.$m.'-01'));  // if 0, didn't work
+    $last_day_num = date('w', strtotime($y.'-'.$m.'-'.$num_cur_month));
+    if ( $first_day_num == 0 ) $first_day_num = 7;
+    $str_last_month = strftime("%B", mktime(0, 0, 0, ($m-1), 10));
+    $str_cur_month = strftime("%B", mktime(0, 0, 0, $m, 10));
+    $str_next_month = strftime("%B", mktime(0, 0, 0, ($m+1), 10));
+    
+?>
+
+<div id="result_Box">
+    <div id="left">
+
+        <!-- START MONTH -->
+        <div class="month_Box">
+            
+            <h2>Maandkalender</h2>
+            
+            <div class="name">
+                
+                <a href="javascript:;" class="prev">prev</a>
+                
+                <a href="javascript:;" class="next">next</a>
+                
+                <h3><?=strftime("%B", mktime(0, 0, 0, $this->calc_month, 10))?> <?=$this->calc_year?></h3>
+            
+            </div>
+            
+            <ul>
+                <li>Ma</li>
+                <li>di</li>
+                <li>wo</li>
+                <li>do</li>
+                <li>vr</li>
+                <li>za</li>
+                <li class="last">zo</li>
+            <?php $idx = 0; ?>
+            <?php for($d=$num_last_month-$first_day_num+2; $d<$num_last_month+1; $d++): $idx++;?>
+                <li class="date"><?=$d?></li>
+            <?php endfor; ?>
+            <?php for($d=1; $d<$num_cur_month+1; $d++): $idx++; ?>
+                <?php if ( in_array($d, $this->greenDays) ): ?>
+                <li><a href="#" class="green <?=$idx%7==0 ? 'date' : '' ?>"><?=$d?></a></li>
+                <?php elseif( in_array($d, $this->orangeDays) ): ?>
+                <li><a href="#" class="orange <?=$idx%7==0 ? 'date' : '' ?>"><?=$d?></a></li>
+                <?php elseif( in_array($d, $this->redDays) ): ?>
+                <li><a href="#" class="red <?=$idx%7==0 ? 'date' : '' ?>"><?=$d?></a></li>
+                <?php else: ?>
+                <li><a href="#" class="<?=$idx%7==0 ? 'date' : '' ?>"><?=$d?></a></li>
+                <?php endif; ?>
+            <?php endfor; ?>
+            <?php if ($last_day_num > 0): ?>
+            <?php for($d=1; $d<6-$last_day_num+2; $d++): ?>
+                <li class="date"><?=$d?></li>
+            <?php endfor; ?>
+            <?php endif; ?>   
+            </ul>
+            
+        </div>
+        <!-- END MONTH -->
+        
+        <form id="agenda_calc_date" method="post">
+            <input type="hidden" name="calc_year" id="calc_year" value="<?=$this->calc_year?>" />
+            <input type="hidden" name="calc_month" id="calc_month" value="<?=$this->calc_month?>" />
+        </form>
+
+        <!-- START SHOW -->
+        <div class="show_Box">
+            
+            <h2>Toon agenda&rsquo;s van:</h2>
+            
+            <div class="show">
+                
+                <form action="#">
+                    <fieldset>
+                        
+                        <div class="scroll-pane">
+                            
+                            <ul>
+                                <li>
+                                    <img src="/images/black.jpg" alt="" />
+                                    
+                                    <a href="#">Kees de Vries</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/red.jpg" alt="" />
+                                    
+                                    <a href="#">Paul Hofman</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/blue.jpg" alt="" />
+                                    
+                                    <a href="#">Josien de Wit</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/orange.jpg" alt="" />
+                                    
+                                    <a href="#">Johan Boersma</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/black.jpg" alt="" />
+                                    
+                                    <a href="#">Kees de Vries</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/red.jpg" alt="" />
+                                    
+                                    <a href="#">Paul Hofman</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/blue.jpg" alt="" />
+                                    
+                                    <a href="#">Josien de Wit</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/orange.jpg" alt="" />
+                                    
+                                    <a href="#">Johan Boersma</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/black.jpg" alt="" />
+                                    
+                                    <a href="#">Kees de Vries</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/red.jpg" alt="" />
+                                    
+                                    <a href="#">Paul Hofman</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/blue.jpg" alt="" />
+                                    
+                                    <a href="#">Josien de Wit</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/orange.jpg" alt="" />
+                                    
+                                    <a href="#">Johan Boersma</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/black.jpg" alt="" />
+                                    
+                                    <a href="#">Kees de Vries</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/red.jpg" alt="" />
+                                    
+                                    <a href="#">Paul Hofman</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li>
+                                    <img src="/images/blue.jpg" alt="" />
+                                    
+                                    <a href="#">Josien de Wit</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                                <li class="last">
+                                    <img src="/images/orange.jpg" alt="" />
+                                    
+                                    <a href="#">Johan Boersma</a>
+                                    
+                                    <input type="radio" name="b" class="radio" />
+                                </li>
+                            </ul>
+                            
+                        </div>
+                    </fieldset>
+                </form>
+
+            </div>
+            
+        </div>
+        <!-- END SHOW -->
+
+    </div>
+    <!-- END LEFT -->
+    
+    <div id="right">                                                                                                   
+        <!-- START CALENDAR -->
+        <div class="calendar_Box">
+            
+            <?= $this->render('index/_partials/day.phtml'); ?> 
+            
+        </div>
+        <!-- END CALENDAR -->
+    </div>
+
+</div>
+
+<div style="display:none;">
+    <div class="upload-light1" id="lightbox10">
+        
+        <h2>Nieuw agendapunt</h2>
+        
+        <form action="#">
+            <fieldset>
+                
+                <div class="news">            
+                    
+                    <p>
+                   
+                        <input value="Afspraak..." class="field" type="text" />
+                    
+                    </p>
+                 
+                    <p>
+                   
+                        <input value="08/08/2012" class="field1" type="text" />
+                    
+                        <input value="8:30" class="field1" type="text" />
+                        
+                        <label>tot en met</label>
+                        
+                        <input value="09/08/2012" class="field1" type="text" />
+                    
+                        <input value="8:30" class="field1" type="text" />
+                    
+                    </p>
+                 
+                    <p>
+                           
+                        <input class="chek" type="checkbox" />
+                        
+                        <label class="gap">Hele dag</label>
+                       
+                        <input class="chek" type="checkbox" />
+                        
+                        <label>Tijdsregistratie toestaan</label>
+                    
+                    </p>
+                    
+                </div>
+                
+                <div class="info">
+                    
+                    <h3>Klanten koppelen:</h3>
+                    
+                    <div class="option">
+                        <div class="scroll-pane">
+                            
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Curabitur egestas</label>
+                            </p>
+                           
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Tellus</label>
+                            </p>
+                          
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Venenatis</label>
+                            </p>
+                         
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Posuere</label>
+                            </p>
+                           
+                            <p class="gap">
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Egestas eleifend</label>
+                            </p>
+                         
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Curabitur egestas</label>
+                            </p>
+                           
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Tellus</label>
+                            </p>
+                          
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Venenatis</label>
+                            </p>
+                         
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Posuere</label>
+                            </p>
+                           
+                            <p class="gap">
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Egestas eleifend</label>
+                            </p>
+                        
+                        </div>
+                    </div>
+                    
+                </div>
+              
+                <div class="info last">
+                    
+                    <h3>Klanten koppelen:</h3>
+                    
+                    <div class="option">
+                        <div class="scroll-pane">
+                            
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Curabitur egestas</label>
+                            </p>
+                           
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Tellus</label>
+                            </p>
+                          
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Venenatis</label>
+                            </p>
+                         
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Posuere</label>
+                            </p>
+                           
+                            <p class="gap">
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Egestas eleifend</label>
+                            </p>
+                         
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Curabitur egestas</label>
+                            </p>
+                           
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Tellus</label>
+                            </p>
+                          
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Venenatis</label>
+                            </p>
+                         
+                            <p>
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Posuere</label>
+                            </p>
+                           
+                            <p class="gap">
+                                <input class="chek" type="checkbox" />
+                                
+                                <label>Egestas eleifend</label>
+                            </p>
+                        
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="clear"></div>
+                
+                <a class="link sul" href="#">Opslaan</a>
+            
+            </fieldset>
+       </form>     
+    </div>
+</div>

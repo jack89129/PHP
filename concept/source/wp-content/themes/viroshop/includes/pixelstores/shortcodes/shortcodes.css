@@ -1,0 +1,251 @@
+/* @override http://localhost/~MattStrange/pixelstores/viroshop/wp-content/themes/viroshop/includes/pixelstores/shortcodes/shortcodes.css?ver=3.5.1 */
+
+/* @override http://localhost/~MattStrange/pixelstores/viroshop/wp-content/themes/viroshop/includes/pixelstores/shortcodes/shortcodes.css?ver=3.5.1 */
+
+/* @override http://localhost/~MattStrange/pixelstores/viroshop/wp-content/themes/viroshop/includes/pixelstores/shortcodes/shortcodes.css?ver=3.5.1 */
+
+/* Shortocdes */
+pre {
+	clear: both;
+	border: 1px solid #e0e0e0;
+	padding: 10px;
+	background: url(images/code_background.gif) repeat scroll 0 0;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap !important;
+white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+		white-space: pre;
+
+	overflow: auto;
+	padding: 20px 10px;
+	margin-bottom: 15px;
+	font: 1.2em/1.5em "Consolas","Bitstream Vera Sans Mono","Courier New",Courier,monospace;
+}
+
+/* Dropcaps */
+
+.square-dropcap, .round-dropcap {
+	width: 32px;
+	height: 32px;
+	text-align: center;
+	font-size: 15px;
+	line-height: 32px;
+	float: left;
+	margin-top: 5px;
+	margin-right: 8px;
+}
+
+.dropcap {
+	width: 32px;
+	height: 32px;
+	color: #667b83;
+	text-align: center;
+	line-height: 32px;
+	float: left;
+	color: #727272;
+	margin-top: 6px;
+	margin-right: 5px;
+	font-size: 38px;
+}
+
+.round-dropcap {
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 35px;
+}
+
+/* Columns */
+.one_full{ width:100%;
+	clear: right;
+	float: left;
+}
+.one_half{ width:48.5%; }
+.one_third{ width:31.3%; }
+.two_third{ width:65.6%; }
+.one_quarter{ width:22.7%; }
+.one_half,.one_third,.two_third, .one_quarter{ margin-right:3%; float:left; }
+.last{ margin-right:0 !important; clear:right; }
+
+/* Buttons */
+
+.widget_product_search #searchsubmit, .button, .button:visited, #submit, #submit:visited {
+	background: #919191 url(images/button.png) repeat-x;
+		padding: 9px 10px !important;
+	text-transform: uppercase;
+	font: normal 10px Arial;
+	outline: none;
+	display: inline-block;
+border: none;
+	color: #ffffff !important;
+	border-radius: 3px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3);
+	border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+	position: relative;
+	cursor: pointer;
+}
+
+.widget_product_search #searchsubmit:hover, .button:hover, #submit:hover {
+	background-color: #696969;
+}
+
+.button:active {
+	top: 1px;
+}
+
+.small.button, .small.button:visited {
+	font-size: 9px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.medium.button, .medium.button:visited {
+	font-size: 13px;
+	line-height: 1;
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3);
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.large.button, .large.button:visited {
+	font-size: 16px;
+	padding: 10px 20px;
+}
+
+.rounded.button {
+	border-radius: 25px;
+}
+
+.flat.button {
+	border-bottom: none;
+	box-shadow: none;
+}
+
+.pink.button, .pink.button:visited {
+	background-color: #fe57a1;
+}
+
+.pink.button:hover {
+	background-color: #d74b8a;
+}
+
+.green.button, .green.button:visited {
+	background-color: #91bd09;
+}
+
+.green.button:hover {
+	background-color: #749a02;
+}
+
+.blue.button, .blue.button:visited {
+	background-color: #2daebf;
+}
+
+.blue.button:hover {
+	background-color: #007d9a;
+}
+
+.red.button, .red.button:visited {
+	background-color: #ff2b25;
+}
+
+.red.button:hover {
+	background-color: #ba1f1b;
+}
+
+.magenta.button, .magenta.button:visited {
+	background-color: #a9014b;
+}
+
+.magenta.button:hover {
+	background-color: #630030;
+}
+
+.orange.button, .orange.button:visited {
+	background-color: #ff5c00;
+}
+
+.orange.button:hover {
+	background-color: #d45500;
+}
+
+.yellow.button,.yellow.button:visited {
+	background-color: #ffb515;
+}
+
+.yellow.button:hover {
+	background-color: #fc9200;
+}
+
+/* Icons */
+
+img.card {
+	width: 25px;
+	height: 20px;
+}
+
+/* Contact Form */
+                 
+#contact { width:100%;
+}   
+#contact fieldset {padding:0;}          
+#contact ul { margin:0; list-style:none;
+}  
+#contact li { float: left;
+	margin-top: 0;
+	margin-left: 0;
+	margin-bottom: 2%;
+	width: 50%;
+}
+
+#contact li.textarea-field { width:auto; float:none; }
+#contact label span.label { font-size: 12px;
+	width: 100%;
+	float: left;
+}
+#contact label span.sublabel { font-size: 11px; color: #9C9B9B }  
+
+#contact li.text-field input, #contact li textarea { border: 1px solid #e1e1e1; margin-top: 5px; padding: 9px 9px 9px 32px;
+
+		-webkit-border-radius: 0.3em;
+	-moz-border-radius: 0.3em;
+	border-radius: 0.3em;
+	color: #9C9B9B;
+}
+#contact li.text-field input, #contact li select { font-size: 12px; background-color:#fff; 
+}
+#content .contact-form li select { padding:10px; }
+#contact li textarea { height:150px; background-color:#fff;
+	padding: 9px;
+	width: 94%;
+} 
+#contact #name {
+	width: 77%;
+}
+#contact #email {
+	width: 77%;
+}
+#contact li #contact-submit {
+	margin-top: 0;
+	margin: 0;
+} 
+#contact-form .text-field {
+	position: relative;
+}
+#contact .name_ico, #contact .email_ico {
+display: block;
+width: 14px;
+height: 14px;
+position: absolute;
+z-index: 10;
+}
+#contact .name_ico {
+	background: url(images/ico_user.png) no-repeat center center;
+left: 11px;
+	top: 36px;
+}
+#contact .email_ico {
+	background: url(images/ico_email.png) no-repeat center center;
+	left: 11px;
+	top: 36px;
+}

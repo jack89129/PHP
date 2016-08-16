@@ -1,0 +1,64 @@
+<style type="text/css">
+    #tags-tag-dialog .ui-combobox {
+        width:378px;
+    }
+
+    #tags-tag-dialog .ui-combobox input {
+        width:356px;
+    }
+</style>
+<form id="tags-tag-form" method="post">
+    <input type="hidden" id="tag_id" name="tag[id]" value="<?= $this->escape($this->tag->id) ?>" />
+    <input type="hidden" id="tag_category_id" name="tag[tag_category_id]" value="<?= $this->escape($this->tag->tag_category_id); ?>" />
+    <fieldset>
+        <h2><?= $this->tag->id ? 'Edit' : 'New' ?> tag</h2>
+    </fieldset>
+    <div class="center">
+        <div style="float:left;margin-right:20px;margin-top:10px;">
+            <h3>Number:</h3>            
+            <input type="text" onblur="if(this.value=='') this.value='Onderdeel naam';" onfocus="if(this.value=='Onderdeel naam') this.value='';" value="" class="gray-input" style="width:220px;" name="tag[number]" id="tag_number">
+        </div>
+        <div style="float:left;margin-right:20px;margin-top:10px;">
+            <h3><?= _t('Naam') ?>:</h3>
+            <input type="text" id="tag_name" name="tag[name]" style="width:220px;" class="gray-input" value="<?= $this->escape($this->tag->name) ?>" onfocus="if(this.value=='<?= _t('Tag name') ?>') this.value='';" onblur="if(this.value=='') this.value='<?= _t('Tag name') ?>';" />
+        </div>
+        <div style="float:left;margin-top:10px;">
+            <h3><?= _t('BTW') ?>:</h3>
+            <select name="tag[vat]" id="tag_vat">
+                <option value="0">0%</option>
+                <option value="6">6%</option>
+                <option value="12">12%</option>
+                <option value="21">21%</option>
+            </select>
+        <!--    <input type="text" id="tag_vat" name="tag[vat]" value="<?= $this->escape($this->tag->vat) ?>" style="width:120px;" class="gray-input" />-->
+        </div>
+        <br style="clear:both;" />
+        <br/>
+        <div class="first">
+            <h3><?= _t('Government category') ?>:</h3>
+            <select name="tag[vat_category_id]" id="vat_category_list">
+                <option value="0"><?= _t('Select government category') ?></option>
+                <?php if ( !empty($this->vat_categories) ): ?>
+                <?php foreach( $this->vat_categories as $vatCategory ): ?>
+                <option <?= $vatCategory->id == $this->tag->vat_category_id ? 'selected="selected"' : '' ?> value="<?= $this->escape($vatCategory->id); ?>"><?= $this->escape('(' . $vatCategory->code . ') ' . $vatCategory->name); ?></option>
+                <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+        </div>
+        <input type="button" class="button" value="Opslaan" id="tag_submit_button">
+    </div>
+</form>
+
+<script type="text/javascript">
+    $('[name="tag[vat_category_id]"]').combobox();
+    $('[name="tag[vat]"]').combobox();
+
+    /*$('#tag_submit_button').on('click', function(){
+        $.post(baseUrl + '/settings/tags/add-tag', $(this).serialize()).success(function(data){
+            $.fancybox.close();
+            tags_update(data);
+        });
+        console.log(1);
+        return false;
+    });*/
+</script>

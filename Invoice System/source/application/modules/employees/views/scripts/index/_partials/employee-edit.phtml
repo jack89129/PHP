@@ -1,0 +1,79 @@
+<style type="text/css">
+    .data .forminputfield {
+        margin-left:0px;
+    }
+
+    .data td {
+        height:42px;
+    }
+
+</style>
+<div class="left status_Box" style="background-color:#F1F1F1;">
+    <div class="data">
+        <form id="employee-edit-form">
+        <input type="hidden" name="employee[id]" value="<?= $this->escape($this->employee->id); ?>" />
+        <table>
+            <tr>
+                <td style="width:120px;"><?= _t('Voornaam') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="employee[firstname]" value="<?= $this->escape($this->employee->firstname); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Achternaam') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="employee[lastname]" value="<?= $this->escape($this->employee->lastname); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Adres') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="employee[address]" value="<?= $this->escape($this->employee->address); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Postcode') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="employee[postcode]" value="<?= $this->escape($this->employee->postcode); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Plaats') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="employee[city]" value="<?= $this->escape($this->employee->city); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Land') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="employee[country]" value="<?= $this->escape($this->employee->country); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('E-mailadres') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="employee[email_address]" value="<?= $this->escape($this->employee->email_address); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Telefoonnumers') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="employee[phone]" value="<?= $this->escape($this->employee->phone); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Functie') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="employee[role]" value="<?= $this->escape($this->employee->role); ?>" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h2><?= _t('Login') ?></h2>
+                </td>
+            </tr>
+            <tr>
+                <td><?= _t('Username') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="employee[username]" value="<?= $this->escape($this->employee->username); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Password') ?>:</td>
+                <td><input type="password" class="gray-input" style="width:260px;" name="password1" value="" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Password (again)') ?>:</td>
+                <td><input type="password" class="gray-input" style="width:260px;" name="password2" value="" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <a href="javascript:;" onclick="employees_save_employee();" class="link"><?= _t('Opslaan') ?></a>
+                </td>
+            </tr>
+        </table>
+        <br style="clear: both;" />
+        </form>
+    </div>
+</div>

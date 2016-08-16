@@ -1,0 +1,61 @@
+<div style="display: none;">
+	<div class="opslaan-Box overlaybox" id="sendinvoice">
+		<form id="sendinvoice-form">
+			<fieldset>
+			
+				<div class="opslaan selected">
+					<?php //if( $this->enable_dont_send ): ?>
+					<div class="left"><label class="label_check3"><input type="radio"
+						class="radio" name="send" value="1" checked="checked"
+						onclick="$('#sendinvoiceform').slideDown()" /></label>
+					</div>
+					<?php //endif; ?>
+					
+					<div class="right">
+					
+						<h3><?= _t('Per e-mail versturen') ?></h3>
+						<p><?= _t('De %s zal als een PDF bijlage toegevoegd worden aan de standaard e-mail', ($this->credit ? _t('credit-factuur') : $this->proforma ? _t('offerte') : _t('factuur'))) ?></p>
+				
+						<div id="sendinvoiceform">
+							<div class="center">
+								<label><?= _t('Aan') ?>:</label> <input type="text" name="email" class="field" value="" />
+							</div>
+							
+							<div class="center">
+								<label><?= _t('Onderwerp') ?>:</label> 
+                                <div class="wysiwyg field" id="div_subject" contenteditable="true" style="height:auto;">&nbsp;</div>
+                        <input type="hidden" name="subject" value="" />
+                        <!--<input type="text" name="subject" class="field" value="" />-->
+							</div>
+							
+							<div class="center">
+								<label><?= _t('Bericht') ?>:</label> 
+                                <div class="wysiwyg field" id="div_body" contenteditable="true" style="width:500px;height:125px; overflow: auto;"></div>
+                        <input type="hidden" name="body" value="" />
+                                <!--<textarea name="body" rows="3" cols="42"></textarea>-->
+							</div>
+						</div>
+					</div>
+				
+				</div>
+				<?php //if( $this->enable_dont_send ): ?>
+					<div class="opslaan sub">
+					
+						<div class="left"><label class="label_check3"><input type="radio"
+							name="send" value="" class="radio"
+							onclick="$('#sendinvoiceform').slideUp()" /></label>
+						</div>
+					
+						<div class="right">
+							<h3><?= _t('Ik verstuur de %s zelf per post', ($this->credit ? _t('credit-factuur') : $this->proforma ? _t('offerte') : _t('factuur'))) ?></h3>
+							<p><?= _t('De %s zal als verzenden worden gemarkeerd.', ($this->credit ? _t('credit-factuur') : $this->proforma ? _t('offerte') : _t('factuur'))) ?></p>
+							
+						</div>
+					</div>
+				<?php //endif; ?>
+				
+				<input type="submit" class="button gap button-loader"	value="<?= _t('Versturen') ?>" />
+			</fieldset>
+		</form>
+	</div>
+</div>

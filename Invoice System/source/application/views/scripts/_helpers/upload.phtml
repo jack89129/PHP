@@ -1,0 +1,146 @@
+<style type="text/css">
+
+</style>
+<div style="display: none;">
+    <a href="#upload-dialog" id="upload-dialog-link"></a>
+    <div class="importeren-Box overlaybox upload-light" id="upload-dialog">
+
+        <form id="upload-form" enctype="multipart/form-data" method="post">
+            <input type="hidden" name="<?php echo ini_get("apc.rfc1867_name"); ?>" value="<?= Utils::user()->id ?>" />
+            <fieldset>
+                <h2></h2>
+                <div class="center">
+                    <label>File:</label>
+                    <input type="text" name="filename" class="field" style="width:210px;" />
+                    <input type="button" onclick="$('[type=file]').click();" style="margin-top:3px;margin-left:10px;" class="green-button" value="<?= _t('Bestand kiezen') ?>" />
+                    <input id="upload_submit" type="button" onclick="upload_do_the_upload();" disabled="disabled"  style="opacity:0.5;margin-top:3px;margin-left:10px;" class="green-button" value="<?= _t('Uploaden') ?>" />
+                    <input type="file" name="attachment" style="display: none;" />
+                </div>
+                <div class="clear"></div>
+                <div id="uploads">
+
+                </div>
+                <br/>
+                <ul>
+                    <li class="importeren" style="padding:10px;min-height:auto;">
+                        <div class="left" style="width:200px;"><?= _t('Toegelaten bestandstypen') ?>:</div>
+                        <div class="right" style="width:300px" id="upload-file-types"></div>
+                    </li>
+                    <li class="importeren" style="padding:10px;min-height:auto;">
+                        <div class="left" style="width:200px;"><?= _t('Maximale grootte van bestand') ?>:</div>
+                        <div class="right" style="width:300px"><?= _t('max') ?> 10mb</div>
+                    </li>
+                </ul>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var upload_title = '';
+    var upload_validate_url = '';
+    var upload_submit_url = '';
+    var upload_params = {};
+    var upload_file_types = [];
+
+    var upload_id = 1;
+    var upload_form = null;
+    var upload_submit = null;
+    var upload_filename = null;
+    var upload_file = null;
+    var upload_on_success = function(){};
+    var upload_on_error = function(){};
+
+    function upload_init_upload_file(){
+        var upload_file = upload_form.find('input[type=file]');
+        var paths = upload_file.val().split(/\\|\//);
+        $('[name="filename"]').val('');
+        upload_submit.attr('disabled', 'disabled').css('opacity', '0.5');
+
+        $('#upload-form input[type=file]').change(function(){
+
+            var paths = $(this).val().split(/\\|\//);
+            upload_filename = paths[ paths.length - 1 ];
+            $('[name="filename"]').val(upload_filename);
+
+            $.post( upload_validate_url, {filename:$(this).val()}).error(function(){
+                setTimeout( function(){
+                    $('#upload-form input[type=file]').replaceWith( $('#upload-form input[type=file]').clone( true ) );
+                    upload_init_upload_file();
+                    upload_submit.attr('disabled', 'disabled').css('opacity', '0.5');
+                }, 0);
+            }).success(function(){
+                upload_submit.removeAttr('disabled').css('opacity', '1');
+            });
+        });
+    }
+
+    function upload_do_the_upload(){
+        iframe = $('<iframe name="upload_form_' + upload_id + '"></iframe>').hide().appendTo('body');
+        iframe.load(function(){
+            var iframe = $(this);
+            var upload = $('#upload-' + this.name.match(/[0-9]+/));
+            upload.find('.progress-wrapper').hide();
+            var status = upload.find('.upload-status').show();
+
+            var response = jQuery.parseJSON(iframe.contents().find('#response').text());
+
+            if( response && response.success == 1 ){
+                status.css('color', '#008b00').text(response.message ? response.message : 'OK');
+                if( response.redirect ){
+                    window.location = baseUrl + response.redirect;
+                }
+                upload_on_success(response);
+            }else{
+                status.css('color', '#C00000').text( response && response.error ? response.error : 'ERR');
+                upload_on_error(response);
+            }
+
+        });
+
+        upload_form.get(0).target = iframe.get(0).name;
+        upload_form.submit();
+
+        $('#upload-form input[type=file]').replaceWith( $('#upload-form input[type=file]').clone( true ) );
+        upload_init_upload_file();
+
+        var html =  '<div id="upload-' + upload_id + '" class="wall">' +
+                '<h5>' + upload_filename + '<span class="upload-status" style="text-align:right;display:none;float: right;"></span></h5>' +
+                '<div class="progress-wrapper">' +
+                '<div class="process indeterminate"><cite style="width:100%;"></cite></div>' +
+                '<h5>Uploading...</h5>' +
+                '</div>' +
+                '</div>';
+
+        $('#uploads').prepend(html);
+        upload_id++;
+    }
+
+    function upload_init(){
+        upload_form = $('#upload-form');
+        upload_submit = upload_form.find('#upload_submit');
+
+        upload_form.get(0).action = upload_submit_url;
+        upload_form.find('h2').text(upload_title);
+        upload_form.find('#upload-file-types').text(upload_file_types.join(', '));
+
+        if( upload_params !== null ){
+            jQuery.each(upload_params, function(key, val){
+                $('<input>').attr('type', 'hidden').attr('name', key).val(val).appendTo(upload_form);
+            });
+        }
+
+        upload_init_upload_file();
+    }
+
+    function upload_show(){
+        $('#upload-dialog-link').click();
+    }
+
+
+    $(document).ready(function(){
+        $('#upload-dialog-link').fancybox();
+    });
+
+</script>

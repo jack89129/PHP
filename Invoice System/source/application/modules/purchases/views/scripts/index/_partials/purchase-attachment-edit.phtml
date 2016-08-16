@@ -1,0 +1,13 @@
+<form id="attachment-form-<?= $this->attachment->id ?>">
+<input type="hidden" name="id" value="<?= $this->attachment->id ?>" />
+<input type="text" name="name" value="<?= $this->escape($this->attachment->name); ?>" style="width:220px;margin-left:-5px;padding:5px;" />
+</form>
+<script type="text/javascript">
+    $('#attachment-form-<?= $this->attachment->id ?>').submit(function(){
+        $.post(baseUrl + '/purchases/index/attachment-save', $(this).serialize()).success(function(){
+            purchases_attachments_reload();
+            log_reload();
+        });
+        return false;
+    }).find('input').focus();
+</script>

@@ -1,0 +1,84 @@
+    <style type="text/css">
+        .product-employees-wrapper h3 {
+            font-family: Verdana, Arial, Tahoma;
+        }
+
+        .product-employees-wrapper .ui-combobox {
+            width:220px !important;
+        }
+
+        .product-employees-wrapper .ui-combobox input {
+            width:208px !important;
+        }
+
+    </style>
+
+    <h2><?= _t('Verkopers') ?></h2>
+
+    <div class="data product-employees-wrapper">
+        <h3><?= $this->escape($this->product->name); ?></h3>
+
+        <table style="width:100%">
+            <thead>
+                <tr>
+                    <th><?= _t('Verkoper') ?></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php $addedIds = array(); ?>
+            <?php if( $this->product->employees ): ?>
+                <?php foreach( $this->product->employees as $employee ): $addedIds[] = $employee->id; ?>
+                    <tr>
+                        <td style="line-height:32px;"><?= $this->escape($employee->name); ?></td>
+                        <td style="width:30px;">
+                            <a href="javascript:;" onclick="stock_remove_employee_from_product(<?= $employee->id ?>, <?= $this->product->id ?>);">
+                                <img src="<?= $this->baseUrl(); ?>/images/img3.jpg"" />
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="2" style="text-align:center;"><?= _t('Geen verkopers toegevoegd') ?></td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+
+        <br/>
+        <h3><?= _t('Toevoegen aan verkoper') ?></h3>
+        <form id="product-employee-form" action="<?= $this->baseUrl(); ?>" method="post">
+            <input type="hidden" name="product_id" value="<?= $this->product->id; ?>" />
+            <select name="employee_id">
+                <option value="0"><?= _t('Selecteer een verkoper') ?></option>
+                <?php foreach( $this->employees as $employee ): ?>
+                <?php if( in_array($employee->id, $addedIds)){ continue; }; ?>
+                <option value="<?= $employee->id ?>"><?= $this->escape($employee->name); ?></option>
+                <?php endforeach; ?>
+            </select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="submit" value="<?= _t('Toevoegen') ?>" class="green-button" style="margin-top:0px;" />
+        </form>
+
+    </div>
+
+    <script type="text/javascript">
+
+        $('#product-employee-form select').combobox();
+
+        $('#product-employee-form').submit(function(){
+            $.post(baseUrl + '/stock/index/add-employee-to-product', $(this).serialize()).success(function(data){
+                $('#employees').html(data.employees);
+            });
+
+            return false;
+        });
+
+        function stock_remove_employee_from_product(employee, product){
+            $.post(baseUrl + '/stock/index/remove-employee-from-product', {employee_id:employee, product_id:product}).success(function(data){
+                $('#employees').html(data.employees);
+            });
+        }
+
+    </script>

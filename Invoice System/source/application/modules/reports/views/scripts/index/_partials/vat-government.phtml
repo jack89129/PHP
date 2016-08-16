@@ -1,0 +1,80 @@
+<style type="text/css">
+    .info {
+        color: #333;
+    }
+</style>
+
+<?php if( $this->result ): ?>
+<?php foreach( $this->result as $type ): ?>
+    <?php if( !$type['rows'] ){ continue; } ?>
+    <h1><?= $this->escape($type['label']); ?></h1>
+    <br/>
+    <table class="reports-result">
+        <thead>
+        <tr>
+            <th class="date"></th>
+            <th class="number even" style="width:20%;">Totaal bedrag</th>
+        </tr>
+        </thead>
+        <tbody>
+            <?php foreach( $type['rows'] as $index => $result ): $first = $index == 0 ? 'frst' : ''; ?>
+        <tr>
+            <td class="date <?= $first ?>"><?= $this->escape($result['category']) ?></td>
+            <td class="number even <?= $first ?> <?php if($result['code']=='61' || $result['code']=='62') echo 'dynamic'; ?>" id="vat<?=$result['code']?>" idx="<?=$result['code']?>">&euro; <?= Utils::numberFormat($result['total_excl_vat']); ?></td>
+        </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <br/><br/>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+<div id="settingForm"><a href="#this" onclick="reports_export('check');" class="btn" style="color:#3E7323; width: 300px;">BTW AANGIFTE NAKIJKEN/TESTEN</a></div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("td.dynamic").on('dblclick', function(){
+            var id = $(this).attr('idx');
+            var valObj = $('#vat'+id).html().substring(2);
+            var content = '<input type="text" name="tmpInput" id="tmpInput" value="' + valObj + '" onblur="onTextBlur(this, \'' + id + '\')" onkeypress="onEnter(event, this, \''+id+'\')"/>';
+            $(this).html(content);
+            $('#tmpInput').focus();
+            $('#tmpInput').select();
+        });
+        
+        $("#copyright").on('click', function(){
+            var pwd = prompt ("Gelieve uw wachtwoord in te geven!","");
+            if ( pwd == 'sigrid' ) {
+                $('[id^="vat"]').addClass("dynamic");
+                $("td.dynamic").on('dblclick', function(){
+                    var id = $(this).attr('idx');
+                    var valObj = $('#vat'+id).html().substring(2);
+                    var content = '<input type="text" name="tmpInput" id="tmpInput" value="' + valObj + '" onblur="onTextBlur(this, \'' + id + '\')" onkeypress="onEnter(event, this, \''+id+'\')"/>';
+                    $(this).html(content);
+                    $('#tmpInput').focus();
+                    $('#tmpInput').select();
+                });
+            }
+        });
+    });
+    
+    function onEnter(e, obj, id) {
+        var key=e.keyCode || e.which;
+        if (key==13) {
+            onTextBlur(obj, id);
+        }
+    }
+    
+    function onTextBlur(obj, id) {
+        var value = parseFloat(obj.value.replace(',', '.'));
+        var content = '€ ' + value.toFixed(2);
+        $("#vat"+id).html(content);
+        var year = $('#year').val();
+        var month = $('#month').val();
+        $.post(baseUrl + '/reports/index/save-government', {year:year, month:month, code:id, value:value.toFixed(2)}).success(function(data){
+            for ( var i=0; i<data.length; i++ ) {
+                $("#vat"+data[i].code).html('€ ' + data[i].total);
+            }
+        });
+    }
+
+</script>

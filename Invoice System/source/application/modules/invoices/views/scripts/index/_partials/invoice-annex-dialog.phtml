@@ -1,0 +1,47 @@
+<div style="display: none;">
+    <div class="importeren-Box overlaybox" id="invoice-annex-dialog">
+
+        <form id="invoice-annex-form" action="<?= $this->baseUrl() . '/invoices/index/create-annex-invoice'; ?>" enctype="multipart/form-data" method="post">
+            <input type="hidden" name="proforma" value="<?= $this->escape($this->proforma); ?>" />
+            <input type="hidden" name="invoice" value="" />
+            <fieldset>
+                <h2>Bijlage toevoegen</h2>
+                <div class="center">
+                    <label>File:</label>
+                    <input type="text" class="field" />
+                    <input type="submit" class="green-button button-loader" style="margin:3px 0 0 11px" value="Bestand kiezen" />
+                </div>
+                <div class="clear"></div>
+                <ul>
+                    <li class="importeren" style="padding:10px;min-height:auto;">
+                        <div class="left" style="width:200px;">Toegelaten bestandstypen:</div>
+                        <div class="right" style="width:300px"><?= implode(', ', SettingsModel::getInvoiceAnnexTypes()); ?></div>
+                    </li>
+                    <li class="importeren" style="padding:10px;min-height:auto;">
+                        <div class="left" style="width:200px;">Maximale grootte van bestand:</div>
+                        <div class="right" style="width:300px">max 10mb</div>
+                    </li>
+                </ul>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        $('#invoice-annex-form').submit(function(){
+            $('#invoice-annex-form input[name="invoice"]').val($('[name="invoice[id]"]').val());
+        });
+
+        $('#invoice-annex-form input[type=file]').change(function(){
+            $.post( baseUrl + '/invoices/index/validate-annex-file', {filename:$(this).val()}).error(function(){
+                setTimeout( function(){$('#invoice-annex-form input[type=submit]').attr('disabled', 'disabled').css('opacity', '0.5');}, 0);
+            }).success(function(){
+                $('#invoice-annex-form input[type=submit]').removeAttr('disabled').css('opacity', '1');
+            });
+        });
+    });
+
+</script>

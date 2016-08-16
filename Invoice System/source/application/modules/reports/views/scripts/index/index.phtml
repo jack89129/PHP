@@ -1,0 +1,164 @@
+<style type="text/css">
+
+    .reports-result {
+        width:100%;
+    }
+
+    .reports-result td {
+        height:28px;
+        border-bottom:1px solid #eeeeee;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    .reports-result td.category {
+        min-width:200px;
+    }
+
+    .reports-result td.period {
+        width:80px;
+        text-align:right;
+        padding-right:10px;
+    }
+
+    .reports-result td.odd {
+        background-color:#fafafa;
+    }
+
+    .reports-result td.period.odd {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .reports-result td.even {
+        background-color:#fefefe;
+    }
+
+    .reports-result td.sum {
+        text-align:right;
+        font-weight:bold;
+        padding-right:10px;
+        padding-left:10px;
+    }
+
+    .reports-result td.tag {
+        font-weight:bold;
+        padding-left:25px;
+    }
+
+    .reports-result td.tag, .reports-result td.tag a {
+        color:#548C03;
+        text-decoration:none;
+    }
+
+    .reports-result td.total {
+        border-width: 0;
+    }
+
+    .reports-result td.total {
+        font-wight:bold;
+        color:#548C03;
+        background-color: transparent;
+    }
+
+    .reports-result td.empty {
+        border-width: 0;
+        background-color: transparent;
+    }
+
+</style>
+    <!-- START RESULT -->
+    <div class="result_Box">
+
+        <h2><?= _t('Resultaten') ?></h2>
+        <br/>
+
+        <form action="<?= $this->baseUrl() ?>/reports/" method="get">
+           <div style="float:left;margin-right:50px;">
+                <select name="period" onchange="$(this).parents('form').submit();">
+                    <?php foreach( $this->periods as $key => $period ): ?>
+                    <option <?= $key == $this->period ? 'selected="selected"' : ''; ?> value="<?= $this->escape($key) ?>"><?= $this->escape($period['label']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div style="float:left;margin-right:50px;">
+                <select name="show_type" onchange="$(this).parents('form').submit();">
+                    <?php foreach( $this->show_types as $key => $show_type ): ?>
+                    <option <?= $key == $this->show_type ? 'selected="selected"' : ''; ?> value="<?= $this->escape($key) ?>"><?= $this->escape($show_type['label']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <?= $this->render('index/_partials/exports.phtml'); ?>
+        </form>
+
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <br/>
+            <table class="reports-result">
+
+            <?php foreach($this->result as $result): ?>
+
+                <?php foreach($result as $currentResult): ?>
+                <tr>
+                    <td class="category"><h3><?= $this->escape($currentResult['category']->name); ?></h3></td>
+                    <?php foreach( $this->dates as $index => $date ): ?>
+                    <td class="period <?= $index % 2 == 0 ? 'even' : 'odd' ; ?>">
+                        <?php
+                            if( $this->show_type == 'quarter' ){
+                                echo 'Q' . ceil(date('m', $date)/3);
+                            }
+
+                            if( $this->show_type == 'year' ){
+                                echo date('Y', $date);
+                            }
+
+                            if( $this->show_type == 'month' ){
+                                echo date('M y', $date);
+                            }
+                        ?>
+                    </td>
+                    <?php endforeach; ?>
+                </tr>
+                    <?php foreach( $currentResult['sums'] as $sum ): ?>
+                        <tr>
+                            <td class="tag"><a href="<?= $this->baseUrl() ?>/reports/index/tag?tag=<?=$sum['tag']->id; ?>&period=<?= $this->period; ?>"><?= $this->escape($sum['tag']->name); ?></a></td>
+                            <?php foreach( $sum['totals'] as $index => $total ): ?>
+                            <td class="sum <?= $index % 2 == 0 ? 'even' : 'odd' ; ?>">&euro; <?= Utils::numberFormat($total) ?></td>
+                            <?php endforeach; ?>
+                        </tr>
+                    <?php endforeach; ?>
+
+                <tr>
+                    <td class="total"><h3><?= _t('Totaal') ?> <?= $this->escape(mb_strtolower($currentResult['category']->name, 'UTF-8')); ?></h3></td>
+
+                    <?php foreach( $currentResult['total'] as $index => $total ): ?>
+                    <td class="sum total <?= $index % 2 == 0 ? 'even' : 'odd' ; ?>">&euro; <?= Utils::numberFormat($total); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+                <tr>
+                    <td class="empty"></td>
+                    <?= str_repeat('<td class="empty">&nbsp;</td>', count($this->dates)); ?>
+                </tr>
+                <?php endforeach; ?>
+
+            <?php endforeach; ?>
+
+            </table>
+            <p style="width: 100%; text-align: center; color: #999;">Alle bedragen op deze pagina zijn in EUR en exclusief BTW.</p>
+
+        </div>
+
+    </div>
+    <!-- END RESULT	 -->
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('[name="period"]').combobox();
+        $('[name="show_type"]').combobox();
+    });
+
+</script>

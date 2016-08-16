@@ -1,0 +1,98 @@
+<style type="text/css">
+
+    #content {
+        width:300px;
+        padding:20px;
+        margin:auto;
+    }
+
+    #forgot form label {
+        display: inline-block;
+        line-height: 32px;
+        margin-bottom: 5px;
+    }
+
+    #forgot form label.l-left {
+        float:left;
+    }
+
+    #forgot form label.l-right {
+        float:right;
+    }
+
+    #forgot form span.label {
+        display: inline-block;
+        /*width:80px;*/
+    }
+
+    #forgot form span input {
+        width:130px;
+    }
+    
+    #forgot form span.validation {
+        color:#CC0000;
+        font-weight:bold;
+        margin:10px;
+        display: block;    
+    }
+    
+    #forgot form span.good {
+        color: #73C83F;
+        display: inline;
+    }
+
+
+</style>
+<div id="forgot" style="width:300px;margin:auto;">
+    <h2><?= _t('Wachtwoord vergeten') ?></h2>
+    <br/>
+    <div style="margin: 10px;">
+    <?php if( $this->error ): ?>
+    <div style="color:#ff0000;font-weight:bold;margin:10px;margin-left:0px;"><?= $this->escape($this->error); ?></div>
+    <?php endif; ?>
+    <?php if( $this->msg ): ?>
+    <div style="color:#73C83F;font-weight:bold;margin:10px;margin-left:0px;"><?= $this->escape($this->msg); ?></div>
+    <?php endif; ?>
+    <form method="post" action="/forgot">
+        <label class="l-left">
+            <span class="label"><?= _t('E-mailadres ingeven') ?> : </span>
+            <span><input type="text" name="email" id="txt_email" class="gray-input" value="<?= $this->escape($this->email); ?>" /></span>
+            <span class="validation"></span>
+        </label>                                                                                          
+        <div style="text-align: center; float: left; width: 100%;">
+            <input type="button" class="green-button" value="Inloggen" onclick="document.location.href='/login'">
+            <input type="submit" value="<?= _t('Verzenden') ?>" class="green-button" />
+        </div>
+    </form>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+function validateEmail(sEmail) {
+    var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    if (filter.test(sEmail)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+$(document).ready(function(){
+    $('#txt_email').on('keyup', function(event) {
+        $(this).parent().parent().find('span.validation').removeClass('good');
+        
+        if ( $(this).val() == '' ) {                              
+            $(this).parent().parent().find('span.validation').html('Dit veld mag niet leeg zijn!');
+        } else {
+            if ( !validateEmail($(this).val()) ) {
+                $(this).parent().parent().find('span.validation').html('Ongeldig e-mailadres!');
+            } else {
+                $(this).parent().parent().find('span.validation').addClass('good');
+                $(this).parent().parent().find('span.validation').html('V');
+            }
+        }       
+    });   
+});
+</script>

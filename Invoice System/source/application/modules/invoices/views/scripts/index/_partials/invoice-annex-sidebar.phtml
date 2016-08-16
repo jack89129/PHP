@@ -1,0 +1,89 @@
+<div  id="annexes">
+<?php if( $this->invoice->annexes ): ?>
+<style>
+    #annexes {
+        width:100%;
+    }
+
+    #annexes ul {
+        width:100%;
+    }
+
+    #annexes li {
+        width:100%;
+        height:auto;
+        min-height: 39px;
+    }
+
+    #annexes li:hover {
+        background-color: #feffd3;
+    }
+
+    #annexes .annex-edit {
+        line-height: normal;
+    }
+
+    #annexes .annex-edit a {
+        background:none;
+        display: inline;
+        line-height: normal;
+        padding:0;
+    }
+</style>
+<div class="news_Box sub">
+    <div class="collapse">
+
+        <h2><span><?= _t('Bijlagen') ?><a class="i-down"></a></span></h2>
+
+        <div class="info">
+            <ul class="gap">
+                <?php foreach( $this->invoice->annexes as $annex ): ?>
+                <li>
+                    <div id='annex-<?= $annex->id ?>'>
+                        <a class="bg9" href="<?= $this->baseUrl() . $annex->toUrl() ?>" target="_blank"><?= $this->escape($annex->name); ?></a>
+                        <div class="annex-edit" style="text-align:right;display:none;margin-bottom:2px;padding-right:5px;width:230px;">
+                            <a href="javascript:;" onclick="invoices_annex_edit(<?= $annex->id ?>);"><?= _t('wijzig') ?></a>
+                             -
+                            <a href="javascript:;" onclick="invoices_annex_delete(<?= $annex->id ?>);"><?= _t('verwijder') ?></a>
+                        </div>
+                    </div>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#annexes li').mouseenter(function(){
+        $(this).find('div.annex-edit').show();
+    });
+
+    $('#annexes li').mouseleave(function(){
+        $(this).find('div.annex-edit').hide();
+    });
+
+    function invoices_annex_edit(id){
+        $.post(baseUrl + '/invoices/index/annex-edit', {id:id}).success(function(data){
+            $('#annex-' + data.id).html(data.annex_edit);
+        })
+    }
+
+    function invoices_annex_delete(id){
+        if( !confirm('<?= _t('Weet je zeker dat?') ?>') ){
+            return;
+        }
+
+        $.post(baseUrl + '/invoices/index/annex-delete', {id:id}).success(function(){
+            invoices_annexes_reload();
+            log_reload();
+        })
+    } 
+
+    function invoices_annexes_reload(){
+        $.post(baseUrl + '/invoices/index/annexes-reload/', {id:<?= $this->invoice->id ?>}).success(function(data){
+           $('#annexes').replaceWith(data.annexes);
+        });
+    }
+</script>
+<?php endif; ?>
+</div>

@@ -1,0 +1,82 @@
+body {
+	background: #404040 url(../images/bg.jpg);
+}
+
+#header {
+	margin-top: 55px;
+	margin-bottom: 50px;
+}
+
+#content ul.products li .price:after {
+	border-color: #552935 transparent transparent #552935;
+}
+
+.es-carousel-wrapper .slide-title:after {
+	border-color: #552935 #552935 transparent transparent;
+}
+
+.es-carousel-wrapper .slide-title, #content ul.products li .price {
+	color: #fff;
+	background: #5e7279;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6a8088', endColorstr='#5e7279');
+	background: -webkit-gradient(linear, left top, left bottom, from(#6a8088), to(#5e7279));
+	background: -moz-linear-gradient(top,  #6a8088,  #5e7279);
+	text-shadow: #4c5e64 1px 1px 0;
+}
+
+/* Product Price Tag */
+
+div.product p.price:before {
+	border-color: transparent transparent transparent #5d7178;
+}
+
+div.product p.price {
+	color: #fff;
+	background-color: #5d7178;
+}
+
+ul.products li .price ins, div.product p.price ins {
+	color: #fff;
+}
+
+.widgettitle {
+	color: #667b83;
+}
+
+.widget ul li a {
+	color: #919191;
+}
+
+.widget ul li a:hover {
+	color: #667b83;
+}
+
+#shopping-bag .amount {
+	color: #dbdbdb;
+	text-shadow: #272727 1px 1px 1px;
+}
+
+#shopping-bag .cart-info a {
+	color: #adadad;
+}
+
+.woocommerce .quantity .plus,.woocommerce-page .quantity .plus,.woocommerce #content .quantity .plus,.woocommerce-page #content .quantity .plus,.woocommerce .quantity .minus,.woocommerce-page .quantity .minus,.woocommerce #content .quantity .minus,.woocommerce-page #content .quantity .minus {
+	border: 1px solid #49595e;
+	background: #6a8088;
+	background: -webkit-gradient(linear,left top,left bottom,from(#6a8088),to(#49595e));
+	background: -webkit-linear-gradient(#6a8088,#5d7178);
+	background: -moz-linear-gradient(center top,#6a8088 0%,#5d7178 100%);
+	background: -moz-gradient(center top,#6a8088 0%,#5d7178 100%);
+}
+
+.woocommerce #content .quantity .plus:hover, .woocommerce #content .quantity .minus:hover {
+	background: #49595e;
+}
+
+.woocommerce a.button.alt,.woocommerce-page a.button.alt,.woocommerce button.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt,.woocommerce-page input.button.alt,.woocommerce #respond input#submit.alt,.woocommerce-page #respond input#submit.alt,.woocommerce #content input.button.alt,.woocommerce-page #content input.button.alt {
+	background-color: #5e7279;
+}
+
+.woocommerce a.button.alt:hover,.woocommerce-page a.button.alt:hover,.woocommerce button.button.alt:hover,.woocommerce-page button.button.alt:hover,.woocommerce input.button.alt:hover,.woocommerce-page input.button.alt:hover,.woocommerce #respond input#submit.alt:hover,.woocommerce-page #respond input#submit.alt:hover,.woocommerce #content input.button.alt:hover,.woocommerce-page #content input.button.alt:hover {
+	background-color: #49595e;
+}

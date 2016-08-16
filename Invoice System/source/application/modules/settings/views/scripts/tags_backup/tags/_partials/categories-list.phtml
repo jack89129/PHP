@@ -1,0 +1,20 @@
+<h2><?= _t('Categorieen') ?></h2>
+<ul>
+    <?php foreach( $this->categories as $category ): ?>
+    <li>
+        <?= $this->escape($category->name); ?>
+        <?php if( Utils::user()->can('settings_tags_edit') ): ?>
+        <a  href="javascript:;" onclick="tags_remove_category(<?= $this->escape($category->id); ?>);"><?= _t('remove') ?></a>
+        <a>&nbsp;-&nbsp;</a>
+        <a data-id="<?= $this->escape($category->id); ?>" data-name="<?= $this->escape($category->name); ?>" data-vat="<?= $this->escape($category->vat); ?>" data-type="<?= $this->escape($category->type); ?>" class="edit" href="#tags-category-dialog"><?= _t('edit') ?></a></li>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <?php if( !$this->categories ): ?>
+    <li style="text-align:center;font-weight: normal;font-style: italic;"><?= _t('No categories') ?></li>
+    <?php endif; ?>
+    <?php if( Utils::user()->can('settings_tags_edit') ): ?>
+    <li style="background-color:#F1F1F1;border-top:1px solid #d1d1d1;border-bottom:1px solid #d1d1d1;padding-bottom:4px;">
+        <a class="add" href="#tags-category-dialog" style="float:none;"><?= _t('Add category') ?></a>
+    </li>
+    <?php endif; ?>
+</ul>

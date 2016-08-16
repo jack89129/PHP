@@ -1,0 +1,35 @@
+<style type="text/css">
+    .ui-combobox {
+        width:200px;
+        border-width:2px;
+    }
+
+    .ui-combobox input {
+        width:186px;
+    }
+
+    li.no-wholesalers:hover {
+        background-color:transparent;
+    }
+</style>
+<!-- START LEFT -->
+
+	<!-- START WORKER -->
+	<div class="webshop-product-list">
+		<h2><?= _t('Maak uw keuze') ?></h2>
+		
+        <?php if ( !empty($this->result) ): $past_group = 0; ?>
+        <ul>
+        <?php foreach ( $this->result as $row ) { ?>
+            <?php if ( $past_group != $row['product_group_id'] ): $past_group = $row['product_group_id']; ?>
+            <li><span style="line-height:45px"><?=$row['group_name']?></span></li>
+            <?php endif; ?>
+            <li <?php if ( $this->product->id == $row['id']) echo 'class="selected"'; ?> onclick="webshop_select_product('<?=$row['id']?>', this)">&nbsp;&nbsp;&nbsp;<a href="#"><?=$row['name']?></a></li>
+        <?php } ?>
+        </ul>
+        <?php endif; ?>
+       
+	</div>
+	<!-- END WORKER -->
+<!-- END LEFT -->
+

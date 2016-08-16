@@ -1,0 +1,61 @@
+<style type="text/css">
+.oerview_Box li a.tag-edit {
+    background: url("/images/tag-edit.png") no-repeat scroll center center transparent; 
+    width: 25px;
+    height: 25px;
+    background-position: 0 -25px;
+}
+.oerview_Box li a.tag-edit:hover {
+    background-position: 0 0;
+}
+.oerview_Box li a.tag-delete {
+    background: url("/images/tag-delete.png") no-repeat scroll center center transparent; 
+    width: 25px;
+    height: 25px;
+    background-position: 0 -25px;
+}
+.oerview_Box li a.tag-delete:hover {
+    background-position: 0 0;
+}
+</style>
+
+<?php foreach( $this->categories as $category ): ?>
+<div class="tag_category_div">
+    <h3><?= $this->escape($category->name); ?></h3>
+    <a href="#tags-tag-dialog" class="tag_add_item" data-category="<?= $this->escape($category->id); ?>"><input type="button" class="btn" value="Toevoegen" /></a>
+</div>
+<div class="tag_table_layout">
+    <fieldset>
+        <ul>
+            <li class="gap">
+                <div class="first"><h3>Nummer</h3></div>
+                <div class="second"><h3>Omschrijving</h3></div>
+                <div class="third" style="width: 15%;"><h3>BTW %</h3></div>
+                <div class="four" style="width: 30%;"><h3>BTW Aangifte onderdeel</h3></div>
+                <div class="five"><h3>Opties</h3></div>
+            </li>
+            <?php if ( count($category->tags) > 0 ): $even = true; ?>
+            <?php foreach( $category->tags as $tag ): ?>
+            <li <?php if($even) { echo 'class="color"'; $even=false;} else {$even=true;}?>>
+                <div class="first">&nbsp;<?= $this->escape($tag->number) ?></div>
+                <div class="second"><?= $this->escape($tag->name) ?></div>
+                <div class="third" style="width: 15%;"><?= $this->escape($tag->vat) ?>%</div>
+                <div class="four" style="width: 30%;">(<?= $this->escape($tag->vat_category->code) ?>) <?= $this->escape($tag->vat_category->name) ?></div>
+                <div class="five">
+                    <a data-id="<?= $this->escape($tag->id); ?>"
+                       data-name="<?= $this->escape($tag->name); ?>"
+                       data-category="<?= $this->escape($tag->category->id); ?>"
+                       data-vat="<?= $this->escape($tag->vat); ?>"
+                       data-vat-category-id="<?= $this->escape($tag->vat_category_id); ?>"
+                       class="tag-edit" href="#tags-tag-dialog" title="Wijzigen">&nbsp;</a> / 
+                    <a class="tag-delete" href="javascript:;" onclick="tags_remove_tag(<?= $this->escape($tag->id); ?>);" title="Verwijderen">&nbsp;</a>
+                </div>
+            </li>
+            <?php $even != $even; endforeach; ?>
+            <?php endif; ?>
+        </ul>
+    </fieldset>
+</div>
+<?php endforeach; ?>
+<?php if( !$this->categories ): ?>
+<?php endif; ?>

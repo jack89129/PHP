@@ -1,0 +1,49 @@
+<div style="margin: 11px 19px 17px 19px;">
+    <?php if( Utils::user()->can('contact_edit') ): ?>
+    <h3><?= _t('Toevoegen aan debiteurgroep') ?></h3>
+    <?php else: ?>
+    <h3><?= _t('Contactgroep') ?></h3>
+    <?php endif; ?>
+    <?php if( !$this->contact->groups ): ?>
+    <p><?= _t('Deze debiteur is niet gekoppeld aan &eacute;&eacute;n of meedere debiteurgroepen.') ?></p>
+    <?php endif; ?>
+
+    <?php foreach( $this->contact->groups as $contactGroup ) : ?>
+    <p style="font-weight:bold;margin:0px;padding-bottom:5px;line-height: 18px;vertical-align: middle;">
+        <?= $this->escape($contactGroup->name) ?>
+        <?php if( Utils::user()->can('contact_edit') ): ?>
+        <span style="float:right;"><a href="javascript:;" onclick="contacts_remove_contact_from_group(<?= $this->contact->id . ', ' . $contactGroup->id; ?>);" style="text-decoration:none;"><img style="display:inline;vertical-align:top;" src="<?= $this->baseUrl() . '/images/img3.jpg'; ?>" alt="<?= _t('Verwijderen') ?>" /></a></span>
+        <?php endif; ?>
+        <br style="clear:both;" />
+    </p>
+    <?php endforeach; ?>
+
+    <?php if( Utils::user()->can('contact_edit') ): ?>
+    <p><?= _t('Toevoegen aan debiteurgroep') ?>:</p>
+    <select id="contact_group_id" name="contact_group_id" class="select">
+        <option value="0"><?= _t('Selecteer een debiteurengroep') ?></option>
+        <?php
+            foreach($this->groups as $group){
+                foreach( $this->contact->groups as $contactGroup ){
+                    if( $contactGroup->id == $group->id ){
+                        continue 2;
+                    }
+                }
+        ?>
+        <option value="<?= $this->escape($group->id) ?>" <?= $this->selected_group && $this->selected_group == $group->id ? 'selected="selected"' : '' ?>><?= $this->escape($group->name) ?></option>
+        <?php } ?>
+    </select>
+
+    <div class="clear"></div>
+    <div style="float: left;">
+        <input type="button" onclick="contacts_add_contact_to_group(<?= $this->contact->id ?>, $('[name=contact_group_id]').val());" value="<?= _t('Toevoegen') ?>" class="btn" />
+    </div>
+
+    <div style="float: left; margin-top: 32px; margin-left: 20px;">
+        <a id="add-group-link" href="#add-group-dialog" style="color: #666666; text-decoration: none; font-weight: bold;"><?= _t('Nieuwe groep') ?></a><br />
+        <a id="remove-group-link" href="javascript:;" style="color: #666666; text-decoration: none; font-weight: bold; display: none;" onclick="contacts_remove_contact_group();"><?= _t('Verwijderen groep') ?></a>
+    </div>
+    <?php endif; ?>
+    <div class="clear"></div>
+
+</div>

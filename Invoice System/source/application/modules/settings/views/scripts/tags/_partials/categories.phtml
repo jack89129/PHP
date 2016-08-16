@@ -1,0 +1,6 @@
+<?php foreach( $this->categories as $category ): ?>
+<div style="width:250px;float:left;margin-left:10px;" id="category-<?= $this->escape($category->id); ?>">
+<h2><?= $this->escape($category->name) ?></h2>
+    <?= $this->partial('tags/_partials/tags.phtml', array('category' => $category)); ?>
+</div>
+<?php endforeach; ?>

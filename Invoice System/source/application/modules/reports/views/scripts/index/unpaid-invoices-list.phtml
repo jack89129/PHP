@@ -1,0 +1,173 @@
+<style type="text/css">
+
+    .reports-result {
+        width:100%;
+    }
+
+    .reports-result td {
+        height:28px;
+        border-bottom:1px solid #eeeeee;
+        vertical-align: middle;
+        white-space: nowrap;
+        padding-left:10px;
+    }
+
+    .reports-result th {
+        height:28px;
+        vertical-align: middle;
+        white-space: nowrap;
+        padding-left:10px;
+    }
+
+    .reports-result td.odd {
+        background-color:#fafafa;
+    }
+
+    .reports-result td.frst {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .reports-result td.even {
+        background-color:#fdfdfd;
+    }
+
+    .reports-result td a {
+        color:#548C03;
+        text-decoration: none;
+        font-weight:bold;
+    }
+
+
+    .reports-result .contact {
+        width:150px;
+        text-align:left;
+    }
+
+    .reports-result .inf {
+        text-align:left;
+    }
+
+    .reports-result .date, .reports-result .invoice {
+        width:80px;
+        text-align:left;
+        font-weight:bold;
+        padding-right:10px;
+        padding-left:10px;
+    }
+
+    .reports-result .status {
+        width:80px;
+        text-align:center;
+        font-weight:bold;
+        padding-right:10px;
+        padding-left:10px;
+    }
+
+    .reports-result .sum {
+        width:120px;
+        text-align:right;
+        font-weight:bold;
+        padding-right:10px;
+        padding-left:10px;
+    }
+
+    .reports-result td.total {
+        font-weight:bold;
+        color:#548C03;
+        background-color: transparent;
+    }
+
+    .reports-result td.empty {
+        border-width: 0;
+        background-color: transparent;
+    }
+
+    .reports-result td.zero {
+        color:#E0D7CA;
+    }
+
+</style>
+<!-- START RESULT -->
+<div class="result_Box">
+
+    <h2><?= _t('Debiteuren') ?></h2>
+    <br/>
+
+    <form action="<?= $this->baseUrl() ?>/reports/index/unpaid-invoices-list" method="get">
+        <input type="hidden" name="date" value="<?= $this->escape($this->date); ?>" />
+        <div style="float:left;margin-right:50px;">
+            <select name="period" onchange="$(this).parents('form').submit();">
+                <?php if( $this->date ): ?>
+                <option value="<?= (int) $this->date; ?>" <?= $this->period == $this->date ? 'selected="selected"' : '' ; ?>><?= date('M Y', $this->date); ?></option>
+                <?php endif; ?>
+                <option value="this_month" <?= $this->period == 'this_month' ? 'selected="selected"' : ''; ?>>Deze maand</option>
+                <option value="this_quarter" <?= $this->period == 'this_quarter' ? 'selected="selected"' : ''; ?>>Dit kwartaal</option>
+                <option value="this_year" <?= $this->period == 'this_year' ? 'selected="selected"' : ''; ?>>Dit jaar</option>
+                <option value="all" <?= $this->period == 'all' ? 'selected="selected"' : ''; ?>>Alle</option>
+            </select>
+        </div>
+        <div style="float:left;margin-right:50px;">
+            <select name="contact_id" onchange="$(this).parents('form').submit();">
+                <option value="0"><?= _t('Selecteer een debiteur') ?></option>
+                <?php foreach( $this->contacts as $contact ): ?>
+                    <option value="<?= $this->escape($contact->id); ?>" <?= $contact->id == $this->contact_id ? 'selected="selected"' : '' ?>><?= $this->escape($contact->name); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <?= $this->render('index/_partials/exports.phtml'); ?>
+    </form>
+
+
+    <div class="clear"></div>
+
+    <div class="info">
+        <br/>
+        <?php if( $this->result ): ?>
+        <table class="reports-result">
+            <thead>
+                <tr>
+                    <th class="invoice"><?= _t('Factuur') ?></th>
+                    <th class="date"><?= _t('Factuurdatum') ?></th>
+                    <th class="contact"><?= _t('Crediteur') ?></th>
+                    <th class="inf"><?= _t('Omschrijving') ?></th>
+                    <th class="sum"><?= _t('Bedrag') ?></th>
+                    <th class="status"><?= _t('Status') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $allTotal = 0; ?>
+                <?php foreach( $this->result as $invoice ): $allTotal += $invoice->unpaid_sum; ?>
+                    <tr>
+                        <td class="invoice"><a href="<?= $this->baseUrl(); ?>/invoices/index/view/id/<?= $this->escape($invoice->id); ?>"><?= $this->escape($invoice->number); ?></a></td>
+                        <td class="date"><?= date(Constants::DATE_FORMAT, $invoice->invoice_time); ?></td>
+                        <td class="contact"><?= $invoice->contact ? ('<a href="' . $this->baseUrl() . '/contacts/?contact_id=' . $invoice->contact_id . '">' . $this->escape($invoice->contact->name) . '</a>') : ''; ?></td>
+                        <td class="inf"><?= Utils::strip_bad_tags($invoice->info); ?></td>
+                        <td class="sum">&euro; <?= Utils::numberFormat($invoice->unpaid_sum); ?></td>
+                        <td class="status"><a class="concept <?= $this->escape($invoice->status_color); ?>"><?= $this->escape($invoice->status_text); ?></a></td>
+                    </tr>
+                <?php endforeach; ?>
+                    <tr>
+                        <td class="empty"><h3><?= _t('Totaal') ?></h3></td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                        <td class="sum total empty">&euro;<?= Utils::numberFormat($allTotal); ?></td>
+                        <td class="empty"></td>
+                    </tr>
+            </tbody>
+        </table>
+        <?php endif; ?>
+    </div>
+
+</div>
+<!-- END RESULT	 -->
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('[name="period"]').combobox();
+        $('[name="contact_id"]').combobox();
+    });
+
+</script>

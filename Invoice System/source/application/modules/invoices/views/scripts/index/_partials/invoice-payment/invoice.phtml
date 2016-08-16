@@ -1,0 +1,80 @@
+<input type="hidden" name="payment[invoice_id]" value="<?= $this->escape($this->invoice->id); ?>" />
+
+<div class="center">
+    <div class="first"><label><?= _t('Bedrag') ?>:</label></div>
+
+    <div class="second">
+        <input type="text" name="payment[amount]" class="field" value="<?= Utils::numberFormat($this->invoice->unpaid_sum); ?>" />
+
+        <label class="gap"><?= _t('Betaaldatum') ?>:</label>
+        <input type="text" name="payment[paid_time]" class="field" value="<?= date(Constants::DATE_FORMAT, time()); ?>" />
+    </div>
+</div>
+
+<div class="center">
+    <div class="first"><label><?= _t('Betaalwijze') ?>:</label></div>
+
+    <div class="second">
+        <div class="popup">
+
+            <select name="payment[payment_method]" class="styled dropdown">    
+                <option value="over"><?= _t('Overschrijving') ?></option>
+                <option value="cont"><?= _t('Contant') ?></option>
+                <option value="paypal"><?= _t('Paypal') ?></option>
+                <option value="credit"><?= _t('Credit-Card') ?></option>
+                <option value="ideal"><?= _t('iDeal') ?></option>
+                <option value="mister"><?= _t('Mistercash') ?></option>
+            </select>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="center gap1">
+    <label>
+    <label class="label_check2">
+        <input type="checkbox" class="styled" name="email[send]" />
+    </label>
+    &nbsp;<?= _t('Stuur e-mailbericht') ?></label>
+</div>
+
+<div class="center gap1">
+
+    <div class="first">
+        <label><?= _t('Aan') ?>:</label>
+    </div>
+
+    <div class="second">
+        <input type="text" name="email[email]" class="field sub" value="<?= $this->invoice->contact ? $this->invoice->contact->email_address : '' ?>" />
+    </div>
+
+</div>
+
+<div class="center">
+
+    <div class="first"><label><?= _t('Bericht') ?>:</label></div>
+
+    <div class="second">
+        <div class="wysiwyg field" id="div_body" contenteditable="true" style="width:500px;height:125px; overflow: auto;background: none repeat scroll 0 0 #FFFFFF;border-color: #D9D9D9; border-radius: 4px; -moz-border-radius:4px;-webkit-border-radius:4px;"><?= $this->body ?></div>
+        <input type="hidden" name="email[body]" value="<?= $this->body ?>" />
+<!--        <textarea rows="3" cols="5" name="email[body]"><?= $this->body ?></textarea> -->
+    </div>
+
+</div>
+
+<div class="clear"></div>
+
+<input type="submit" class="button" value="Opslaan" style="margin-top:0px;margin-bottom:10px;" />
+
+<script type="text/javascript">
+
+    $('[name="payment[paid_time]"]').datepicker({dateFormat:'dd-mm-yy'});
+    $('[name="payment[payment_method]"]').easySelectBox();
+
+    $('#invoice-payment-invoice').find('.label_check, .label_radio, .label_check2,.label_check3').click(function(){
+        setupLabel('#invoice-payment-invoice');
+    });
+    setupLabel('#invoice-payment-invoice');
+
+</script>

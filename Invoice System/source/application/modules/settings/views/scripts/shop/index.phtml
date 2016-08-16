@@ -1,0 +1,182 @@
+<?php include(APPLICATION_PATH . '/layouts/settings-sidebar.phtml'); ?>
+
+<!-- START RIGHT -->
+<div id="right">
+
+    <!-- START OVERVIE -->
+    <div class="oerview_Box1">
+
+        <h2>Webwinkel</h2>
+
+        <div class="form">
+            <h3 style="margin:10px 0 -15px 10px;">Algemene instellingen</h3>
+            <form action="#" id="settingForm" enctype="multipart/form-data" method="post">
+                <fieldset>      
+                    <div>
+
+                        <label>Activeer webwinkel</label>
+                        <div style="width: 55%; float: right; border: 0px none; padding: 10px 30px;">
+                            <input type="checkbox" name="setting_webshop_activation" id="webshop_activation" <?php if ( $this->has_webshop == "on" ) {echo "checked";} ?> />
+                            <input type="hidden" name="setting_shop[has_webshop]" id="setting_webshop_activation" value="<?= $this->escape($this->has_webshop) ?>" />
+                        </div>
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Webwinkel titel</label>
+                        <input type="text" class="gray-input wysiwyg field" name="setting_shop[title]" value="<?= $this->escape($this->title) ?>" />
+
+                    </div>
+                                  
+                    <div>
+
+                        <label>Webwinkel logo</label>
+                        <div style="width: 55%; float: right; padding:5px 30px 5px 0px; border-bottom: medium none;">
+                        <input type="file" name="setting_webshop_logo" id="setting_webshop_logo" />
+                        <input type="button" name="upload" id="shop_logo_upload" value="Upload" style="color:#333;padding:1px;"/>
+                        <img id="logo_image" src="<?=$this->logo_path?>" style="max-width:250px;"/>
+                        </div>
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Hoofdkleur webwinkel</label>
+                        <div style="width: 55%; float: right; padding:5px 30px 5px 0px;border-bottom: medium none;">
+                        <div id="shopColorSelector" class="colorPickerSelector"><div style="background-color: <?=$this->shop_color?>"></div></div>
+                        <input type="hidden" name="setting_shop[shop_color]" id="webshop_main_color" value="<?=$this->shop_color?>" />
+                        </div>
+
+                    </div>
+                    
+                </fieldset>   
+                <h3 style="margin:10px 0 -15px 10px;">Home pagina</h3>   
+                <fieldset>      
+                    
+                    <div>
+
+                        <label>Over ons (home pagina)</label>
+                        <textarea id="setting_about_us" name="setting_shop[about_us]" class="grayfield" contenteditable="true" ><?= $this->escape($this->about_us) ?></textarea>
+                        <script type="text/javascript">
+                        //<![CDATA[
+                        CKEDITOR.replace( 'setting_about_us', 
+                            {
+                                toolbar :
+                                [
+                                    ['Bold','Italic','Strike','Underline']
+                                ] 
+                            } );
+
+                        //]]>
+                        </script>
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Over ons afbeeldingen (home pagina)</label>
+                        <div style="width: 55%; float: right; padding:5px 30px 5px 0px;border-bottom: medium none;">
+                        <input type="file" name="setting_about_logo" id="setting_about_logo" />
+                        <input type="button" name="upload" id="about_logo_upload" value="Upload" style="color:#333;padding:1px;"/>
+                        <img id="about_image" src="<?=$this->about_img?>" style="max-width:250px;"/>
+                        </div>
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Standaard slider homepage (slide 1)</label>
+                        <div style="width: 55%; float: right; padding:5px 30px 5px 0px;border-bottom: medium none;">
+                        <input type="file" name="setting_slider_image1" id="setting_slider_image1" />
+                        <input type="button" name="upload" id="slider_image_upload1" idx="1" value="Upload" style="color:#333;padding:1px;"/>
+                        <img id="home_slider_img1" src="<?=$this->home_slider_img1?>" style="max-width:250px;"/>
+                        </div>
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Standaard slider homepage (slide 2)</label>
+                        <div style="width: 55%; float: right; padding:5px 30px 5px 0px;border-bottom: medium none;">
+                        <input type="file" name="setting_slider_image2" id="setting_slider_image2" />
+                        <input type="button" name="upload" id="slider_image_upload2" idx="2" value="Upload" style="color:#333;padding:1px;"/>
+                        <img id="home_slider_img2" src="<?=$this->home_slider_img2?>" style="max-width:250px;"/>
+                        </div>
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Standaard slider homepage (slide 3)</label>
+                        <div style="width: 55%; float: right; padding:5px 30px 5px 0px;border-bottom: medium none;">
+                        <input type="file" name="setting_slider_image3" id="setting_slider_image3" />
+                        <input type="button" name="upload" id="slider_image_upload3" idx="3" value="Upload" style="color:#333;padding:1px;"/>
+                        <img id="home_slider_img3" src="<?=$this->home_slider_img3?>" style="max-width:250px;"/>
+                        </div>
+
+                    </div>
+                    
+                </fieldset>   
+                <h3 style="margin:10px 0 -15px 10px;">Sociale media</h3>   
+                <fieldset> 
+                    
+                    <div>
+
+                        <label>Twitter</label>
+                        <input type="text" class="gray-input wysiwyg field" name="setting_shop[tlink]" value="<?= $this->escape($this->tlink) ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Facebook</label>
+                        <input type="text" class="gray-input wysiwyg field" name="setting_shop[flink]" value="<?= $this->escape($this->flink) ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Google</label>
+                        <input type="text" class="gray-input wysiwyg field" name="setting_shop[glink]" value="<?= $this->escape($this->glink) ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Vimeo</label>
+                        <input type="text" class="gray-input wysiwyg field" name="setting_shop[vlink]" value="<?= $this->escape($this->vlink) ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Linkedin</label>
+                        <input type="text" class="gray-input wysiwyg field" name="setting_shop[llink]" value="<?= $this->escape($this->llink) ?>" />
+
+                    </div>
+
+                </fieldset>
+                <h3 style="margin:10px 0 -15px 10px;">Algemene Voorwaarden .PDF</h3>   
+                <fieldset> 
+                    <div>
+
+                        <label>Algemene voorwaarden</label>
+                        <div style="width: 55%; float: right; padding:5px 30px 5px 0px;border-bottom: medium none;">
+                        <?= $this->condFile ?>
+                        <input type="file" name="setting_condition_pdf" id="setting_condition_pdf" />
+                        <input type="button" name="upload" id="setting_condition_upload" idx="3" value="Upload" style="color:#333;padding:1px;"/>
+                        </div>
+
+                    </div>
+                </fieldset>
+                
+            </form>
+
+        </div>
+
+    </div>
+    <!-- END OVERVIE -->
+
+</div>
+<!-- END RIGHT -->

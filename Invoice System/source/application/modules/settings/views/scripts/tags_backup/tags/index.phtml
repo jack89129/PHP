@@ -1,0 +1,114 @@
+<?php include(APPLICATION_PATH . '/layouts/settings-sidebar.phtml'); ?>
+<div id="right">
+    <!-- START OVERVIE -->
+    <div class="oerview_Box1">
+    <h2><?= _t('Opties') ?></h2>
+    <br/>
+
+    <div class="cats_Box" style="float:left;width:280px;padding:0px;">
+        <div id="categories-list">
+            <?= $this->partial('tags/_partials/categories-list.phtml', array('categories' => $this->categories)); ?>
+        </div>
+    </div>
+    <div class="cats_Box" style="float:right;width:520px;padding:0px;">
+        <div id="categories">
+        <?= $this->partial('tags/_partials/categories.phtml', array('categories' => $this->categories)); ?>
+        </div>
+    </div>
+    <br style="clear:both;" />
+    </div>
+</div>
+
+<?= $this->partial('tags/_partials/category-dialog.phtml') ?>
+<div id="tags-tag-dialog-wrapper">
+    <div style="display: none;">
+        <div id="tags-tag-dialog" class="betalingen-Box" style="width:400px;overflow:auto;">
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $('#tags-add-category-link').fancybox({onStart:tags_on_show_category_dialog});
+    tags_init_categories_list();
+    $('#tags-add-tag-link').fancybox({onStart:tags_on_show_tag_dialog});
+    tags_init_categories();
+
+    $('#tags-category-form').submit(function(){
+        $.post(baseUrl + '/settings/tags/add-category', $(this).serialize()).success(function(data){
+            $.fancybox.close();
+            tags_update(data);
+        });
+        return false;
+    });
+
+
+
+    function tags_init_categories_list(){
+        $('#categories-list a.add, #categories-list a.edit').fancybox({onStart:tags_on_show_category_dialog});
+    }
+
+    function tags_init_categories(){
+        $('#categories a.add, #categories a.edit').fancybox({onStart:tags_on_show_tag_dialog});
+    }
+
+    function tags_remove_category(id){
+        $.post(baseUrl + '/settings/tags/remove-category', {id:id}).success(function(data){
+           tags_update(data);
+        });
+    }
+
+    function tags_remove_tag(id){
+        $.post(baseUrl + '/settings/tags/remove-tag', {id:id}).success(function(data){
+            tags_update(data);
+        });
+    }
+
+    function tags_update(data){
+        if( data.categories_list ){
+            $('#categories-list').html(data.categories_list);
+            tags_init_categories_list();
+        }
+
+        if( data.categories ){
+            $('#categories').html(data.categories);
+            tags_init_categories();
+        }
+    }
+
+    function tags_on_show_category_dialog(elem){
+        var id = $(elem).data('id');
+        var name = $(elem).data('name');
+        var vat = $(elem).data('vat');
+        var type = $(elem).data('type');
+
+        $('[name="tag_category[id]"]').val(0);
+        $('[name="tag_category[name]"]').val('').blur();
+        $('[name="tag_category[type]"]').val('invoice').change();
+
+        if( id ){
+            $('[name="tag_category[id]"]').val(id);
+            $('[name="tag_category[name]"]').val(name).focus();
+            $('[name="tag_category[vat]"]').val(vat);
+            $('[name="tag_category[type]"]').val(type).change();
+        }
+    }
+
+    function tags_on_show_tag_dialog(elem){
+        var id = $(elem).data('id');
+        var category = $(elem).data('category');
+        category = category == undefined ? 0 : category;
+
+        $.ajax({
+            type: 'POST',
+            url: baseUrl + '/settings/tags/init-tag',
+            data: {id:id, category_id:category},
+            async: false,
+            success: function(data){
+                $('#tags-tag-dialog').html(data.tag);
+            }
+        });
+    }
+
+</script>

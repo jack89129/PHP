@@ -1,0 +1,455 @@
+<style type="text/css">
+   .creat ul li {
+       padding-right: 10px;
+   }
+</style>
+
+<!-- START RIGHT -->
+<div id="right" class="sub">
+
+    <!-- START NEWS -->
+    <div class="news_Box">
+        <?= $this->render('receipt/_partials/receipt-sidebar.phtml'); ?>
+    </div>
+
+    <div id="log"></div>
+    <!-- END OPTIES -->
+
+</div>
+<!-- END RIGHT -->
+
+<!-- START LEFT -->
+<div id="left" class="sub">
+    <form id="receipt-form" action="<?= $this->baseUrl() . "/stock/receipt/save"; ?>" method="post">
+    <input type="hidden" name="receipt[id]" value="<?= $this->escape($this->receipt->id); ?>" />
+    <!-- START RECEIPT -->
+    <div class="purchase_Box">
+
+        <h2><?= _t('Bestel bon') ?></h2>
+
+        <div class="creat">
+            <ul>
+                <li><?= _t('Bonnummer') ?>:
+                    <span id="number" style="width:94px;cursor:pointer;"><?= $this->escape($this->receipt->number); ?></span>
+                    <span id="number-input" style="display:none;"><input class="gray-input" style="width:80px;" type="text" name="receipt[number]" value="<?= $this->escape($this->receipt->number); ?>" /></span>
+                </li>
+                <li><?= _t('Verkoper') ?>: <span>
+                    <div style="width:211px;">
+                     <?php if( $this->readonly ): ?>
+                    <?= $this->escape($this->receipt->employee ? $this->receipt->employee->name : ''); ?>
+                    <?php else: ?>
+                    <select name="receipt[employee_id]">
+                        <option value="0"><?= _t('Kies verkoper') ?></option>
+                        <?php foreach( $this->employees as $employee ): ?>
+                        <option value="<?= $this->escape($employee->id);?>" <?= $this->receipt->employee_id == $employee->id ? 'selected="selected"' : '' ?>><?= $this->escape($employee->name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php endif; ?>
+                    </div>
+                </span></li>
+                <?php if( $this->readonly ): ?>
+                <li><?= _t('Contacten') ?>: <span>
+                    <div style="width:211px;">
+                        <?= $this->escape($this->receipt->contact ? $this->receipt->contact->name : ''); ?>
+                    </div>
+                </span></li>
+                <?php endif; ?>
+                <li><?= _t('Bondatum') ?>: <span><?= date(Constants::DATE_FORMAT, $this->receipt->created_time); ?></span></li>
+                <li><?= _t('Leverdatum') ?>: <span>
+                <?php if( $this->readonly ): ?>
+                    <?= date(Constants::DATE_FORMAT, strtotime($this->receipt->delivery_date)) ?>
+                <?php else : ?>
+                    <input type="text" class="gray-input" style="width:68px;text-align: center;height:14px;vertical-align:bottom;" id="delivery_date" name="receipt[delivery_date]" value="<?= date(Constants::DATE_FORMAT, strtotime($this->receipt->delivery_date)) ?>" />
+                <?php endif; ?>
+                </span></li>
+            </ul>
+        </div>
+        <br/>
+        <?php if( !$this->readonly ): ?>
+        <div class="purchase_Box">
+        <div class="deb" style="margin:0px;border:0px;padding:0px;">
+        <fieldset class="invoice">
+            <input type="hidden" name="receipt[contact_id]" data-contact-name="<?= $this->escape($this->receipt->contact ? $this->receipt->contact->name : ''); ?>" data-contact-id="<?= $this->escape($this->receipt->contact_id); ?>" value="<?= $this->escape($this->receipt->contact_id); ?>" />
+            <span><?= _t('Debiteur') ?>:</span>
+            &nbsp;
+            <input type="text" class="gray-input <?= $this->receipt->contact ? 'invoice-contact' : '' ?>" style="display:inline;width:175px;padding-left:30px;" name="contact" value="<?= $this->escape($this->receipt->contact ? $this->receipt->contact->name : '') ; ?>" />
+            &nbsp;
+            &nbsp;
+            <span><?= _t('Voornaam') ?>:</span>
+            &nbsp;
+            <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[firstname]" value="<?= $this->escape($this->receipt->contact ? $this->receipt->contact->firstname : '') ; ?>" />
+            &nbsp;
+            &nbsp;
+            <span><?= _t('Achternaam') ?>:</span>
+            &nbsp;
+            <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[lastname]" value="<?= $this->escape($this->receipt->contact ? $this->receipt->contact->lastname : '') ; ?>" />
+            <br/>
+            <br/>
+            <span><?= _t('Adres') ?>:</span>
+            &nbsp;
+            <input type="text" class="gray-input" style="display:inline;width:200px;" name="contact[address]" value="<?= $this->escape($this->receipt->contact ? $this->receipt->contact->address : '') ; ?>" />
+            &nbsp;
+            &nbsp;
+            <span><?= _t('Postcode') ?>:</span>
+            &nbsp;
+            <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[postcode]" value="<?= $this->escape($this->receipt->contact ? $this->receipt->contact->postcode : '') ; ?>" />
+            &nbsp;
+            &nbsp;
+            <span><?= _t('Plaats') ?>:</span>
+            &nbsp;
+            <input type="text" class="gray-input" style="display:inline;width:100px;" name="contact[city]" value="<?= $this->escape($this->receipt->contact ? $this->receipt->contact->city : '') ; ?>" />
+            <br/>
+            <br/>
+            <span><?= _t('Land') ?>:</span>
+            &nbsp;
+            <input type="text" class="gray-input" style="display:inline;width:200px;" name="contact[country]" value="<?= $this->escape($this->receipt->contact ? $this->receipt->contact->country : '') ; ?>" />
+            &nbsp;
+            &nbsp;
+
+                                    <span style="width:300px;">
+                                    <label class="label_check2">
+                                        <input type="checkbox" name="save_contact" />
+                                    </label>
+                                    <label style="line-height: 29px;font-weight:normal;color:#666666;">&nbsp;&nbsp;&nbsp;&nbsp;<?= _t('Sla wijzigingen op in adresboek') ?></label>
+                                    </span>
+        </fieldset>
+        </div>
+        </div>
+        <?php endif; ?>
+        <br/>
+
+        <div class="total">
+
+            <ul>
+                <li>
+                    <div class="first" style="padding-left:80px;width:410px;"><h3><?= _t('Omschrijving') ?></h3></div>
+                    <div class="second"><h3><?= _t('Aantal') ?></h3></div>
+                </li>
+            </ul>
+            <ul id="sortableproducts">
+                <?php
+                      $index = 0;
+                      foreach( $this->receipt->products as $product ): ?>
+                        <?= $this->partial('receipt/_partials/receipt-row.phtml', array('product' => $product, 'index' => $index, 'readonly' => $this->readonly)); ?>
+                <?php $index++;
+                      endforeach; ?>
+            </ul>
+            <input type="hidden" id="receipt_row_index" value="<?= $index; ?>" />
+            <?php if( !$this->readonly ): ?>
+            <ul>
+                <li><h4 onclick="receipt_add_row()" style="cursor:pointer;"><a><?= _t('Bestel bon toevoegen') ?></a></h4></li>
+            </ul>
+            <?php endif; ?>
+        </div>
+
+        <table style="width:100%;margin-bottom: 40px;">
+            <tr>
+                <td style="width:100px;vertical-align: top;"><?= _t('Comment') ?>:&nbsp;</td>
+                <td>
+                    <?php if( !$this->readonly ): ?>
+                    <div class="gray-input wysiwyg" style="height:auto;"><?= Utils::strip_bad_tags($this->receipt->info); ?>&nbsp;</div>
+                    <input type="hidden" name="receipt[info]" value="<?= $this->escape($this->receipt->info) ?>" />
+                    <?php else: ?>
+                    <div class="wysiwyg" style="height:auto;"><?= Utils::strip_bad_tags($this->receipt->info); ?>&nbsp;</div>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- END RECEIPT -->
+</form>
+</div>
+
+<!-- END LEFT -->
+<!--<input type="text" style="width:0px;height:0px;" />-->
+
+
+<script type="text/javascript">
+
+    function receipt_invoice(){
+        $.post(baseUrl + '/stock/receipt/invoice/', {id:$('[name="receipt[id]"]').val()});
+    }
+
+    function receipt_pack(){
+        $.post(baseUrl + '/stock/receipt/pack/', {id:$('[name="receipt[id]"]').val()});
+    }
+
+    <?php if( !$this->readonly ): ?>
+    var receipt_enable_auto_save = true;
+    var receipt_auto_save_ready = true;
+
+    $(document).ready(function(){
+        $('#delivery_date').datepicker({dateFormat: "dd-mm-yy"});
+
+        log_source_type = 'receipt';
+        log_source_id = $('[name="receipt[id]"]').val();
+        log_init();
+
+        $('[name="receipt[info]"]').parent().find('.wysiwyg').hallo({
+            plugins: {
+                'halloformat': {},
+                'hallolink': {}
+            },
+            editable: true
+        }).bind('hallomodified', function(){
+                    $('[name="receipt[info]"]').val($(this).html().trim());
+        }).blur(receipt_auto_save);
+
+        $('[name="receipt[employee_id]"]').combobox().change(function(){
+            receipt_auto_save();
+        });
+
+        $('[name^="receipt"]').change(receipt_auto_save);
+        $('#number').click(function(){
+            $(this).hide();
+            $('#number-input').show().children('input').focus();
+        });
+
+        $('#number-input input').blur(function(){
+            $('#number').text($(this).val()).show();
+            $(this).parent().hide();
+        });
+
+        receipt_init_sorting()
+
+        $('[name^="row"]').each(function(index, element){
+            receipt_init_product(element.value)
+        })
+
+        $('[name=contact]').autocomplete({
+            source: function( request, response ) {
+                disable_loader = true;
+                $.ajax({
+                    url: baseUrl + "/stock/receipt/contact-autocomplete",
+                    method: 'post',
+                    data: {
+                        limit: 10,
+                        term: request.term
+                    },
+                    success: function( data ) {
+                        response( $.map( data, function( item ) {
+                            return {
+                                label: String(item.firstname + ' ' + item.lastname).trim(),
+                                value: item.name,
+                                data: item
+                            }
+                        }));
+                    }
+                });
+            },
+            minLength: 0,
+            select: function( event, ui ) {
+                if( ui.item ){
+                    receipt_contact_select(ui.item.data);
+                }
+            },
+
+            change: function(event, ui){
+            }
+        }).change(function(){
+            receipt_check_contact_name();
+        });
+
+
+        receipt_row_index = $('#receipt_row_index').val();
+        receipt_auto_save_ready = true;
+    });
+
+    function receipt_contact_select(contact){
+        $('[name="receipt[contact_id]"]').val(contact.id);
+        $('[name="receipt[contact_id]"]').data('contact-name', String(contact.firstname + ' ' + contact.lastname).trim());
+        $('[name="receipt[contact_id]"]').data('contact-id', contact.id);
+        $('[name="contact[firstname]"]').val(contact.firstname);
+        $('[name="contact[lastname]"]').val(contact.lastname);
+        $('[name="contact[address]"]').val(contact.address);
+        $('[name="contact[postcode]"]').val(contact.postcode);
+        $('[name="contact[city]"]').val(contact.city);
+        $('[name="contact[country]"]').val(contact.country);
+        receipt_auto_save();
+        receipt_contact_update_icon();
+    }
+
+    function receipt_contact_update_icon(){
+        $('[name=contact]').removeClass('invoice-contact-add');
+        $('[name=contact]').removeClass('invoice-contact');
+
+        if( $('[name="receipt[contact_id]"]').val() == 0 ){
+            $('[name=contact]').addClass('invoice-contact-add');
+        }else{
+            $('[name=contact]').addClass('invoice-contact');
+        }
+    }
+
+    function receipt_check_contact_name(){
+        if( $('[name="receipt[contact_id]"]').data('contact-name') != $('[name=contact]').val() ){
+            $('[name="receipt[contact_id]"]').val(0);
+            receipt_contact_update_icon();
+        }else{
+            $('[name="receipt[contact_id]"]').val($('[name="receipt[contact_id]"]').data('contact-id'));
+            receipt_contact_update_icon();
+        }
+
+        receipt_auto_save();
+    }
+
+    function receipt_init_sorting(){
+        // sorting
+        $("#sortableproducts").sortable({handle: ".sorthandle"});
+    }
+
+    var receipt_row_index = 0;
+    function receipt_add_row()
+    {
+        receipt_row_index++;
+        $.post(baseUrl + '/stock/receipt/add-row', {index: receipt_row_index}, function(html){
+            $('#sortableproducts').append(html)
+            var row = $('#sortableproducts').children().last()
+            var index = receipt_product_name_to_index(row.find('[name^="row"]')[0].name);
+            $('[name="product[' + index + '][description]"]').focus();
+            receipt_init_product(index)
+            receipt_auto_save()
+        });
+
+        receipt_init_sorting()
+    }
+
+    function receipt_remove_row(row){
+        var container = $(row).parents('.product1').first()
+        container.fadeOut('slow', function() { container.remove(); receipt_auto_save(); });
+    }
+
+
+    function receipt_init_product(index){
+        receipt_init_product_qty_change(index)
+        receipt_init_product_description_change(index)
+    }
+
+    function receipt_init_product_qty_change(index){
+        var product = $('[name="product[' + index + '][qty]"]')
+
+        product.change(function(){
+            receipt_auto_save();
+        })
+
+        product.keydown(function(event){
+            if( event.keyCode == 9 && $(this).parents('.product1').next().length == 0 ){
+                receipt_add_row();
+            }
+
+            only_numeric(this, event, false)
+        })
+    }
+
+    function receipt_init_product_description_change(index){
+        var product = $('[name="product[' + index + '][description]"]');
+
+        product.parent().find('.wysiwyg').blur(function(){
+            receipt_auto_save();
+        })
+
+        product.parent().find('.wysiwyg').focus(function(){
+            if( $(this).text().trim().length == 0 ){
+                $(this).autocomplete('search', '');
+            }
+        });
+
+        product.parent().find('.wysiwyg').bind('hallomodified', function(){
+            var index = receipt_product_name_to_index(this.id);
+            $('[name="product[' + index + '][description]"]').val($(this).html().trim());
+
+            if( $(this).text().trim().length == 0 ){
+                    $('[name="product[' + index + '][product_id]"]').val(0);
+                }
+        })
+
+        product.parent().find('.wysiwyg').autocomplete({
+            source: function( request, response ) {
+                $.ajax({
+                    url: baseUrl + "/stock/receipt/product-autocomplete",
+                    method: 'post',
+                    data: {
+                        limit: 10,
+                        term: request.term.trim()
+                    },
+                    success: function( data ) {
+                        response( $.map( data, function( item ) {
+                            return {
+                                label: item.label ? item.label : (item.article_code.length ? '[' + item.article_code + '] ' : '') + item.name,
+                                value: item.name,
+                                data: item
+                            }
+                        }));
+                    }
+                });
+            },
+            search: function(){
+                disable_loader = true;
+            },
+            select: function( event, ui ) {
+                if( ui.item ){
+                    var index = receipt_product_name_to_index(this.id);
+                    $('[name="product[' + index + '][product_id]"]').val(ui.item.data.id);
+                }
+            },
+            close: function(){
+                $(this).trigger('hallomodified');
+            },
+            minLength: 0
+        });
+
+        product.parent().find('.wysiwyg').hallo({
+            plugins: {
+                'halloformat': {},
+                'hallolink': {}
+            },
+            editable: true
+        });
+    }
+
+    function receipt_final(){
+        $.post(baseUrl + '/stock/receipt/final/', {id:$('[name="receipt[id]"]').val()});
+    }
+
+    function receipt_auto_save(){
+        if( !receipt_enable_auto_save || !receipt_auto_save_ready ){
+            return;
+        }
+
+        disable_loader = true;
+        return receipt_save();
+    }
+
+    function receipt_save(){
+        receipt_auto_save_ready = false;
+        return $.post(baseUrl + "/stock/receipt/save", $('#receipt-form').serialize())
+                .success(function(data){
+                    if( data.id ){
+                        $('[name="receipt[id]"]').val(data.id);
+                        $('[name="receipt[contact_id]"]').val(data.contact_id);
+                        receipt_contact_update_icon();
+                    }
+                }).complete(function(){
+                    receipt_auto_save_ready = true;
+                });
+    }
+
+    function receipt_product_name_to_index(name){
+        return name.match(/\d+/)[0];
+    }
+
+    function only_numeric(element, event, decimal){
+        if( !(
+                event.keyCode == 9
+                        || (decimal && element.value.indexOf('.') == -1 && (event.keyCode == 110 || event.keyCode == 190)) // . (dot)
+                        || event.keyCode == 8                              // backspace
+                        || event.keyCode == 46                             // delete
+                        || (event.keyCode >= 35 && event.keyCode <= 40)    // arrow keys/home/end
+                        || (event.keyCode >= 48 && event.keyCode <= 57)    // numbers on keyboard
+                        || (event.keyCode >= 96 && event.keyCode <= 105)   // number on keypad
+                )
+                ) {
+            event.preventDefault();
+        }
+    }
+    <?php endif; ?>
+</script>

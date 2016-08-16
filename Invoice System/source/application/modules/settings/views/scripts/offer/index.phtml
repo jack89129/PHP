@@ -1,0 +1,158 @@
+<?php include(APPLICATION_PATH . '/layouts/settings-sidebar.phtml'); ?>
+
+<style type="text/css">
+    form .offer_mail_template.green-button {
+        width: 180px;
+        margin-left: 30px;
+        background-image: url('/images/green-button-wide.png');
+    }
+    a.format_tag {
+        background-color: #DDDDDD;
+        border-radius: 3px 3px 3px 3px;
+        color: #777777;
+        line-height: 33px;
+        padding: 5px 8px;
+        text-decoration: none;
+    }
+    html .cke_skin_kama {
+        width: 85%;
+    }
+</style>            
+
+<!-- START RIGHT -->
+<div id="right">
+
+    <!-- START OVERVIE -->
+    <div class="oerview_Box1">
+
+        <h2>Opties</h2>
+
+        <div class="form">
+            <h3 style="margin:10px 0 -15px 10px;">Offerte instellingen</h3>
+            <form action="#" id="settingForm">
+                <fieldset>
+                    <div>                                                                                            
+                    <form>
+                        Op deze pagina, kunt u alle e-mailberichten instellen welke verzenden zullen worden van het moment u een offerte, herinnering, ... naar uw klanten stuurt. Op die manier hoeft u niet steeds opnieuw een hele
+                        mail op te stellen. Het systeem zal dan al standaard de e-mail invullen. Echter kunt u indien gewenst de tekst wel nog aanpassen bij het versturen indien u deze toch nog wenst te personaliseren op dat moment!<br>
+                        <span style="margin-left: 10px;display: inline-block;width:230px;">E-mailbericht nieuwe offerte</span><input type="button" class="offer_mail_template green-button" value="Instellen" ptype="default" href="#mailsettings"/><br>
+                        <span style="margin-left: 10px;display: inline-block;width:230px;">E-mailbericht offerteherinnering</span><input type="button" class="offer_mail_template green-button" value="Instellen" ptype="late" href="#mailsettings"/><br>
+                        <span style="margin-left: 10px;display: inline-block;width:230px;">E-mailbericht 2de offerteherinnering</span><input type="button" class="offer_mail_template green-button" value="Instellen" ptype="urgent" href="#mailsettings"/><br>
+                        <!--<span style="margin-left: 10px;display: inline-block;width:230px;">E-mailbericht laatste offerteherinnering</span><input type="button" class="offer_mail_template green-button" value="Instellen" ptype="judge" href="#mailsettings"/><br>-->
+                        <span style="margin-left: 10px;display: inline-block;width:230px;">E-mailbericht offerte geaccepteerd</span><input type="button" class="offer_mail_template green-button" value="Instellen" ptype="thanks" href="#mailsettings"/><br>
+                        <span style="margin-left: 10px;display: inline-block;width:230px;">Offerte instellingen</span><input type="button" class="offer_mail_template green-button" value="Instellen" ptype="notice" href="#noticesettings"/>
+                    </form>
+                    </div>
+
+                </fieldset>
+
+            </form>
+
+        </div>
+
+    </div>
+    <!-- END OVERVIE -->
+
+</div>
+<!-- END RIGHT -->
+
+<div style="display: none;">
+    <div class="opslaan-Box overlaybox" id="mailsettings">
+        <form id="mailsettings-form" type="offer">
+            <input type="hidden" name="type" id="div_type" />
+            <fieldset>
+                <h2 class="popup_title"></h2>            
+                <div class="opslaan selected">                                                                                             
+                    <div class="right">                                                                                                                                                                          
+                
+                        <div id="mailsettingsform">             
+                            <div class="center">
+                                <label><?= _t('Onderwerp') ?>:</label> 
+                                <div class="wysiwyg field" id="div_subject" contenteditable="true" style="height:auto;">&nbsp;</div>
+                        <input type="hidden" name="subject" value="" />
+                            </div>
+                            
+                            <div class="center">
+                                <label><?= _t('Bericht') ?>:</label> 
+                                <!--<div class="wysiwyg field" id="div_body" contenteditable="true" style="width:500px;height:125px; overflow: auto;"></div>
+                        <input type="hidden" name="body" value="" />-->
+                                <textarea id="settings_invoice_mailbody" name="body" class="grayfield" contenteditable="true" ></textarea>
+                            </div>
+                            
+                            <div class="center">
+                                <label style="height:70px;">Beschikbare tags :</label>                                 
+                                <a class="format_tag" href="#this" code="client_number">Debiteurnummer</a>
+                                <a class="format_tag" href="#this" code="client_firstname">Debiteur voornaam</a>
+                                <a class="format_tag" href="#this" code="client_lastname">Debiteur achternaam</a>
+                                <a class="format_tag" href="#this" code="offer_number">Offertenummer</a>
+                                <a class="format_tag" href="#this" code="offer_expiration_date">Offerte vervaldatum</a>
+                                <a class="format_tag" href="#this" code="offer_total_price">Offerte eindtotaal</a>
+                                <a class="format_tag" href="#this" code="offer_creation_date">Offerte aanmaakdatum</a>
+                                <a class="format_tag" href="#this" code="company_name">Bedrijfsnaam</a>
+                                <a class="format_tag" href="#this" code="bank_name">Banknaam</a>
+                                <a class="format_tag" href="#this" code="bank_location">Bankplaats</a>
+                                <a class="format_tag" href="#this" code="bank_number">Rekeningnummer</a>
+                                <a class="format_tag" href="#this" code="bank_iban">IBAN</a>
+                                <a class="format_tag" href="#this" code="bank_bic">BIC/SWIFT</a>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>                   
+                
+                <input type="submit" class="button gap button-loader"    value="<?= _t('Opslaan') ?>" />
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div style="display: none;">
+    <div class="opslaan-Box overlaybox" id="noticesettings">
+        <form id="noticesettings-form" type="offer">
+            <input type="hidden" name="type" id="notice_type" />
+            <fieldset>
+                <h2 class="popup_title"></h2>            
+                <div class="opslaan selected">                                                                                             
+                     <div class="right" style="float: left;width: 653px;">                                                                                                                                                                          
+                
+                        <div id="mailsettingsform">             
+                            <div class="center">
+                                <label style="width: 100%;"><?= _t('Omschrijving op offerte') ?>:</label> 
+                                <div class="wysiwyg field" id="notice_intro" contenteditable="true" style="width:470px;height:130px; overflow: auto;">&nbsp;</div>
+                                <img src="/images/omschrijving.png" style="float: left; margin-left: 13px; width: 159px;" />
+                        <input type="hidden" name="intro" value="" />
+                            </div>
+                            
+                            <div class="center">
+                                <label style="width: 100%;"><?= _t('Afsluiting van offerte') ?>:</label> 
+                                <div class="wysiwyg field" id="notice_footer" contenteditable="true" style="width:470px;height:130px; overflow: auto;"></div>
+                                <img src="/images/footer.png" style="float: left; margin-left: 13px; width: 159px;" />
+                        <input type="hidden" name="footer" value="" />
+                            </div>
+                            
+                            <div class="center">
+                                <label style="height:70px;">Beschikbare tags :</label>                                 
+                                <a class="format_tag" href="#this" code="client_number">Debiteurnummer</a>
+                                <a class="format_tag" href="#this" code="client_firstname">Debiteur voornaam</a>
+                                <a class="format_tag" href="#this" code="client_lastname">Debiteur achternaam</a>
+                                <a class="format_tag" href="#this" code="offer_number">Offertenummer</a>
+                                <a class="format_tag" href="#this" code="offer_expiration_date">Offerte vervaldatum</a>
+                                <a class="format_tag" href="#this" code="offer_total_price">Offerte eindtotaal</a>
+                                <a class="format_tag" href="#this" code="offer_creation_date">Offerte aanmaakdatum</a>
+                                <a class="format_tag" href="#this" code="company_name">Bedrijfsnaam</a>
+                                <a class="format_tag" href="#this" code="bank_name">Banknaam</a>
+                                <a class="format_tag" href="#this" code="bank_location">Bankplaats</a>
+                                <a class="format_tag" href="#this" code="bank_number">Rekeningnummer</a>
+                                <a class="format_tag" href="#this" code="bank_iban">IBAN</a>
+                                <a class="format_tag" href="#this" code="bank_bic">BIC/SWIFT</a>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>                   
+                
+                <input type="submit" class="button gap button-loader"    value="<?= _t('Opslaan') ?>" />
+            </fieldset>
+        </form>
+    </div>
+</div>

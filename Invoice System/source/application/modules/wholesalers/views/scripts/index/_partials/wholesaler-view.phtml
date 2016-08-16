@@ -1,0 +1,150 @@
+    <?= $this->partial('index/_partials/wholesaler-view-sidebar.phtml', array('wholesaler' => $this->wholesaler, 'groups' => $this->groups)) ?>
+    <div class="left">
+    <?php if(!empty($this->wholesaler)){ ?>
+    <h3>
+        <?php echo $this->escape($this->wholesaler->company_name) ?><br>
+        <span><?php echo $this->escape($this->wholesaler->name_reversed) ?></span>
+        <span><?php echo $this->escape($this->wholesaler->number) ?></span>
+    </h3>
+    <address>
+        <span><?= _t('Company name') ?></span>
+        <?= $this->escape($this->wholesaler->company_name); ?>&nbsp;
+        <br/>
+        <span><?= _t('Voornaam') ?></span>
+        <?= $this->escape($this->wholesaler->firstname2) ?>&nbsp;
+        <br />
+        <span><?= _t('Achternaam') ?></span> <?php echo $this->escape($this->wholesaler->lastname2) ?>&nbsp;
+        <br/>
+        <span><?= _t('VAT number') ?></span>
+        <?= $this->escape($this->wholesaler->vat_number); ?>&nbsp;
+        <!--<br/>
+        <span><?= _t('Klantnummer') ?></span>
+        <?= $this->escape($this->wholesaler->client_number); ?>&nbsp;-->
+    </address>
+    <address>
+        <span><?= _t('Adres') ?></span>
+        <?= $this->escape($this->wholesaler->address) ?>&nbsp;
+        <br />
+        <span><?= _t('Postcode en plaats') ?></span>
+        <?= $this->escape($this->wholesaler->postcode) ?>&nbsp;
+        <?= $this->escape($this->wholesaler->city) ?>&nbsp;
+        <br />
+        <span><?= _t('Land') ?></span>
+        <?= $this->escape($this->wholesaler->country) ?>&nbsp;
+    </address>
+    <address>
+        <span><?= _t('E-mailadres') ?>:</span>
+        <?= $this->escape($this->wholesaler->email_address) ?>&nbsp;
+        <br />
+        <span><?= _t('Telefoonnummer 1') ?>:</span>
+        <?= $this->escape($this->wholesaler->phone1) ?>&nbsp;
+        <br />
+        <span><?= _t('Telefoonnummer 2') ?>:</span>
+        <?= $this->escape($this->wholesaler->phone2) ?>&nbsp;
+        <br />
+        <span><?= _t('FAX') ?>:</span>
+        <?= $this->escape($this->wholesaler->fax) ?>&nbsp;
+        <br />
+        <span><?= _t('Contactpersoon') ?>:</span>
+        <?= $this->escape($this->wholesaler->contact_person) ?>&nbsp;
+    </address>
+
+    <?php if( $this->wholesaler->have_delivery ): ?>
+    <address>
+        <h2><?= _t('Levering') ?>:</h2>
+        <br/>
+
+        <span><?= _t('Voornaam') ?></span>
+        <?= $this->escape($this->wholesaler->delivery_firstname) ?>&nbsp;
+        <br />
+        <span><?= _t('Achternaam') ?></span> <?php echo $this->escape($this->wholesaler->delivery_lastname) ?>&nbsp;
+        <br/>
+        <span><?= _t('Adres') ?></span>
+        <?= $this->escape($this->wholesaler->delivery_address) ?>&nbsp;
+        <br />
+        <span><?= _t('Postcode en plaats') ?></span>
+        <?= $this->escape($this->wholesaler->delivery_postcode) ?>&nbsp;
+        <?= $this->escape($this->wholesaler->delivery_city) ?>&nbsp;
+        <br />
+        <span><?= _t('Land') ?></span>
+        <?= $this->escape($this->wholesaler->delivery_country) ?>&nbsp;
+        <br/>
+
+    </address>
+    <br/>
+    <?php endif; ?>
+    <!--
+    <address>
+        <h2>Openingsuren</h2>
+        <br/>
+        <? $days = array(_t('Maandag'), _t('Dinsdag'), _t('Woensdag'), _t('Donderdag'), _t('Vrijdag'), _t('Zaterdag'), _t('Zondag')); ?>
+        <?php foreach( $days as $index => $day ): ?>
+
+		<span><?= $this->escape($day) ?></span>
+		
+		<?php $current = $this->wholesaler->getDay($index); ?>
+		
+		<div style="display: inline-block; width: 100px;">
+		<?php
+		if ($current[0] == false) {
+			echo _t('gesloten');
+		} else {
+			$startTime = "";
+			$endTime = "";
+			if ($current[0][0] != false) {
+				$startTime = $current[0][0];
+				if (strpos($startTime, ":") === false) $startTime .= ":00";
+			}
+			if ($current[0][1] != false) {
+				$endTime = $current[0][1];
+				if (strpos($endTime, ":") === false) $endTime .= ":00";
+			}
+			echo $startTime . " - " . $endTime;
+		}
+		?>
+		</div>
+		
+		<div style="display: inline-block; width: 20px;">//</div>
+		
+		<div style="display: inline-block; width: 100px;">
+		<?php
+		if ($current[1] == false) {
+			echo _t('gesloten');
+		} else {
+			$startTime = "";
+			$endTime = "";
+			if ($current[1][0] != false) {
+				$startTime = $current[1][0];
+				if (strpos($startTime, ":") === false) $startTime .= ":00";
+			}
+			if ($current[1][1] != false) {
+				$endTime = $current[1][1];
+				if (strpos($endTime, ":") === false) $endTime .= ":00";
+			}
+			echo $startTime . " - " . $endTime;
+		}
+		?>
+		</div>
+		
+        <br/>
+        <?php endforeach; ?>
+
+    </address>   -->
+    <br/>
+
+    <?php if( $this->wholesaler->info ): ?>
+        <h2><?= _t('Extra informatie') ?></h2>
+        <div style="padding:10px;line-height: 18px;">
+        <?= Utils::strip_bad_tags($this->wholesaler->info); ?>
+        </div>
+    <?php endif; ?>
+
+    <br/>
+    <?php if( Utils::user()->can('wholesaler_edit') ): ?>
+    <ul class="links">
+        <li class="selected"><a href="javascript:;" onclick="wholesalers_edit_wholesaler(<?= $this->escape($this->wholesaler->id) ?>);"><?= _t('Contact bewerken') ?></a></li>
+        <li class="selected"><a href="javascript:;" onclick="wholesaler_to_contact(<?= $this->escape($this->wholesaler->id) ?>);"><?= _t('Crediteur kopi&euml;ren naar debiteur') ?></a></li>
+    </ul>
+    <?php endif; ?>
+    <?php } ?>
+    </div>

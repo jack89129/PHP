@@ -1,0 +1,27 @@
+<div id="invoice-payment-invoices-list-scroll" style="height:401px;">
+    <?php if( $this->invoices ): ?>
+        <ul>
+            <?php foreach( $this->invoices as $invoice ): ?>
+            <li>
+                <label>
+                    <label class="label_check left">
+                        <input onchange="invoice_payment_load(<?= $this->escape($invoice->id); ?>);" type="radio" <?= $this->invoice && $this->invoice->id == $invoice->id ? 'checked="checked"' : '' ?> name="invoice[id]" value="<?= $this->escape($invoice->id); ?>" class="styled" />
+                    </label>
+                    <span class="link"><?= $this->escape($invoice->number); ?></span>
+                </label>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p style="text-align: center;"><span style="line-height: 39px;"><?= _t('No unpaid invoices!') ?></span></p>
+    <?php endif; ?>
+</div>
+<script type="text/javascript">
+    $('#invoice-payment-invoices-list-scroll').jScrollPane();
+
+    $('#invoice-payment-invoice-list').find('.label_check, .label_radio,.label_check2,.label_check3').click(function(){
+        setupLabel('#invoice-payment-invoice-list');
+    });
+    setupLabel('#invoice-payment-invoice-list');
+
+</script>

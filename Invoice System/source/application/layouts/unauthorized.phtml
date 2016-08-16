@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+    <head>
+        <?php echo $this->headTitle() ?>
+        <?php echo $this->headMeta() ?>
+
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+        <meta name="keywords" content="key, words" />
+        <meta name="description" content="website description goes here" />
+        <meta name="robots" content="noindex, nofollow" />
+
+        <?=
+        $this->headLink()
+            ->prependStylesheet($this->baseUrl().'/css/changes.css')
+            ->prependStylesheet($this->baseUrl().'/css/jquery-ui/green/jquery.ui.theme.css')
+            ->prependStylesheet($this->baseUrl().'/css/jquery-ui/green/jquery-ui.css')
+
+            ->prependStylesheet($this->baseUrl().'/css/stylesheet.css')
+            ->prependStylesheet($this->baseUrl().'/css/style.css')
+            ->prependStylesheet($this->baseUrl().'/css/style2.css');
+        ?>
+        
+        <?=
+        $this->headScript()                                              
+            ->prependFile($this->baseUrl().'/js/jquery.ui.js')
+            ->prependFile($this->baseUrl().'/js/jquery.min.js');
+        ?>
+
+    </head>
+    <body>
+        <!-- START WRAPPER -->
+        <div id="wrapper">
+            <!-- START LAYOUT -->
+            <div id="layout">
+                <br/>
+                <div id="content">
+                    <?php echo $this->layout()->content ?>
+                </div>
+
+            </div>
+            <!-- END LAYOUT -->
+        </div>
+        <!-- END WRAPPER -->
+    </body>
+</html>

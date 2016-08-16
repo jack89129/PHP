@@ -1,0 +1,9 @@
+<tr>
+    <td class="itd-qty"><?= $this->escape($this->product->qty); ?></td>
+    <td class="itd-article_code"><?= $this->escape($this->product->product ? $this->product->product->article_code : ''); ?></td>
+    <td class="itd-description"><?= Utils::strip_bad_tags($this->product->description); ?></td>
+    <td class="itd-vat"><?= $this->escape($this->product->vat) ?>%</td>
+    <td class="itd-discount"><?= $this->product->discount ? $this->escape($this->product->discount.'%') : '' ?></td>
+    <td class="itd-price">&euro; <?= Utils::numberFormat($this->product->price, 2, '.', ','); ?></td>
+    <td class="itd-total">&euro; <?= Utils::numberFormat($this->product->total_sum, 2, '.', ','); ?></td>
+</tr>

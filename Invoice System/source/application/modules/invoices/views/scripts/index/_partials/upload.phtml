@@ -1,0 +1,25 @@
+<?= $this->upload(); ?>
+<script type="text/javascript">
+    upload_title        = '<?= _t('Bijlage toevoegen') ?>';
+    upload_validate_url = baseUrl + '/invoices/index/validate-annex-file';
+    upload_submit_url   = baseUrl + '/invoices/index/create-annex-invoice';
+    upload_file_types   = <?= json_encode(array_values(SettingsModel::getInvoiceAnnexTypes())); ?>;
+
+    upload_params = {
+        proforma: <?= $this->proforma ? $this->proforma : 0 ; ?>,
+        credit: <?= $this->credit ? $this->credit : 0 ; ?>,
+        id: $('[name="invoice[id]"]').val()
+    }
+
+    upload_on_success = function(){
+        log_reload();
+
+        if( typeof invoices_annexes_reload != "undefined" ){
+            invoices_annexes_reload();
+        } else {
+            window.location.reload();
+        }
+    }
+
+    upload_init();
+</script>

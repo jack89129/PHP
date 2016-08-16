@@ -1,0 +1,38 @@
+<?php
+	$purchase_row_index = $this->purchase_row_index;
+?>
+<div class="product1">
+		<fieldset class="invoice-small">
+			<input type="hidden" name="row[<?= $purchase_row_index ?>]" value="<?= $purchase_row_index ?>" />
+			<input type="hidden" name="ord[]" value="<?= $purchase_row_index ?>" />
+			<a href="javascript:;" onmouseup="setTimeout(purchase_auto_save,0)" class="sorthandle"><img class="sort" src="<?= $this->baseUrl(); ?>/images/img2.jpg" alt="" /></a>
+			<a href="javascript:;" onclick="purchase_remove_row(this)"><img class="del" src="<?= $this->baseUrl(); ?>/images/img3.jpg" alt="" /></a>
+
+			<input class="field" style="margin:0px;" type="text" name="product[<?= $purchase_row_index; ?>][qty]" value="<?= Utils::numberFormat($this->product->qty); ?>" />
+
+            <div style="width:263px;float:left;margin-left:10px;margin-right:10px;">
+                <div id="product_description_<?= $purchase_row_index ?>" class="gray-input wysiwyg" style="width:250px;height:auto;overflow-x:auto;"><?= Utils::strip_bad_tags($this->product->description) ?>&nbsp;</div>
+                <input type="hidden" name="product[<?= $purchase_row_index; ?>][description]" value="<?= $this->escape($this->product->description); ?>" />
+            </div>
+
+            <input type="hidden" name="product[<?= $purchase_row_index; ?>][product_id]" value="<?= $this->escape($this->product->product_id); ?>" />
+
+            <div style="float:left;">
+            <select name="product[<?= $purchase_row_index ?>][vat]">
+                <?php foreach(Constants::$VATS as $vat ): ?>
+                    <option value="<?= $this->escape($vat); ?>" <?= $vat == $this->product->vat ? 'selected="selected"' : ''; ?>><?= $this->escape($vat); ?>%</option>
+                <?php endforeach; ?>
+            </select>
+            </div>
+
+            <input type="text" class="field2" style="width:30px;text-align:right;" name="product[<?= $purchase_row_index ?>][discount]" value="<?= (int) $this->product->discount; ?>" />
+
+			<input class="field2" type="text"  style="text-align:right;width:50px;margin-left:0px;" name="product[<?= $purchase_row_index; ?>][price]"  value="<?= Utils::numberFormat($this->product->price); ?>" />
+
+			<label style="text-align:right;width:130px;text-align:right;"><nobr>&nbsp;&euro;	<font id="product_total_<?= $purchase_row_index; ?>"><?= Utils::numberFormat($this->product->total_sum); ?></font></nobr></label>
+                        
+            <!--<input class="field1" style="width:120px;margin-left:20px;" type="text" id="product_tag_<?= $purchase_row_index; ?>"  value="<?= $this->escape($this->product->tag?'('.$this->product->tag->number.') - '.$this->product->tag->name:''); ?>" />-->
+            <input type="hidden" name="product[<?= $purchase_row_index; ?>][tag_id]" value="<?= $this->escape($this->product->tag_id) ?>" />
+
+		</fieldset>
+</div>

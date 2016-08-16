@@ -1,0 +1,274 @@
+<div id="main_wrapper">
+  
+   <div id="wrapper">
+
+      <div id="top">
+      
+       <div id="top_left">
+        <ul>
+         <a href="#"> <li> <img src="/images/score/global.jpg" alt="" />Blacklist check</li> </a>
+         <a href="#"> <li><img src="/images/score/gl.jpg" alt="" />Senderscore check</li> </a>
+        </ul>
+       </div>
+       <div id="top_right"> <div class="left"> Laatste check : </div> <div class="right"> <img src="/images/score/clender.jpg" alt="" /><?=strftime("%e %B %Y", strtotime($this->lastcheck->check_date))?><img src="/images/score/watch.jpg" alt="" /><?=strftime("%H:%M", strtotime($this->lastcheck->check_date))?></div></div>
+      
+      </div>
+      
+      <div id="header">
+       <div class="hed_left"><span class="span1"> <?=count($this->iplist)?> </span> <span style="float:left;color:#009bff; padding:0 0px 0 9px;">Total in database <br /><b style="font-size:20px; color:#5b5b5b;"> Internet Protocol's(IP's) </b></span></div>
+       
+       <div class="hed_center"><span class="span1" id="inc_count"> <?=$this->lastcheck->inc_count?> <img src="/images/score/top.jpg"/> </span> <span style="float:left;color:#009bff; padding:0 0px 0 9px;">Total aantal  <br /><b style="font-size:20px; color:#5b5b5b;"> Gestegen in score </b></span></div>
+       
+       <div class="hed_center2"><span class="span1" id="eq_count"> <?=$this->lastcheck->eq_count?> <img src="/images/score/das.jpg"/> </span> <span style="float:left;color:#009bff; padding:0 0px 0 9px;">Total aantal  <br /><b style="font-size:20px; color:#5b5b5b;"> Zelfde score </b></span></div>
+
+      <div class="hed_right"><span class="span1" id="dec_count"> <?=$this->lastcheck->dec_count?> <img src="/images/score/bootm.jpg"/> </span> <span style="float:left;color:#009bff; padding:0 0px 0 9px;">Total aantal  <br /><b style="font-size:20px; color:#5b5b5b;"> Gedaald in score </b></span></div>
+      
+      
+      </div>
+      
+      <div class="clearfix"></div>
+      
+     <a href="javascript:;" id="animateButton">  <div style="margin-left:7px;"> <img src="/images/score/rechek.jpg" width="107" height="30" alt="" />  </div> </a>
+      
+       <br><br>    
+      <div id="container">
+       <div class="cont_left">
+
+      <div id="topLoader" align="center">      
+      </div>
+
+       <div class="text">
+        <span> Check Start: </span> <br /> &nbsp;&nbsp;&nbsp;<span style="color:#000" id="check_start"><?=strftime("%d/%m/%Y-%H:%M:%S", strtotime($this->lastcheck->check_date))?></span> <br />
+        <span> Check Start: </span> <br /> &nbsp;&nbsp;&nbsp;<span style="color:#000" id="check_end"><?=strftime("%d/%m/%Y-%H:%M:%S", strtotime($this->lastcheck->end_date))?></span>
+       </div> <br />
+       
+        <table align="center" width="100%">
+            <?php foreach ($this->iplist as $ip): ?>
+                <?php 
+                    $score = $this->scorelist[$ip->id];
+                    $fname = "";
+                    if ( $score->oldscore < $score->score ) {
+                        $fname = 'toparrow';
+                    } elseif ( $score->oldscore == $score->score ) {
+                        $fname = 'das';
+                    } else {
+                        $fname = 'bootmarrow';
+                    }
+                ?>
+                <tr> <td> <span id="ico<?=$ip->id?>" class="icobody"><img src="/images/score/<?=$fname?>.jpg" width="16" height="16" alt="" /></span><span id="ip<?=$ip->id?>"><?=$ip->ip?></span></td>  </tr>
+            <?php endforeach; ?>
+        
+        </table>
+       </div>
+       
+<div class="cont_right">
+    
+ <table align="center" width="100%">
+ 
+ <tr  style="border-bottom:5px solid #dedede;">
+ 
+  <div class="graph" align="center"><img src="/images/score/graph.jpg"/></div>
+  
+  <td>Score vorige check </td>
+  <td>Score deze check</td>
+  <td>Aantal punten verschil </td>
+  <td>Statistiek</td>
+  <td style="width:202px;">Nakijken op Sender Score website</td>
+       
+</tr>
+<tr>
+  <td>&nbsp;</td>
+   <td>&nbsp;</td>
+  <td>&nbsp;</td>
+    <td>&nbsp;</td>
+   <td>&nbsp;</td>    
+</tr>
+<?php //foreach ($this->scorelist as $score): ?>      
+<?php foreach ($this->iplist as $ip): ?>
+<?php $score = $this->scorelist[$ip->id]; ?>
+<tr id="">
+  <td id="old<?=$score->ipid?>" class="oldbody"><?=$score->oldscore?></td>
+  <td id="cur<?=$score->ipid?>" class="curbody"><?=$score->score?></td>
+  <td id="dif<?=$score->ipid?>" class="difbody"><?=$score->score-$score->oldscore?></td>
+  <td>dddddddddddddddddd</td>
+  <td style="width:202px;">Ga naar <a href="https://senderscore.org/lookup.php?lookup=<?=$ip->ip?>" target="_blank">senderscore.org</a></td>     
+</tr>
+<?php endforeach; ?>
+<tr>
+  <td>&nbsp;</td>
+   <td>&nbsp;</td>
+  <td>&nbsp;</td>
+    <td>&nbsp;</td>
+   <td>&nbsp;</td>    
+</tr>
+        
+ </table>
+        <div class="clearfix"></div>
+        
+       
+       </div>
+       
+      </div>
+   
+   </div>
+  
+  </div>    
+    
+<script type="text/javascript">   
+$(function() {
+    var $topLoader = $("#topLoader").percentageLoader({width: 100, height: 100, controllable : true, progress : 0, onProgressUpdate : function(val) {
+      $topLoader.setValue(Math.round(val * <?=count($this->iplist)?>));
+    }});
+    var cnt = 0;
+    var inc = 0;
+    var eq = 0;
+    var dec = 0;
+
+    var topLoaderRunning = false;
+    $("#animateButton").click(function() {
+        if (topLoaderRunning) {
+          return;
+        }
+        topLoaderRunning = true;
+        $topLoader.setProgress(0);
+        $topLoader.setValue('0');
+        cnt = 0;
+        inc = 0;
+        eq = 0;
+        dec = 0;
+        
+          $('.icobody').each(function(idx, obj){
+              $(obj).html('');
+          });
+          $('.difbody').each(function(idx, obj){
+              $(obj).html('0');
+          });
+          $('.curbody').each(function(idx, obj){
+              var score = $(obj).html();
+              $(obj).html('0');
+              $(obj).parent().find('.oldbody').html(score);
+          });   
+          
+          recheck();
+     });
+     
+     function animateFunc() {
+          cnt += 1;
+          var total = <?=count($this->iplist)?>;
+          $topLoader.setProgress(cnt / total);
+          $topLoader.setValue(cnt.toString());
+          
+          if (cnt < total) {
+            //setTimeout(animateFunc, 25);
+          } else {
+            topLoaderRunning = false;
+          }
+    }  
+     
+     function ajaxCallback(idx, count) {
+         var ip = $('#ip'+idx).html();
+         var ipid = idx;
+         var old = $('#old'+idx).html();                  
+         $.post("/score/check", {ip:ip, ipid:ipid, old:old })
+                .success(function(data){
+                    var fname = 'bootmarrow';
+                    if ( data.old < data.score ) {
+                        fname = 'toparrow';
+                        inc++;
+                    } else if ( data.old == data.score ) {
+                        fname = 'das';
+                        eq++;
+                    } else {
+                        dec++;
+                    }  
+                    $('#ico'+idx).html('<img src="/images/score/'+fname+'.jpg" width="16" height="16" alt="" />');
+                    $('#cur'+idx).html(data.score);          
+                    $('#dif'+idx).html(data.dif);
+                    animateFunc();
+                    idx++;
+                    if ( idx == count ) {
+                        var ip = $('#ip'+idx).html();
+                        var ipid = idx;
+                        var old = $('#old'+idx).html();   
+                        $.post("/score/check", {ip:ip, ipid:ipid, old:old, last:1 })
+                            .success(function(data){
+                                $('#cur'+idx).html(data.score);     
+                                $('#dif'+idx).html(data.dif);
+                                var fname = 'bootmarrow';
+                                if ( data.old < data.score ) {
+                                    fname = 'toparrow';
+                                    inc++;
+                                } else if ( data.old == data.score ) {
+                                    fname = 'das';
+                                    eq++;
+                                } else {
+                                    dec++;
+                                }  
+                                $('#ico'+idx).html('<img src="/images/score/'+fname+'.jpg" width="16" height="16" alt="" />');
+                                $('#inc_count').html(inc + '<img src="/images/score/top.jpg"/>');
+                                $('#eq_count').html(eq + '<img src="/images/score/das.jpg"/>');
+                                $('#dec_count').html(dec + '<img src="/images/score/bootm.jpg"/>');
+                                $('#check_end').html(data.end_time);
+                                animateFunc();
+                            }
+                        );
+                    } else {
+                        ajaxCallback(idx, count);
+                    }
+                }
+            ); 
+     }
+     
+     function recheck() {
+        var count = <?=count($this->iplist)?>;        
+        var ip = $('#ip1').html();
+        var ipid = 1;
+        var old = $('#old1').html();     
+        $.post("/score/check", {first:'1', ip:ip, ipid:ipid, old:old })
+            .success(function(data){   
+                var fname = 'bootmarrow';
+                if ( data.old < data.score ) {
+                    fname = 'toparrow';
+                    inc++;
+                } else if ( data.old == data.score ) {
+                    fname = 'das';
+                    eq++;
+                } else {
+                    dec++;
+                }  
+                $('#ico1').html('<img src="/images/score/'+fname+'.jpg" width="16" height="16" alt="" />');
+                $('#cur1').html(data.score);     
+                $('#dif1').html(data.dif);
+                $('#check_start').html(data.start_time);
+                animateFunc();
+                ajaxCallback(2, count);
+            }
+        );                 
+    }
+});  
+
+/*
+if (topLoaderRunning) {
+      return;
+    }
+    topLoaderRunning = true;
+    $topLoader.setProgress(0);
+    $topLoader.setValue('0');
+    var count = 0;
+    var total = <?=count($this->iplist)?>;
+    
+    var animateFunc = function() {
+      count += 1;
+      $topLoader.setProgress(count / total);
+      $topLoader.setValue(count.toString());
+      
+      if (count < total) {
+        setTimeout(animateFunc, 25);
+      } else {
+        topLoaderRunning = false;
+      }
+    }
+    
+    setTimeout(animateFunc, 25);
+*/    
+</script>

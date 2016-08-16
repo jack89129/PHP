@@ -1,0 +1,15 @@
+<?php if( count($this->all) > 1 ): ?>
+<div>
+    <?php if( $this->index > 0 ): ?>
+    <div style="float:left;">
+        <input type="button" onclick="reload_attachments(<?= $this->all[$this->index-1]->id ?>);" value="<?= _t('Vorige bijlage') ?>" class="green-button" />
+    </div>
+    <?php endif; ?>
+    <?php if( $this->index < count($this->all) - 1 ): ?>
+    <div style="float:right;">
+        <input type="button" onclick="reload_attachments(<?= $this->all[$this->index+1]->id ?>);" value="<?= _t('Volgende bijlage') ?>" class="green-button" />
+    </div>
+    <?php endif; ?>
+    <br style="clear:both;" />
+</div>
+<?php endif; ?>

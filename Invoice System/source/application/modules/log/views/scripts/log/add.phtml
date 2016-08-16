@@ -1,0 +1,22 @@
+<?php if( Utils::user()->can('log_edit') ): ?>
+<br/>
+<form id="log-form">
+    <input type="hidden" name="log[id]" value="<?= $this->escape($this->id); ?>" />
+    <label style="margin:4px;"><?= _t('Notities') ?></label>
+    <fieldset class="opslaan-Box" style="float:none;width:auto;height:auto;">
+        <textarea style="width:235px;height:30px;margin:4px;" name="log[data]"><?= $this->escape($this->data); ?></textarea>
+        <input type="submit" value="<?= $this->id ? _t('Notitie wijzigen') : _t('Notitie Toevoegen') ?>" class="green-button" style="margin:4px;" />
+    </fieldset>
+</form>
+<?php endif; ?>
+
+<script type="text/javascript">
+    $('[name="log[data]"]').elastic();
+    $('#log-form').submit(function(){
+        $.post(baseUrl + '/log/log/add/source_type/' + log_source_type + '/source_id/' + log_source_id, $('#log-form').serialize()).success(function(data){
+            log_reload();
+        });
+
+        return false;
+    });
+</script>

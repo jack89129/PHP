@@ -1,0 +1,53 @@
+<style type="text/css">
+    #tags-tag-dialog .ui-combobox {
+        width:378px;
+    }
+
+    #tags-tag-dialog .ui-combobox input {
+        width:356px;
+    }
+</style>
+<form id="tags-tag-form">
+            <input type="hidden" name="tag[id]" value="<?= $this->escape($this->tag->id) ?>" />
+            <input type="hidden" name="tag[tag_category_id]" value="<?= $this->escape($this->tag->tag_category_id); ?>" />
+            <fieldset>
+                <h2><?= $this->tag->id ? 'Edit' : 'New' ?> tag</h2>
+            </fieldset>
+            <div class="center">
+                <div style="float:left;margin-right:20px;">
+                    <h3><?= _t('Naam') ?>:</h3>
+                    <br/>
+                    <input type="text" name="tag[name]" style="width:220px;" class="gray-input" value="<?= $this->escape($this->tag->name) ?>" onfocus="if(this.value=='<?= _t('Tag name') ?>') this.value='';" onblur="if(this.value=='') this.value='<?= _t('Tag name') ?>';" />
+                </div>
+                <div style="float:right">
+                    <h3><?= _t('BTW') ?>:</h3>
+                    <br/>
+                    <input type="text" name="tag[vat]" value="<?= $this->escape($this->tag->vat) ?>" style="width:120px;" class="gray-input" />
+                </div>
+                <br style="clear:both;" />
+                <br/>
+                <div class="first">
+                    <h3><?= _t('Government category') ?>:</h3>
+                    <br/>
+                    <select name="tag[vat_category_id]">
+                        <option value="0"><?= _t('Select government category') ?></option>
+                        <?php foreach( $this->vat_categories as $vatCategory ): ?>
+                        <option <?= $vatCategory->id == $this->tag->vat_category_id ? 'selected="selected"' : '' ?> value="<?= $this->escape($vatCategory->id); ?>"><?= $this->escape('(' . $vatCategory->code . ') ' . $vatCategory->name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <input type="submit" class="button" value="Opslaan">
+            </div>
+        </form>
+
+        <script type="text/javascript">
+            $('[name="tag[vat_category_id]"]').combobox();
+
+            $('#tags-tag-form').submit(function(){
+                $.post(baseUrl + '/settings/tags/add-tag', $(this).serialize()).success(function(data){
+                    $.fancybox.close();
+                    tags_update(data);
+                });
+                return false;
+            });
+        </script>

@@ -1,0 +1,173 @@
+<!-- strat the main content area -->
+    
+<div class="container">
+
+        <div id="user_log" class="clearfix">
+
+            <div class="nine columns">
+                <div class="register">
+                    <div class="box_head">
+                    <?php if ($this->user->id == null): ?>
+                        <h3>Maak je account aan </h3>
+                    <?php else: ?>
+                        <h3>Wijzig gegevens </h3>
+                    <?php endif; ?>
+                    </div>
+
+                    <form id="accountForm" method="post" action="/shop/saveaccount">
+                        <input type="hidden" id="uid" name="uid" value="<?=$this->user->id?>" />
+                        <input type="hidden" name="from" value="<?=$this->from?>" />
+                        <ol>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="company">Bedrijfsnaam <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="company" type="text" name="company" value="<?=$this->user->company_name?>" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="firstname">Voornaam <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="firstname" type="text" name="firstname" value="<?=$this->user->firstname?>" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="lastname">Achternaam <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="lastname" type="text" name="lastname" value="<?=$this->user->lastname?>" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="email">E-mailadres <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="email" type="text" name="email" value="<?=$this->user->email_address?>" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="address">Straat + nr. <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="address" type="text" name="address" value="<?=$this->user->address?>" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="postcode">Postcode <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="postcode" type="text" name="postcode" value="<?=$this->user->postcode?>" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="city">Gemeente <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="city" type="text" name="city" value="<?=$this->user->city?>" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="country">Land <em>*</em></label>
+                                <div class="inputOuter">
+                                <select id="country" name="country" class="default">
+                                    <option value="">Uw land</option>
+                                    <option value="Belgie" <?php if ( $this->user->country == 'Belgie' ) echo 'selected'; ?>>Belgie</option>
+                                    <option value="Nederland" <?php if ( $this->user->country != 'Belgie' ) echo 'selected'; ?>>Nederland</option>
+                                </select>
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="btw">BTW nummer </label>
+                                <div class="inputOuter">
+                                <input id="btw" type="text" name="btw" value="<?=$this->user->vat_number?>" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="tele">Telefoonnummer 1 </label>
+                                <div class="inputOuter">
+                                <input id="tele1" type="text" name="tele1" value="<?=$this->user->phone1?>" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="tele">Telefoonnummer 2 </label>
+                                <div class="inputOuter">
+                                <input id="tele2" type="text" name="tele2" value="<?=$this->user->phone2?>" placeholder="">
+                                </div>
+                            </li>
+                        </ol>
+
+                        <ol>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="username">Gebruikersnaam <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="username" type="text" name="username" value="<?=$this->user->username?>" placeholder="">
+                                </div>
+                            </li>
+                            <?php if ( $this->user->id == 0 ): ?>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="userpwd">Wachtwoord <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="userpwd" type="password" name="userpwd" value="" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="confirmpwd">Wachtwoord(herhalen)<em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="confirmpwd" type="password" name="confirmpwd" value="" placeholder="">
+                                </div>
+                            </li>
+                            <?php endif; ?>
+                        </ol>
+                        <ol>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="firstName">&nbsp;</label>
+                                <div class="inputOuter button">
+                                <?php if ($this->user->id == null): ?>
+                                <a id="update_account" class="blue_btn" href="#">Aanmaken</a>&nbsp;&nbsp;&nbsp;
+                                <?php else: ?>
+                                <a id="update_account" class="blue_btn" href="#">Aanpassen</a>&nbsp;&nbsp;&nbsp;
+                                <?php endif; ?>
+                                <a id="cancel" class="green_btn" href="/shop/account">Annuleren</a>
+                                </div>
+                            </li>
+                        </ol>
+                    </form>
+
+                </div>
+            </div><!--end nine-->
+
+
+        </div><!--end user_log-->
+
+</div><!--end container-->
+<!-- end the main content area -->
+ <script type="text/javascript" src="<?=$this->baseUrl().'/js/webshop/dropKick/jquery.dropkick-1.0.0.js'?>"></script>   
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#update_account').on('click', function(){
+            if ( $('#firstname').val() == "" ) {
+                alert("Please input your first name!")
+                $('#firstname').focus();
+                return;
+            }
+            if ( $('#lastname').val() == "" ) {
+                alert("Please input your last name!")
+                $('#lastname').focus();
+                return;
+            }
+            if ( $('#username').val() == "" ) {
+                alert("Please input your user name!")
+                $('#username').focus();
+                return;
+            }
+            
+            if ( $('#userpwd') ) {
+                if ( $('#userpwd').val() != $('#confirmpwd').val() ) {
+                    $('#confirmpwd').val("");
+                    $('#userpwd').select();
+                    $('#userpwd').focus();
+                    alert("Password match error!");
+                    return;
+                }
+            }
+            var oForm = $('#accountForm');
+            oForm.submit();
+        });
+    });
+
+</script>

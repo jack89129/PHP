@@ -1,0 +1,36 @@
+<h2>Overige instellingen</h2>
+
+<div class="info">
+
+    <ul style="padding-bottom: 0px;">
+        <!-- SAVE -->
+        <?php if( Utils::user()->can('employee_pack_edit') ): ?>
+        <li><a class="bg10" id="save-pack" href="javascript:;" onclick="pack_save();"><?= _t('Opslaan') ?></a></li>
+        <?php endif; ?>
+        <!-- Back -->
+        <li><a class="bg1" href="<?= $this->baseUrl() . '/' . $this->current_module; ?>/pack"><span><?= _t('Sluiten') ?></span></a></li>
+        <!-- Final -->
+        <?php if( Utils::user()->can('employee_pack_edit') && $this->pack->status != PackModel::STATUS_FINAL ): ?>
+        <li><a class="bg8" href="javascript:;" onclick="pack_final();"><?= _t('Final') ?></a></li>
+        <?php endif; ?>
+        <!-- PDF -->
+        <li><a class="bg3" href="<?= $this->baseUrl() ?>/employees/pack/pdf/id/<?= $this->pack->id; ?>"><span<?= _t('Afdrukken') ?></span></a></li>
+        <!-- DELETE -->
+        <?php if( Utils::user()->can('employee_pack_delete') ): ?>
+        <li class="last"><a class="bg5" onclick="pack_delete();" href="javascript:;"><span><?= _t('Verwijder paklijst') ?></span></a></li>
+        <?php endif; ?>
+    </ul>
+
+</div>
+
+<script type="text/javascript">
+
+    function pack_delete(){
+        if( !confirm('<?= _t('Are you sure?') ?>') ){
+            return;
+        }
+
+        $.post(baseUrl + "/employees/pack/delete/", {id:$('[name="pack[id]"]').val()});
+    }
+
+</script>

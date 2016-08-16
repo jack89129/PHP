@@ -1,0 +1,65 @@
+<div class="container">
+
+    <div class="sixteen columns">
+        
+        <div class="box_head">
+            <h3>Mijn bestelgeschiedenis</h3>
+        </div><!--end box_head -->
+<?php if ( !empty($this->order_list) ): ?>
+        <table class="cart_table">
+            <thead>
+                <tr>
+                    <th class="first_td"><h4>Factuur</h4></th>
+                    <th><h4>Factuurdatum</h4></th>
+                    <th><h4>Excl. BTW</h4></th>
+                    <th><h4>Incl. BTW</h4></th>
+                    <th><h4>Status</h4></th>
+                    <!--<th><h4>Action</h4></th>-->
+                </tr>
+            </thead>
+            <tbody>
+            <?php $subtotal = 0.0; $vat = 0.0; $total = 0.0; ?>
+            <?php foreach ( $this->order_list as $order ): ?>
+                <tr>
+                    <td class="first_td">
+                        <div class="clearfix">
+                            <a href="#this" onclick="download('<?=$order->id?>')"><?= $this->escape($order->number) ?></a>
+                        </div>
+                    </td>
+                    <td>
+                        <?= $this->escape(date(Constants::DATE_FORMAT, $order->invoice_time)) ?>
+                    </td>
+                    <td>
+                        &euro; <?= Utils::numberFormat($order->total_excl_vat); ?>
+                    </td>
+                    <td>
+                        &euro; <?= Utils::numberFormat($order->total_sum); ?>
+                    </td>
+                    <td>
+                        <a class="concept <?= $this->escape($order->status_color) ?>" href="javascript:;"><?php if($order->getInvoiceStatusKey() == "paid") { echo 'Voldaan'; } else { echo 'Openstaand'; } ?></a>
+                    </td>
+                    <!--<td>
+                        <a href="#" class="add_item">cart</a>
+                        <a href="#" class="delete_item">delete</a>
+                    </td>-->
+                </tr>
+            <?php endforeach; ?>   
+            </tbody>
+        </table><!--end cart_table-->
+<?php else: ?>
+    <input type="button" value="Verder winkelen" name="continue" id="continue_shopping" class="gray_btn">
+<?php endif; ?>
+    </div><!--end sixteen-->
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+    });
+    
+    function download(id) {
+        window.location = "<?php echo $this->baseUrl(); ?>" + "/shop/pdf/id/" + id;
+    }
+    
+</script>

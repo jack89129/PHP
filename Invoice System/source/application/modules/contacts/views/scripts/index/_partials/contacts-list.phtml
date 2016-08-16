@@ -1,0 +1,31 @@
+<div class="left">
+    <div id="pane1">
+        <div class="scroll-pane">
+        <ul style="padding-top:5px;">
+            <?php $last_letter = null; ?>
+            <?php
+                foreach($this->contacts as $contact){
+                    $groups = array('contact-group-0');
+                    foreach( $contact->groups as $group ){
+                        $groups[] = 'contact-group-' . $group->id;
+                    }
+            ?>
+            <li class="searchable <?= implode(' ', $groups); ?>">
+                <a href="javascript:;" onclick="contacts_view_contact(<?= $this->escape($contact->id) ?>);" <?php if ( $contact->is_b2b ) { echo 'class="company"'; } ?>>
+                    <?= $this->escape($contact->company_name); ?> <br>
+                    <font style="font-weight:normal;"><?= $this->escape($contact->name_reversed); ?> <!--<span><?= $this->escape($contact->role) ?></span>--></font>
+                </a>
+                <?php
+                    $this_letter = strtoupper(iconv_substr($contact->company_name, 0, 1, 'UTF-8'));
+                    if( $last_letter != $this_letter ){
+                        $last_letter = $this_letter;
+                        echo '<div class="digit"><span class="word">', $this->escape($this_letter), '</span></div>';
+                    }
+                ?>
+            </li>
+            <?php } ?>
+            <li class="no-contacts" style="display:none;line-height:50px;text-align:center;font-weight:bold;border-top-color:transparent;padding:0px;width:100%;"><?= _t('No contacts found!') ?></li>
+        </ul>
+        </div>
+    </div>
+</div>

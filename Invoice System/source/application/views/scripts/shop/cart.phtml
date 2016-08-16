@@ -1,0 +1,169 @@
+<!-- strat the main content area -->
+ <?php 
+    $settingModel = new SettingsModel();
+    $mainColor = SettingsModel::getWebshopMainColor();
+?>   
+<div class="container">
+    <?php if ( !empty($this->cart_data) ): ?>
+    <div class="sixteen columns">
+        <div class="box_head">
+            <h3>Mijn winkelwagen</h3>
+        </div><!--end box_head -->
+
+        <table class="cart_table">
+            <thead>
+                <tr>
+                    <th class="first_td"><h4>Artikel</h4></th>
+                    <th><h4>Aantal</h4></th>
+                    <th><h4>Stukprijs</h4></th>
+                    <th><h4>Totaal</h4></th>
+                    <th><h4>Verwijderen</h4></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ( $this->cart_data as $product ): ?>
+                <?php 
+                    if ( $product->has_new_price ) {
+                        $cost = $product->new_price*(100-$product->new_discount)/100; 
+                    } else {
+                        $cost = $product->price*(100-$product->discount)/100; 
+                    }
+                ?>
+                <tr pid="<?php echo $product->id; ?>">
+                    <td class="first_td">
+                        <div class="clearfix">
+                            <img src="<?php if ( $product->main_img == "" ) { echo '/images/webshop/photos/cart_img.jpg'; } else { echo $product->main_img; }?>" alt="product image" style="width:90px;">
+                            <span>
+                                <strong><?=$product->name?></strong><br>
+                            </span>
+                        </div>
+                    </td>
+                    <td class="quantity">
+                        <form>
+                        <label>
+                            <input class="gray_btn" type="button" id="min_qty" class="qty" value="-" title="Verminderen">
+                        </label>
+                        <label>
+                            <input type="text" maxlength="12" name="" id="product_qty<?php echo $product->id; ?>" class="" value="<?=$product->qty?>" size="2">
+                        </label>
+                        <label>
+                            <input class="gray_btn" type="button" id="max_qty" class="qty" value="+" title="Vermeerderen">
+                        </label>
+                        </form>
+                        <a href="#" title="Updaten van totaalprijs"><span>Update totaal</span></a>
+                    </td>
+                    <td>
+                        <h5 id="unit_cost">&euro;<?php echo Utils::numberFormat($cost);?></h5>
+                    </td>
+                    <td class="total_price">
+                        <h5 id="sub_total_cost">&euro;<?php echo Utils::numberFormat($cost*$product->qty); ?><br></h5>
+                    </td>
+                    <td>
+                        <a class="delete_item" href="#" title="Verwijderen">delete</a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table><!--end cart_table-->
+
+    </div><!--end sixteen-->
+
+
+    <div class="ten columns"> &nbsp;
+    </div><!--end ten-->
+
+
+
+    <div class="six columns">
+
+        <table class="receipt">
+            <tbody>
+                <tr>
+                    <td>Subtotaal</td>
+                    <td id="cart_sub_total">&euro;<?php echo Utils::numberFormat($this->total_cost); ?></td>
+                </tr>
+                <tr>
+                    <td>BTW 21%</td>
+                    <td id="cart_btw_total">&euro;<?php echo Utils::numberFormat($this->total_cost*0.21); ?></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:600;font-size:16px;">Totaal</td>
+                    <td style="font-weight:600;font-size:16px;" id="cart_total">&euro;<?php echo Utils::numberFormat($this->total_cost*1.21); ?></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="last_td">
+                        <a class="gray_btn" href="/shop">Verder winkelen</a>
+                    </td>
+                    <td class="last_td">
+                        <a class="red_btn" href="/shop/checkout" style="background:<?=$mainColor?>;">Afrekenen</a>
+                    </td>
+                </tr>
+            </tfoot>
+            
+
+        </table>
+
+    </div><!--end six -->
+    <?php else: ?>
+    <div class="sixteen columns">
+        <input type="button" value="Verder winkelen" name="continue" id="continue_shopping" class="gray_btn">
+    </div>
+    <?php endif; ?>
+
+</div><!--end container-->
+<!-- end the main content area -->
+    
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#continue_shopping').on('click', function(){
+            document.location.href = '/shop';
+        });
+        
+        $('table.cart_table tbody td').find('input#max_qty').click(
+            function(e){
+                e.preventDefault();
+                
+                var count = parseInt($(this).parents('form').children().eq(1).children().val());
+                count++;
+                $(this).parents('form').children().eq(1).children().val(count);
+            }
+        );
+        
+        $('table.cart_table tbody td').find('input#min_qty').click(
+            function(e){
+                e.preventDefault();
+                
+                var count = parseInt($(this).parents('form').children().eq(1).children().val());
+                if ( count > 1 ) {
+                    count--;
+                    $(this).parents('form').children().eq(1).children().val(count);
+                }
+            }
+        );
+        
+        var tmpObj;
+        
+        $('table.cart_table tbody td').find('a').click(
+            function(e){
+                e.preventDefault();
+                
+                var pid = $(this).parents('tr').attr('pid');
+                tmpObj = $(this).parents('tr');
+                var count = parseInt($(this).parents('td').eq(0).children().first().children().eq(1).children().val());
+                $.post('http://www.avaxo.be/shop/updatecount', {id:pid, count:count}).success(function(data){
+                    $('#cart_sub_total').html('€'+data.total_price.toFixed(2));
+                    var btw = data.total_price * 0.21;
+                    var total = data.total_price * 1.21;
+                    $('#cart_total').html('€'+total.toFixed(2));
+                    $('#cart_btw_total').html('€'+btw.toFixed(2));
+                    tmpObj.find('#sub_total_cost').html('€'+data.sub_total.toFixed(2));
+                    tmpObj.find('#unit_cost').html('€'+data.unit_price.toFixed(2));
+                });
+            }
+        );
+    });
+
+</script>

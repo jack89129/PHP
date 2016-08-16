@@ -1,0 +1,136 @@
+.home .nivoSlider {
+	height: 450px;
+	border-bottom: 1px solid #dadada;
+}
+
+.nivoSlider {
+	height: 320px;
+}
+
+ .nivoSlider a {
+	border:0;
+	display:block;
+}
+
+
+ .nivo-controlNav a {
+	display:inline-block;
+	width:13px;
+	height:13px;
+	background:url(bullets.png) no-repeat;
+	text-indent:-9999px;
+	border:0;
+	margin: 0 2px;
+}
+.nivo-controlNav a.active {
+	background-position:0 -13px;
+}
+
+ .nivo-directionNav a {
+	display:block;
+	width: 75px;
+	height: 100px;
+	background:url(arrows.png) no-repeat;
+	text-indent:-9999px;
+	border:0;
+	opacity: 0;
+	-webkit-transition: all 200ms ease-in-out;
+    -moz-transition: all 200ms ease-in-out;
+    -o-transition: all 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
+}
+.theme-default:hover .nivo-directionNav a { opacity: 1; }
+.theme-default a.nivo-nextNav {
+	background-position:-75px 0;
+	right: 0;
+}
+.theme-default a.nivo-prevNav {
+	left: 0;
+}
+
+
+ 
+/* The Nivo Slider styles */
+.nivoSlider {
+	position:relative;
+	width:100%;
+	overflow: hidden;
+	background:#fff url(loading.gif) no-repeat 50% 50%;
+}
+.nivoSlider img {
+	position:absolute;
+	top:0px;
+	left:0px;
+	max-width: none;
+	display:none;
+}
+.nivo-main-image {
+	display: block !important;
+	position: relative !important; 
+	width: 100% !important;
+}
+
+/* If an image is wrapped in a link */
+.nivoSlider a.nivo-imageLink {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	border:0;
+	padding:0;
+	margin:0;
+	z-index:6;
+	display:none;
+}
+/* The slices and boxes in the Slider */
+.nivo-slice {
+	display:block;
+	position:absolute;
+	z-index:5;
+	height:100%;
+	top:0;
+}
+.nivo-box {
+	display:block;
+	position:absolute;
+	z-index:5;
+	overflow:hidden;
+}
+.nivo-box img { display:block; }
+/* Direction nav */
+.nivo-directionNav a {
+	position:absolute;
+	top:37%;
+	z-index:9;
+	cursor:pointer;
+}
+.nivo-prevNav {
+	left:0px;
+}
+.nivo-nextNav {
+	right:0px;
+}
+/* Control nav */
+.nivo-controlNav {
+	
+	text-align: center;
+	position: absolute;
+		bottom: 5px;
+	right: 10px;
+	z-index: 10;
+}
+
+.home .nivo-controlNav {
+	
+	bottom: 10px;
+	right: 10px;
+
+}
+
+.nivo-controlNav a {
+	cursor:pointer;
+}
+.nivo-controlNav a.active {
+	font-weight:bold;
+}

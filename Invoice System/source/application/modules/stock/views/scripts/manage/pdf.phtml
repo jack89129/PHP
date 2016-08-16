@@ -1,0 +1,90 @@
+<html>
+	<head>
+	<title><?= _t('Voorraadlijst') ?></title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	
+	<style type="text/css">
+	
+		body {
+			width: 800px;
+			font-family: DejaVuSans, Tahoma, Verdana;
+			font-size: 11px;
+			padding: 0px;
+			margin: auto;
+			color: #333333;
+		}
+		
+		table {
+			width: 100%;
+			font-size: 11px;
+		}
+		
+		table tr {
+			width: 100%;
+		}
+		
+		.headerrow_underline {
+			border-bottom: 1px solid #000000;
+		}
+		
+		.headerrow {
+			font-weight: bold;
+			padding: 30px 0 5px 0;
+			float: left;
+			/*padding: 0;*/
+		}
+		
+		.normalrow {
+			padding: 5px 0;
+			float: left;
+			/*padding: 0;*/
+		}
+
+		</style>
+	</head>
+	
+	<body>
+	    <!--
+		<div style="width: 100%; text-align: center;">
+			<h1><?= _t('Voorraadlijst') ?></h1>
+			<p><?= $this->createdDate ?></p>
+		</div>
+		<?php foreach ($this->data as $row): ?>
+		<?php $styleclass = ($row[0] == "h") ? "headerrow" : "normalrow"; ?>
+		<div class="<?= $styleclass ?>" style="width: 40%; text-align: left;"><?= $row[1] ?></div>
+		<div class="<?= $styleclass ?>" style="width: 15%; text-align: right;"><?= $row[2] ?></div>
+		<div class="<?= $styleclass ?>" style="width: 15%; text-align: right;"><?= $row[3] ?></div>
+		<div class="<?= $styleclass ?>" style="width: 15%; text-align: right;"><?= $row[4] ?></div>
+		<div class="<?= $styleclass ?>" style="width: 15%; text-align: right;"><?= $row[5] ?></div>
+		<?php endforeach; ?>
+		-->
+		<table>
+			<tr class="normalrow">
+				<td colspan="5" style="text-align: center;">
+					<h1><?= _t('Voorraadlijst') ?></h1>
+					
+				</td>
+			</tr>
+			<tr class="normalrow">
+				<td colspan="5" style="text-align: center;">
+					<p><?= $this->createdDate ?></p>
+				</td>
+			</tr>
+			<?php foreach ($this->data as $row): ?>
+			<?php $styleclass = ($row[0] == "h") ? "headerrow" : "normalrow"; ?>
+			<tr>
+				<td class="<?= $styleclass ?>" style="width: 40%; text-align: left;"><?= $row[1]; ?></td>
+				<td class="<?= $styleclass ?>" style="width: 15%; text-align: right;"><?= $row[2]; ?></td>
+				<td class="<?= $styleclass ?>" style="width: 15%; text-align: right;"><?= $row[3]; ?></td>
+				<td class="<?= $styleclass ?>" style="width: 15%; text-align: right;"><?= $row[4]; ?></td>
+				<td class="<?= $styleclass ?>" style="width: 15%; text-align: right;"><?= $row[5]; ?></td>
+			</tr>
+			<?php if ($row[0] == "h"): ?>
+			<tr>
+				<td colspan="5" style="border-top: 1px solid #000000;"></td>
+			</tr>
+			<?php endif; ?>
+			<?php endforeach; ?>
+		</table>
+	</body>
+</html>

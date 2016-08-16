@@ -1,0 +1,10 @@
+<?php if( !$this->employee ){
+    return;
+}
+?>
+<div class="layoutright">
+
+<div id="employee-groups" class="group">
+    <?= $this->partial('index/_partials/employee-groups.phtml', array('employee' => $this->employee, 'groups' => $this->groups)); ?>
+</div>
+</div>

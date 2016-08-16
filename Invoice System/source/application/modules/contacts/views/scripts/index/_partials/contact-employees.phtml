@@ -1,0 +1,44 @@
+<div style="margin: 11px 19px 17px 19px;">
+    <?php if( Utils::user()->can('contact_edit') ): ?>
+    <h3><?= _t('Toevoegen aan werknemer') ?></h3>
+    <?php else: ?>
+    <h3><?= _t('Contactweknemer') ?></h3>
+    <?php endif; ?>
+    <?php if( !$this->contact->employees ): ?>
+    <p><?= _t('No employees added to this contact.') ?></p>
+    <?php endif; ?>
+
+    <?php foreach( $this->contact->employees as $contactEmployee ) : ?>
+    <p style="font-weight:bold;margin:0px;padding-bottom:5px;line-height: 18px;vertical-align: middle;">
+        <?= $this->escape($contactEmployee->name) ?>
+        <?php if( Utils::user()->can('contact_edit') ): ?>
+        <span style="float:right;"><a href="javascript:;" onclick="contacts_remove_employee(<?= $this->contact->id . ', ' . $contactEmployee->id; ?>);" style="text-decoration:none;"><img style="display:inline;vertical-align:top;" src="<?= $this->baseUrl() . '/images/img3.jpg'; ?>" alt="Verwijderen" /></a></span>
+        <br style="clear:both;" />
+        <?php endif; ?>
+    </p>
+    <?php endforeach; ?>
+
+    <?php if( Utils::user()->can('contact_edit') ): ?>
+    <p><?= _t('Toevoegen aan werknemer') ?>:</p>
+    <select name="employee_id" class="select">
+        <option value="0"><?= _t('Selecteer een werknemer') ?></option>
+        <?php
+            foreach($this->employees as $employee){
+                foreach( $this->contact->employees as $contactEmployee ){
+                    if( $contactEmployee->id == $employee->id ){
+                        continue 2;
+                    }
+                }
+        ?>
+        <option value="<?= $this->escape($employee->id) ?>" <?= $this->selected_employee && $this->selected_employee == $employee->id ? 'selected="selected"' : '' ?>><?= $this->escape($employee->name) ?></option>
+        <?php } ?>
+    </select>
+
+    <div class="clear"></div>
+    <div style="float: left;">
+        <input type="button" onclick="contacts_add_employee(<?= $this->contact->id ?>, $('[name=employee_id]').val());" value="<?= _t('Toevoegen') ?>" class="btn" />
+    </div>
+    <?php endif; ?>
+    <div class="clear"></div>
+
+</div>

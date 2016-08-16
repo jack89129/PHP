@@ -1,0 +1,257 @@
+<?php
+    $settingModel = new SettingsModel();
+    $empSettingModel = new EmpSettingModel();
+    
+    $user = new Zend_Session_Namespace('user');
+    $emp_id = $user->id;
+    $address = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderAddressKey());
+    if ( $address == null ) $address = SettingsModel::getInvoiceProviderAddress();
+    $addr = explode(' ', $address);
+    $address = $addr[0].' '.$addr[1].' <br/>'.$addr[2].' '.$addr[3];
+    $phone = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderPhoneKey());
+    if ( $phone == null ) $phone = SettingsModel::getInvoiceProviderPhone();
+    $email = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderEmailKey());
+    if ( $email == null ) $email = SettingsModel::getInvoiceProviderEmail();
+    $website = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderWebsiteKey());
+    if ( $website == null ) $website = SettingsModel::getInvoiceProviderWebsite();
+    $banknum = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderBankNumberKey());
+    if ( $banknum == null ) $banknum = SettingsModel::getInvoiceProviderBankNumber();
+    $kvk = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderKVKKey());
+    if ( $kvk == null ) $kvk = SettingsModel::getInvoiceProviderKVK();
+    $bic = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderBICKey());
+    if ( $bic == null ) $bic = SettingsModel::getInvoiceProviderBIC();
+    $btw  = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderBTWKey());
+    if ( $btw == null ) $btw = SettingsModel::getInvoiceProviderBTW();
+    $tableColor  = $empSettingModel->getValue($emp_id, $settingModel->getContactTableColorKey());
+    if ( $tableColor == null ) $tableColor = SettingsModel::getContactTableColor();
+    $textColor  = $empSettingModel->getValue($emp_id, $settingModel->getContactTextColorKey());
+    if ( $textColor == null ) $textColor = SettingsModel::getContactTextColor();
+    $logoPath  = $empSettingModel->getValue($emp_id, $settingModel->getContactLogoPathKey());
+    if ( $logoPath == null ) $logoPath = SettingsModel::getContactDefaultLogoPath();
+?>
+<html>
+<head>
+    <title><?= _t('Bestel bon') ?></title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+    <style type="text/css">
+        body {
+            width:800px;
+            font-family: DejaVuSans, Tahoma, Verdana;
+            font-size: 12px;
+            padding:0px;
+            margin:auto;
+            color: #666666;
+        }
+
+        table td {
+            vertical-align:top;
+        }
+
+        .invoice-view-table {
+            width: 100%;
+            border-spacing: 0;
+            font-weight: bold;
+        }
+
+        .invoice-view-table th {
+            background-color: <?=$tableColor?>; /*#67BF3B*/
+            color: #ffffff;
+            /*text-shadow: 2px 1px 0px #4F922D;*/
+            height: 41px;
+            font-size:12px;
+        }
+
+        .invoice-view-table th:first-child {
+            border-radius: 5px 0px 0px 0px;
+        }
+
+        .invoice-view-table th:last-child {
+            border-radius: 0px 5px 0px 0px;
+        }
+
+        .invoice-view-table td {
+            height: 32px;
+            drop-shadow: 0px 1px 1px #ffffff;
+            font-size:12px;
+            vertical-align:middle;
+        }
+
+        td.itd-qty,th.ith-qty {
+            width: 90px;
+            text-align: right;
+            padding-right: 50px;
+        }
+
+
+        td.itd-description, th.ith-description {
+            padding-left:20px;
+            text-align:left;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        .open-times td {
+            font-size:10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<table style="width:100%;">
+    <tr>
+        <td style="width:50%;">
+            <?php if( $this->providerLogo()->exists() ): ?>
+            <img src="<?= $logoPath ?>" alt="" style="width:250px;"/> <?php endif; ?>
+            <br/>
+            <br/>
+            <h2><?= _t('verkoper') ?></h2>
+            <br/>
+            <p>
+                <?php if( $this->receipt->employee ): ?>
+                <?= $this->escape($this->receipt->employee->name); ?>
+                <?php endif; ?>
+            </p>
+        </td>
+        <td style="width:50%;">
+            <div style="height:10px;">&nbsp;</div>
+            <table align="right">
+                <tr>
+                    <td style="text-align:right;width:60px;color:<?=$textColor?>;font-size:10px;line-height:16px;"><?= _t('adres') ?></td><td style="font-size:10px;line-height:16px;width:160px;color:#BCC0C2;" rowspan="2"><?= $address ?></td>
+                    <td style="color:<?=$textColor?>;font-size:10px;line-height:16px;">bank nr.</td><td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= nl2br($this->escape($banknum)); ?></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="color:<?=$textColor?>;font-size:10px;line-height:16px;"><?= _t('iban') ?></td><td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape($kvk); ?></td>
+                </tr>
+                <tr>
+                    <td></td><td><br/></td>
+                    <td style="color:<?=$textColor?>;font-size:10px;line-height:16px;"><?= _t('bic/swift') ?></td><td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape($bic); ?></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;color:<?=$textColor?>;font-size:10px;line-height:16px;"><?= _t('tel') ?></td><td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape($phone); ?></td>
+                    <td></td><td><br/></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;color:<?=$textColor?>;font-size:10px;line-height:16px;"><?= _t('mail') ?></td><td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape($email); ?></td>
+                    <td style="color:<?=$textColor?>;font-size:10px;line-height:16px;">btw nr.</td><td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape($btw); ?></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;color:<?=$textColor?>;font-size:10px;line-height:16px;"><?= _t('website') ?></td><td><a style="text-decoration:none;color:#858C8F;font-size:10px;" href="http://<?= $this->escape($website); ?>"><?= $this->escape($website); ?></a></td>
+                    <td></td><td><br/></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<br/>
+<table style="width:100%;">
+    <tr>
+        <td style="width:50%">
+            <h2><?= _t('contact') ?></h2>
+            <br/>
+            <?php if( $this->receipt->contact ): ?>
+            <p><b><?= $this->escape($this->receipt->contact->company_name); ?></b></p>
+            <p><?= _t('T.a.v.') ?> <?= $this->escape($this->receipt->contact->delivery_name); ?></p>
+            <p><?= $this->escape($this->receipt->contact->have_delivery ? $this->receipt->contact->delivery_address : $this->receipt->contact->address); ?></p>
+            <p><?= $this->escape($this->receipt->contact->have_delivery ? $this->receipt->contact->delivery_postcode : $this->receipt->contact->postcode ) . ', ' . $this->escape($this->receipt->contact->have_delivery ? $this->receipt->contact->delivery_city : $this->receipt->contact->city); ?></p>
+            <p><?= $this->escape($this->receipt->contact->have_delivery ? $this->receipt->contact->delivery_country : $this->receipt->contact->country); ?></p>
+            <br/>
+            <p><?= $this->escape($this->invoice->contact->vat_number); ?></p>
+            <?php endif; ?>
+        </td>
+        <?php if( $this->receipt->contact ): ?>
+        <td style="width:50%;">
+            <h2><?= _t('openingsuren') ?></h2>
+            <br/>
+
+            <? $days = array(_t('Maandag'), _t('Dinsdag'), _t('Woensdag'), _t('Donderdag'), _t('Vrijdag'), _t('Zaterdag'), _t('Zondag')); ?>
+            <table class="open-times">
+            <?php foreach( $days as $index => $day ): ?>
+            <tr>
+                <td style="width:80px;"><?= $this->escape($day) ?></td>
+                <?php $current = $this->receipt->contact->getDay($index); ?>
+
+                <?php if( $current[0] == false && $current[1] === false ): ?>
+                <td style="display: inline-block;width:45px;"><?= _t('gesloten') ?></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <?php else: ?>
+
+                    <?php foreach( $current as $half ): ?>
+                    <td style="width:45px;"><?= $half === false ? _t('gesloten') : $this->escape($half[0]); ?>&nbsp;</td>
+                    <td style="width:10px;">-</td>
+                    <td style="width:45px;"><?= $half === false ? _t('gesloten') : $this->escape($half[1]); ?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;</td>
+                    <?php endforeach; ?>
+
+                <?php endif; ?>
+            </tr>
+            <?php endforeach; ?>
+            </table>
+        </td>
+        <?php endif; ?>
+    </tr>
+</table>
+
+<br/>
+<br/>
+
+<table style="width:100%">
+    <tr>
+        <td>
+
+            <table style="width:100%;">
+                <tr>
+                    <td><h4 style="color:#999999;font-size:11px;"><?= _t('contactnummer') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                    <td><h4 style="color:#999999;font-size:11px;"><?= _t('bestelnummer') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                    <td><h4 style="color:#999999;font-size:11px;"><?= _t('bestelbon datum') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                </tr>
+                <tr>
+                    <td style="color:#000000;font-size:10px;"><?php if( $this->receipt->contact ): ?><?= $this->escape($this->receipt->contact->number); ?><?php endif; ?></td>
+                    <td style="color:#000000;font-size:10px;"><?= $this->escape($this->receipt->number) ?></td>
+                    <td style="color:#000000;font-size:10px;"><?= date(Constants::DATE_FORMAT, $this->receipt->created_time) ?></td>
+                </tr>
+
+            </table>
+        </td>
+        <td style="text-align:right;">
+
+        </td>
+    </tr>
+</table>
+
+<br/>
+
+<table class="invoice-view-table" cellspacing="0">
+    <thead>
+    <tr>
+        <th class="ith-description"><?= _t('Omschrijving') ?></th>
+        <th class="ith-qty"><?= _t('Aantal') ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach( $this->receipt->products as $product ): ?>
+        <?= $this->partial('receipt/pdf/receipt-row.phtml', array('product' => $product)); ?>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<br style="clear:both;" />
+
+<?php if( $this->receipt->info ): ?>
+    <br/>
+    <div><?= Utils::strip_bad_tags($this->receipt->info); ?></div>
+<?php endif; ?>
+
+</body>
+</html>

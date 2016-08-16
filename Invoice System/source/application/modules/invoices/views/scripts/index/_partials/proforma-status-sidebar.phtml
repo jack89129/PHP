@@ -1,0 +1,32 @@
+<div class="news_Box sub">
+    <div class="collapse">
+
+        <h2><span><?= _t('Offerte status') ?><a class="i-down"></a></span></h2>
+
+        <div class="info">
+            <ul class="gap">
+                <li><a href="javascript:;" class="bg8" onclick="set_proformas_status('<?= InvoiceModel::PROFORMA_STATUS_ACCEPTED ?>');"><?= _t('Geaccepteerd') ?></a></li>
+                <li><a href="javascript:;" class="bg5" onclick="set_proformas_status('<?= InvoiceModel::PROFORMA_STATUS_DENIED ?>');"><?= _t('Geweigerd') ?></a></li>
+    <!--            <li><a href="javascript:;" onclick="set_proformas_status('--><?//= InvoiceModel::PROFORMA_STATUS_OPEN ?><!--');"><?= _t('Openstaand') ?></a></li>-->
+                <li><a href="javascript:;" class="bg9" onclick="set_proformas_status('<?= InvoiceModel::PROFORMA_STATUS_INVOICE ?>');"><?= _t('Factureren') ?></a></li>
+                <li><a href="javascript:;" class="bg-folder" onclick="set_proformas_status('<?= InvoiceModel::PROFORMA_STATUS_ARCHIVE ?>');"><?= _t('Archiveren') ?></a></li>
+                <li class="last" style="text-align: center;">
+                    <?= _t('Actuele status') ?>: <dl class="concept <?= $this->invoice->proforma_status_color ?>" style="display:inline-block;width:auto;font-family: Lato;">&nbsp;&nbsp;<?= $this->escape($this->invoice->getProformaStatusName($this->invoice->proforma_status)); ?>&nbsp;&nbsp;</dl>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function set_proformas_status(status){
+        params = {status:status, id: $('[name="invoice[id]"]').val()};
+        $.post(baseUrl + '/invoices/index/proforma-status/', params).success(function(data){
+            $('#proforma-status').html(data.proforma_status);
+            initCollapsable('#proforma-status');
+            log_reload();
+        });
+    }
+</script>

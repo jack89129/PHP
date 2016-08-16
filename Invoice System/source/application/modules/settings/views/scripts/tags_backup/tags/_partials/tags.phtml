@@ -1,0 +1,24 @@
+<ul>
+    <?php foreach( $this->category->tags as $tag ): ?>
+        <li><?= $this->escape($tag->name) ?>
+            <?php if( Utils::user()->can('settings_tags_edit') ): ?>
+            <a href="javascript:;" onclick="tags_remove_tag(<?= $this->escape($tag->id); ?>);">remove</a>
+            <a>&nbsp;-&nbsp;</a>
+            <a data-id="<?= $this->escape($tag->id); ?>"
+               data-name="<?= $this->escape($tag->name); ?>"
+               data-category="<?= $this->escape($tag->category->id); ?>"
+               data-vat="<?= $this->escape($tag->vat); ?>"
+               data-vat-category-id="<?= $this->escape($tag->vat_category_id); ?>"
+               class="edit" href="#tags-tag-dialog">edit</a>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
+    <?php if( !$this->category->tags ): ?>
+        <li style="text-align:center;font-weight: normal;font-style: italic;">No tags</li>
+    <?php endif; ?>
+    <?php if( Utils::user()->can('settings_tags_edit') ): ?>
+    <li style="background-color:#F1F1F1;border-top:1px solid #d1d1d1;border-bottom:1px solid #d1d1d1;padding-bottom:4px;">
+        <a data-category="<?= $this->escape($this->category->id) ?>" href="#tags-tag-dialog" class="add" style="float:none;"><?= _t('Add tag') ?></a>
+    </li>
+    <?php endif; ?>
+</ul>

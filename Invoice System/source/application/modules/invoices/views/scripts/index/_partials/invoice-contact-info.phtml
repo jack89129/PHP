@@ -1,0 +1,36 @@
+<?php
+    $settingModel = new SettingsModel();
+    $empSettingModel = new EmpSettingModel();
+    
+    $user = new Zend_Session_Namespace('user');
+    $emp_id = $user->id;
+    $addr_street = SettingsModel::getInvoiceProviderAddressStreet();
+    $addr_num = SettingsModel::getInvoiceProviderAddressNum();
+    $addr_post = SettingsModel::getInvoiceProviderAddressPost();
+    $addr_city = SettingsModel::getInvoiceProviderAddressCity();
+    $address = $addr_street.' '.$addr_num.' <br/>'.$addr_post.' '.$addr_city;
+    $phone = SettingsModel::getInvoiceProviderPhone();
+    $email = SettingsModel::getInvoiceProviderEmail();
+    $website = SettingsModel::getInvoiceProviderWebsite();
+    $banknum = SettingsModel::getInvoiceProviderBankNumber();
+    $kvk = SettingsModel::getInvoiceProviderKVK();
+    $bic = SettingsModel::getInvoiceProviderBIC();
+    $btw = SettingsModel::getInvoiceProviderBTW();
+    $textColor = SettingsModel::getContactTextColor();
+?>
+
+<address style="text-align:right;margin-right:30px;">
+    <span style="color: <?=$textColor?>;float:none;width:100%;text-align:right;display:block;"><?= _t('adres') ?></span><?= $address ?><br/>
+    <br/>
+    <span style="color: <?=$textColor?>;float:none;width:100%;text-align:right;display:block;"><?= _t('tel') ?></span> <a href="callto:<?= $this->escape($phone); ?>"><?= $this->escape($phone); ?></a><br />
+    <span style="color: <?=$textColor?>;float:none;width:100%;text-align:right;display:block;"><?= _t('E-mail') ?></span> <a class="mail" href="mailto:<?= $this->escape($email); ?>"><?= $this->escape($email); ?></a><br />
+    <span style="color: <?=$textColor?>;float:none;width:100%;text-align:right;display:block;"><?= _t('Website') ?></span> <a class="mail" href="<?= $this->escape($website); ?>"><?= $this->escape($website); ?></a><br /><br />
+</address>
+
+<address>
+    <span style="color: <?=$textColor?>;float:none;width:100%;display:block;"><?= _t('Bank nr.') ?></span> <?= nl2br($banknum); ?><br />
+    <span style="color: <?=$textColor?>;float:none;width:100%;display:block;"><?= _t('IBAN') ?></span> <?= $this->escape($kvk); ?><br />
+    <span style="color: <?=$textColor?>;float:none;width:100%;display:block;"><?= _t('BIC/SWIFT') ?></span> <?= $this->escape($bic); ?><br />
+    <br/>
+    <span style="color: <?=$textColor?>;float:none;width:100%;display:block;"><?= _t('BTW') ?></span> <?= $this->escape($btw); ?>
+</address>

@@ -1,0 +1,209 @@
+<?php include(APPLICATION_PATH . '/layouts/settings-sidebar.phtml'); ?>
+
+<style type="text/css"> 
+a.format_tag {
+    line-height: 33px;
+    color: #777;
+    text-decoration: none;
+    background-color: #ddd;
+    padding: 5px 8px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+a.format_tag:hover {
+    opacity: 0.8;
+}  
+.oerview_Box1 #settingForm .field {
+    float: left;
+    width: 130px;
+    margin-right: 13px;
+}
+</style>
+
+<!-- START RIGHT -->
+<div id="right">
+
+    <!-- START OVERVIE -->
+    <div class="oerview_Box1">
+
+        <h2>Automatische nummmering instellen</h2>
+
+        <div class="form">
+            <form action="#" id="settingForm" enctype="multipart/form-data" method="post">
+                <fieldset>
+                    <div>
+                    
+                        <label style="line-height:20px;">&nbsp;</label>
+                        <table>
+                            <tr>
+                                <td width="157px" align="center">Voorvoegsel</td>
+                                <td width="182px" align="center">Beginnen op</td>
+                                <td width="182px" align="center">Resultaat</td>
+                            </tr>
+                        </table>  
+                        
+                    </div>
+                    <div>
+
+                        <label>Debiteuren</label>
+                        <input type="text" class="field format" name="setting_format[contact]" value="<?= $this->escape($this->contact) ?>" maxlength="15"/>
+                        <input type="text" class="field number" name="setting_format[cnum]" value="<?= $this->escape($this->cnum) ?>" maxlength="5"/>
+                        <input type="text" class="field result" name="contact_result" value="" disabled/>
+
+                    </div>
+                    <div>
+
+                        <label>Crediteuren</label>
+                        <input type="text" class="field format" name="setting_format[wholesaler]" value="<?= $this->escape($this->wholesaler) ?>" maxlength="15"/>
+                        <input type="text" class="field number" name="setting_format[wnum]" value="<?= $this->escape($this->wnum) ?>" maxlength="5"/>
+                        <input type="text" class="field result" name="wholesaler_result" value="" disabled/>
+
+                    </div>
+                    <div>
+
+                        <label>Facturen</label>
+                        <input type="text" class="field format" name="setting_format[invoice]" value="<?= $this->escape($this->invoice) ?>" maxlength="15"/>
+                        <input type="text" class="field number" name="setting_format[inum]" value="<?= $this->escape($this->inum) ?>" maxlength="5"/>
+                        <input type="text" class="field result" name="invoice_result" value="" disabled/>
+
+                    </div>            
+                    
+                    <div>
+
+                        <label>Offertes</label>
+                        <input type="text" class="field format" name="setting_format[offer]" value="<?= $this->escape($this->offer) ?>" maxlength="15"/>
+                        <input type="text" class="field number" name="setting_format[onum]" value="<?= $this->escape($this->onum) ?>" maxlength="5"/>
+                        <input type="text" class="field result" name="offer_result" value="" disabled/>
+
+                    </div> 
+                    
+                    <div>
+
+                        <label>Inkoop</label>
+                        <input type="text" class="field format" name="setting_format[purchase]" value="<?= $this->escape($this->purchase) ?>" maxlength="15"/>
+                        <input type="text" class="field number" name="setting_format[pnum]" value="<?= $this->escape($this->pnum) ?>" maxlength="5"/>
+                        <input type="text" class="field result" name="purchase_result" value="" disabled/>
+
+                    </div>
+                    <div>
+
+                        <label>Credit-Facturen</label>
+                        <input type="text" class="field format" name="setting_format[credit]" value="<?= $this->escape($this->credit) ?>" maxlength="15"/>
+                        <input type="text" class="field number" name="setting_format[cfnum]" value="<?= $this->escape($this->cfnum) ?>" maxlength="5"/>
+                        <input type="text" class="field result" name="credit_result" value="" disabled/>
+
+                    </div>   
+                    
+                    <div>
+                        <label>Tags</label>
+                        <?php foreach($this->tags as $tag): ?>
+                            <a href="#this" class="format_tag"><?=$tag->value?></a>&nbsp;&nbsp;&nbsp;
+                        <?php endforeach; ?>
+                    </div>    
+                    
+                    <div>   
+                        <input type="button" name="save" id="save_format" value="Opslaan" class="green-button" />
+                    </div>
+
+                </fieldset>
+                
+            </form>
+
+        </div>
+
+    </div>
+    <!-- END OVERVIE -->
+
+</div>
+<!-- END RIGHT -->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var curObj = $('[name="setting_format[invoice]"]');
+        $('[name="setting_format[invoice]"]').on('keyup', function(){
+            curObj = $(this);
+        });
+        $('[name="setting_format[offer]"]').on('keyup', function(){
+            curObj = $(this);
+        }); 
+        $('[name="setting_format[purchase]"]').on('keyup', function(){
+            curObj = $(this);
+        });
+        $('[name="setting_format[contact]"]').on('keyup', function(){
+            curObj = $(this);
+        });
+        $('[name="setting_format[wholesaler]"]').on('keyup', function(){
+            curObj = $(this);
+        });
+        $('[name="setting_format[credit]"]').on('keyup', function(){
+            curObj = $(this);
+        });
+        $('[name="setting_format[credit]"]').on('click', function(){
+            curObj = $(this);
+        });
+        $('[name="setting_format[wholesaler]"]').on('click', function(){
+            curObj = $(this);
+        });
+        $('[name="setting_format[contact]"]').on('click', function(){
+            curObj = $(this);
+        });
+        $('[name="setting_format[invoice]"]').on('click', function(){
+            curObj = $(this);
+        });
+        $('[name="setting_format[offer]"]').on('click', function(){
+            curObj = $(this);
+        });
+        $('[name="setting_format[purchase]"]').on('click', function(){
+            curObj = $(this);
+        });
+        $('#settingForm a.format_tag').each(function(idx, obj){
+            $(obj).on('click', function(){
+                var text = $(curObj).val();
+                $(curObj).val(text + '[' + $(this).html() + ']');
+                $(curObj).focus();
+                calculate();
+            });
+        });
+        $('#settingForm input.number').each(function(idx, obj){
+            $(obj).on('keydown', function(event){
+                if( !(
+                       event.keyCode == 9                                                                                        
+                    || event.keyCode == 8                              // backspace
+                    || event.keyCode == 46                             // delete
+                    || (event.keyCode >= 35 && event.keyCode <= 40)    // arrow keys/home/end
+                    || (event.keyCode >= 48 && event.keyCode <= 57)    // numbers on keyboard
+                    || (event.keyCode >= 96 && event.keyCode <= 105)   // number on keypad
+                    )
+                    ) {
+                        event.preventDefault(); 
+                }
+            });
+        });
+        calculate();
+        $('#settingForm input.field').each(function(idx, obj){ 
+            $(obj).on('keyup', function(){
+                calculate();
+            });
+        });
+        function calculate(){
+            $('#settingForm input.format').each(function(idx, obj){
+                $(obj).parent().find('input.result').val(convertReal($(obj).val()+$(obj).parent().find('input.number').val()));
+            });
+        }
+        function convertReal(format){
+            var t = new Date();
+            var y = t.getFullYear();
+            var m = t.getMonth();
+            var d = t.getDate();
+            m = m < 10 ? "0"+m : m;
+            d = d < 10 ? "0"+d : d;
+            format = format.replace('[Jaar]', y);
+            format = format.replace('[Maand]', m);
+            format = format.replace('[Dag]', d);
+            return format;
+        }
+    });
+</script>

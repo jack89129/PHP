@@ -1,0 +1,242 @@
+    <!-- strat the main content area -->
+    <div class="container">
+
+        <!--start aside tage-->
+        <aside class="four columns">
+
+            <div class="category">
+
+                <div class="box_head">
+                    <h3>Categorie</h3>
+                </div><!--end box_head -->
+
+                <ul>
+                <?php if ( !empty($this->result) ): $past_group = 0; ?>
+                <?php foreach ( $this->result as $row ): ?>
+                    <?php if ( $past_group != $row['product_group_id'] ): ?>
+                        <?php if ( $past_group != 0): ?>
+                            </ul>
+                        </li>
+                        <?php endif; ?>
+                        <?php $past_group = $row['product_group_id']; ?>
+                        <li class="has_sub_menu">
+                            <a href="#"><?=$row['group_name']?></span></a>
+                            <ul class="nested">
+                    <?php endif; ?>
+                    <li <?php if ( $this->product->id == $row['id']) echo 'class="selected"'; ?> onclick="webshop_select_product('<?=$row['id']?>', this)"><a href="#"><?=$row['name']?></a></li>
+                <?php endforeach; ?>
+                <?php endif; ?>
+                </ul>
+            </div><!--end category-->
+
+        </aside><!--end aside tag-->
+        
+        <div id="webshop-view">
+        <?= $this->partial('shop/product-view.phtml', array('product' => $this->product, 'group_name' => $this->group_name)) ?>
+        </div>
+    </div><!--end container-->
+    <!-- end the main content area -->
+    
+<script type="text/javascript">
+
+    $(document).ready(function(){   
+    });
+    
+    function webshop_select_product(id, obj) {
+        $('.category ul ul li').removeClass('selected');
+        $(obj).addClass('selected');
+        $('#webshop-view').fadeOut();
+        $.post('<?=$this->baseUrl()?>/shop/retrieve', {id:id}).success(function(data){
+            $('#webshop-view').html(data.content);
+            setTimeout(refreshProductPage, 100);
+            $('#webshop-view').fadeIn();
+        });
+    }
+    
+    function refreshProductPage() {
+        var viewWidth = $(window).width(); 
+
+        if(viewWidth  <= 959 & viewWidth > 768 ) {
+            $('#etalage_style_two').etalage({
+                thumb_image_width: 300,
+                thumb_image_height: 330,
+                source_image_width: 900,
+                source_image_height: 1200,
+                zoom_area_width: 220,
+                zoom_area_height: 365,
+                zoom_area_distance: 20,
+                small_thumbs: 4,
+                smallthumb_inactive_opacity: 1,
+                smallthumbs_position:'bottom',
+                autoplay_interval : 3000,
+                right_to_left: true
+            });
+
+        } else if(viewWidth <= 767 & viewWidth > 479) {
+            $('#etalage_style_two').etalage({
+                thumb_image_width: 400,
+                thumb_image_height: 360,
+                source_image_width: 900,
+                source_image_height: 1200,
+                zoom_area_width: 340,
+                zoom_area_height: 495,
+                zoom_area_distance: 20,
+                small_thumbs: 4,
+                smallthumb_inactive_opacity: 1,
+                smallthumbs_position:'bottom',
+                autoplay_interval : 3000,
+                zoom_element: '#zoom',
+                right_to_left: true
+            });
+
+        } else if(viewWidth <= 479) {
+            $('#etalage_style_two').etalage({
+                thumb_image_width: 280,
+                thumb_image_height: 240,
+                source_image_width: 900,
+                source_image_height: 1200,
+                zoom_area_width: 340,
+                zoom_area_height: 495,
+                zoom_area_distance: 20,
+                small_thumbs: 4,
+                smallthumb_inactive_opacity: 1,
+                smallthumbs_position:'bottom',
+                autoplay_interval : 3000,
+                zoom_element: '#zoom',
+                right_to_left: true
+            });
+        } else {
+            $('#etalage_style_two').etalage({
+                thumb_image_width: 385,
+                thumb_image_height: 370,
+                source_image_width: 900,
+                source_image_height: 1200,
+                zoom_area_width: 280,
+                zoom_area_height: 485,
+                zoom_area_distance: 20,
+                small_thumbs: 4,
+                smallthumb_inactive_opacity: 1,
+                smallthumbs_position:'bottom',
+                autoplay_interval : 3000,
+                right_to_left: true
+            });
+        }
+        $(".product_info h6").eq(0).addClass("active");
+        $(".product_info div.acc").show();
+        $(".product_info h6").click(function(){
+            $(this).next("div.acc").slideToggle("fast").siblings("div:visible").slideUp("fast");
+            $(this).toggleClass("active");
+            $(this).siblings("h6").removeClass("active");
+        });
+        $('.product_info div.acc, .product_review div.acc').niceScroll({
+            cursorcolor:"#f9f9f9",
+            background: "#d7d7d7",
+            cursorborder:"1px solid #d7d7d7",
+            cursoropacitymin : 1,
+            cursorwidth : 8,
+            cursorborderradius :0
+        });
+        $(".default").dropkick();
+        $('.dk_toggle').live('click', function (e) {
+          var $dk  = $(this).parents('.dk_container').first();
+
+          _openDropdown($dk);
+
+          if ("ontouchstart" in window) {
+            $dk.addClass('dk_touch');
+            $dk.find('.dk_options_inner').addClass('scrollable vertical');
+          }
+
+          e.preventDefault();
+          return false;
+        });
+
+        // Handle click events on individual dropdown options
+        $('.dk_options a').live(($.browser.msie ? 'mousedown' : 'click'), function (e) {
+          var
+            $option = $(this),
+            $dk     = $option.parents('.dk_container').first(),
+            data    = $dk.data('dropkick')
+          ;
+        
+          _closeDropdown($dk);
+          _updateFields($option, $dk);
+          _setCurrent($option.parent(), $dk);
+        
+          e.preventDefault();
+          return false;
+        });
+
+        // Setup keyboard nav
+        $(document).bind('keydown.dk_nav', function (e) {
+          var
+            // Look for an open dropdown...
+            $open    = $('.dk_container.dk_open'),
+
+            // Look for a focused dropdown
+            $focused = $('.dk_container.dk_focus'),
+
+            // Will be either $open, $focused, or null
+            $dk = null
+          ;
+
+          // If we have an open dropdown, key events should get sent to that one
+          if ($open.length) {
+            $dk = $open;
+          } else if ($focused.length && !$open.length) {
+            // But if we have no open dropdowns, use the focused dropdown instead
+            $dk = $focused;
+          }
+
+          if ($dk) {
+            //_handleKeyBoardNav(e, $dk);
+          }
+        });
+    }
+    
+    // Close a dropdown
+      function _closeDropdown($dk) {
+        $dk.removeClass('dk_open');
+      }
+
+      // Open a dropdown
+      function _openDropdown($dk) {
+        var data = $dk.data('dropkick');
+        $dk.find('.dk_options').css({ top : $dk.find('.dk_toggle').outerHeight() - 1 });
+        $dk.toggleClass('dk_open');
+
+      }
+      
+      function _updateFields(option, $dk, reset) {
+        var value, label, data;
+
+        value = option.attr('data-dk-dropdown-value');
+        label = option.text();
+        data  = $dk.data('dropkick');
+
+        $select = data.$select;
+        $select.val(value);
+
+        $dk.find('.dk_label').text(label);
+
+        reset = reset || false;
+
+        if (data.settings.change && !reset) {
+          data.settings.change.call($select, value, label);
+        }
+      }
+      
+      // Set the currently selected option
+      function _setCurrent($current, $dk) {
+        $dk.find('.dk_option_current').removeClass('dk_option_current');
+        $current.addClass('dk_option_current');
+
+        _setScrollPos($dk, $current);
+      }
+      
+      function _setScrollPos($dk, anchor) {
+        var height = anchor.prevAll('li').outerHeight() * anchor.prevAll('li').length;
+        $dk.find('.dk_options_inner').animate({ scrollTop: height + 'px' }, 0);
+      }
+
+</script>

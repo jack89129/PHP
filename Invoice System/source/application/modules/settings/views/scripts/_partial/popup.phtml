@@ -1,0 +1,30 @@
+<div style="display: none;">
+    <div class="opslaan-Box overlaybox" id="mailsettings">
+        <form id="mailsettings-form">
+            <fieldset>
+            
+                <div class="opslaan selected">                                                                                             
+                    <div class="right">                                                                                                                                                                          
+                
+                        <div id="mailsettingsform">             
+                            <div class="center">
+                                <label><?= _t('Onderwerp') ?>:</label> 
+                                <div class="wysiwyg field" id="div_subject" contenteditable="true" style="height:auto;"></div>
+                        <input type="hidden" name="subject" value="" />
+                            </div>
+                            
+                            <div class="center">
+                                <label><?= _t('Bericht') ?>:</label> 
+                                <div class="wysiwyg field" id="div_body" contenteditable="true" style="width:500px;height:125px; overflow: auto;"></div>
+                        <input type="hidden" name="body" value="" />
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>                   
+                
+                <input type="submit" class="button gap button-loader"    value="<?= _t('Save') ?>" />
+            </fieldset>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,468 @@
+<?php
+    $settingModel = new SettingsModel();
+    $tableColor = SettingsModel::getContactTableColor();
+    $textColor = SettingsModel::getContactTextColor();
+    $logoPath = SettingsModel::getContactDefaultLogoPath();
+?>
+
+			<style type="text/css">
+				.invoice-view-table {
+					width:723px;
+					margin-left:61px;
+					border-spacing: 0;
+					font-weight:bold;
+				}
+				
+				.invoice-view-table th {
+					background-color:<?=$tableColor?>;
+					color:#ffffff;
+					/*text-shadow:2px 1px 0px #9f1a1e;*/
+					height:41px;
+				}
+				
+				.invoice-view-table th:first-child {
+					border-radius:5px 0px 0px 0px;
+				}
+				
+				.invoice-view-table th:last-child {
+					border-radius:0px 5px 0px 0px;
+				}
+				
+				.invoice-view-table td {
+					min-height:32px;
+                    padding-top:5px;
+                    padding-bottom:5px;
+					drop-shadow:0px 1px 1px #ffffff;
+				}
+				
+				td.itd-qty, th.ith-qty { width: 40px; text-align:right; padding-left:10px; }
+				td.itd-article_code{ width: 80px;  padding-left:30px; }
+				td.itd-vat, th.ith-vat { width: 60px; text-align:right;  padding-left:10px; }
+                td.itd-discount, th.ith-discount { width:52px; text-align:right; }
+				td.itd-price, th.ith-price{ width:80px; text-align:right; }
+				td.itd-total, th.ith-total{ width:80px; text-align:right; padding-right:10px; }
+                td.itd-category, th.ith-category { padding-left:20px; text-align:left; }
+                td.itd-description, th.ith-description { text-align:left; padding-left:30px;}
+
+                .hltc {
+                    background-color: #CFF6D1 !important;
+                }
+
+                .contact-info p {
+                    line-height:18px;
+                }
+                
+                #set_invoice_paid_both, #add_offer_to_invoice {
+                    background: url("/images/link.jpg") repeat-x scroll left top transparent;
+                    border: 1px solid #62AF53;
+                    line-height: 28px;
+                    margin-left: 5%;
+                    padding: 0;
+                    text-align: center;
+                    text-decoration: none;
+                    color: #3E7323;
+                    float: left;
+                    width: 90%;
+                    border-radius: 4px;
+                    -moz-border-radius: 4px;
+                    -webkit-border-radius: 4px;
+                    -ms-border-radius: 4px;
+                    -o-border-radius: 4px;
+                }
+                #set_invoice_paid_both:hover, #add_offer_to_invoice:hover {
+                    opacity: 0.8;
+                }
+				
+			</style>
+			<!-- START RIGHT -->
+			<div id="right" class="sub">
+				
+				<!-- START NEWS -->
+                <!--
+				<div class="news_Box">
+                	
+                    <h2>Informatie</h2>
+                    
+                    <div class="text">
+                    	
+                        <p><strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</strong> Nulla erat nisl, sodales dignissim cursus quis, tincidunt vitae lorem. </p>
+                        
+                        <p>Proin semper felis nec libero sagittis iaculis. Donec congue pretium odio in volutpat. Nam vitae euismod justo.</p>
+                    
+                    </div>
+                    
+                </div>
+                -->
+				<!-- END OPTIES -->
+				
+                <!-- START NEWS -->
+				<div class="news_Box sub">
+
+                    <!--
+                	<div class="collapse">
+                	
+						<h2><span>Shortcodes<a class="i-down"></a></span></h2>
+						
+					   <div class="code-info"> 
+
+							<div class="info">
+							<p>
+								<span><span>Schuingedrukt</span> &lt;i&gt;&lt;/i&gt;</span>
+								<span><span>Vetgedrukt</span> &lt;b&gt;&lt;/b&gt;</span>
+								<span><span>Ondermijning</span> &lt;u&gt;&lt;/u&gt;</span>
+								<span><span>Doorhalen</span> &lt;lt&gt;&lt;/lt&gt;</span>
+								<span><span>URL link</span> &lt;link&gt;&lt;/link&gt;</span>
+							</p>
+							<p>
+								<span><span>Kop1</span> &lt;h1&gt;&lt;/h1&gt;</span>
+								<span><span>Kop2</span> &lt;h2&gt;&lt;/h2&gt;</span>
+								<span><span>Kop3</span> &lt;h3&gt;&lt;/h3&gt;</span>
+							</p>                        
+							<p><span><span>Markeren</span> &lt;mark&gt;&lt;/mark&gt;</span></p>    
+							</div>
+							
+					  </div>
+					  
+				  </div>
+				  -->
+                  
+					<?= $this->render('index/_partials/invoice-sidebar.phtml'); ?>
+                                                        
+                </div>
+
+                <?= $this->render('index/_partials/invoice-annex-sidebar.phtml'); ?>
+
+                <?php if( $this->invoice->proforma ): ?>
+                <div id="proforma-status">
+                    <?= $this->render('index/_partials/proforma-status-sidebar.phtml'); ?>
+                </div>
+                <?php endif; ?>
+
+                <div id="log">
+                </div>
+				<!-- END OPTIES -->
+
+			</div>
+			<!-- END RIGHT -->
+
+			<!-- START LEFT -->
+			<div id="left" class="sub">
+
+                <form id="invoice-form" style="max-width: 1140px;">
+                <input type="hidden" name="invoice[id]" value="<?= $this->escape($this->invoice->id) ?>" />
+                <input type="hidden" name="contact[firstname]" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->firstname : '') ; ?>" />
+                <input type="hidden" name="contact[lastname]" value="<?= $this->escape($this->invoice->contact ? $this->invoice->contact->lastname : '') ; ?>" />
+                <input type="hidden" name="parentid" id="parentid" value="<?= $this->invoice->parent?$this->escape($this->invoice->parent->id):0 ?>" />
+                <input type="hidden" name="download" value="<?= $this->escape($this->download) ?>" />
+
+				<!-- START PURCHASE -->
+				<div class="purchase_Box sub">
+                        
+                        <div class="big">
+                       
+                            <div class="main sub" style="width:836px;">
+                            <?php if ( $this->invoice->credit == 1 && $this->invoice->paid_time == '0000-00-00 00:00:00' ): ?>
+                                <span style="margin-left: 15px; display: block; margin-bottom: 5px; text-align: center;">Je hebt zojuist deze creditfactuur verzenden. Het is nu mogelijk om een betaling van &euro; <?= Utils::numberFormat($this->invoice->total_sum)?> te registreren voor zowel de originele factuur <?=$this->invoice->parent->number?> als creditfactuur <?=$this->invoice->number?>.</span>
+                                <a href="#this" id="set_invoice_paid_both">
+                                    <?php if ( $this->invoice->parent->paid_time == '0000-00-00 00:00:00' ): ?>
+                                        Registreer betalingen voor <?=$this->invoice->number?> & <?=$this->invoice->parent->number?>
+                                    <?php else: ?>
+                                        Registreer betaling voor <?=$this->invoice->number?>
+                                    <?php endif; ?>
+                                </a>
+                            <?php endif; ?>
+                            <?php if ( $this->invoice->proforma == 1 && $this->invoice->proforma_status == 'accepted' ): ?>
+                                <span style="margin-left: 15px; display: block; margin-bottom: 5px; text-align: center;">
+                                Deze offerte werd geaccepteerd op <?=date('m-d-Y', $this->invoice->paid_time)?> omstreeks <?=date('H:m', $this->invoice->paid_time)?>. Wenst u de offerte te factureren?
+                                </span>
+                                <a href="#this" id="add_offer_to_invoice">
+                                    Offerte <?=$this->invoice->number?> nu factureren!            
+                                </a>
+                            <?php endif; ?>
+                            <div class="left">
+                                
+                                <?php if( $this->providerLogo()->exists() ): ?>
+                                	<img src="<?= $logoPath ?>" alt="" style="width:250px;"/>
+                                <?php endif; ?>
+                                
+                                <div class="deb">
+                                    
+                                        <fieldset class="invoice">
+                                            <label><?= _t('Debiteur') ?>:</label>
+                                            <?php if( $this->invoice->contact ): ?>
+                                            <div class="contact-info">
+                                            <p><h3><?= $this->escape($this->invoice->contact->company_name); ?></h3></p>
+                                            <p><?= _t('T.a.v.') ?> <?= $this->escape($this->invoice->contact->name); ?></p>
+                                            <p><?= $this->escape($this->invoice->contact->address); ?></p>
+                                            <p><?= $this->escape($this->invoice->contact->postcode) . ', ' . $this->escape($this->invoice->contact->city); ?></p>
+                                            <p><?= $this->escape($this->invoice->contact->country); ?></p>
+                                            <br/>
+                                            <p><?= $this->escape($this->invoice->contact->vat_number); ?></p>
+                                            </div>
+                                            <?php endif; ?>
+                                        </fieldset>
+                                    
+                                </div>
+                                
+                            </div>
+                                                
+                            <div class="right" style='padding-left:0px;float:right;width:450px;'>
+                                <?= $this->partial('index/_partials/invoice-contact-info.phtml'); ?>
+                            </div>
+                            <br style="clear:both;" />
+                            
+                            </div>
+                            
+                            <div class="factur" style="width:722px;">
+                                <ul>
+                                    <li><?= _t('klantnummer') ?>: <span><?= $this->invoice->contact->number; ?></span></li>
+                                    <li>
+                                    	<?= _t('factuurnummer') ?>:
+                                    	<span><?= $this->escape($this->invoice->number); ?></span>
+                                    	
+                                		<?php if( $this->invoice->parent ): ?>
+                                        <?= _t('ouder factuur') ?>:
+                                    	<span><a style="text-decoration:none;" href="<?= $this->baseUrl(); ?>/invoices/index/view/id/<?= $this->escape($this->invoice->parent->id); ?>" target="_blank"><?= $this->escape($this->invoice->parent->number); ?></a></span>
+                                    	<?php endif; ?>
+                                    </li>
+                                    <li><?= _t('factuurdatun') ?>: <span><?= $this->escape(date(Constants::DATE_FORMAT, $this->invoice->invoice_time)); ?></span></li>
+                                    <li class="last"><?= _t('vervaldatum') ?>:
+                                        <span id="expire_date"><?= $this->escape(date(Constants::DATE_FORMAT, $this->invoice->expire_time)); ?></span>
+                                    </li>
+                                </ul>
+                                <img class="fac" src="<?= $this->baseUrl(); ?>/images/<?= $this->invoice->proforma ? 'off.jpg' : ($this->invoice->credit ? 'cre-fac.jpg' : 'fac.jpg') ?>" alt="" />
+                                                            
+                            </div>
+
+                            <?php if( $this->invoice->info ): ?>
+                            <!--<div style="margin-left:61px;width:712px;color:#333333;text-align:justify;padding:10px;font-weight:normal;line-height:15px;margin-bottom: 20px;">
+                                <?= Utils::strip_bad_tags($this->invoice->info); ?>
+                            </div>-->
+                            <?php endif; ?>
+
+                            <?php if( $this->invoice->intro ): ?>
+                            <div style="margin-left:61px;width:712px;color:#333333;text-align:justify;padding:10px;font-weight:normal;line-height:15px;margin-bottom: 20px;">
+                                <?= Utils::strip_bad_tags($this->invoice->intro); ?>
+                            </div>
+                            <?php endif; ?>
+                            
+                            <table class="invoice-view-table" cellspacing="0">
+								<thead>
+									<tr>
+										<th class="ith-qty"><?= _t('Aantal') ?></th>            
+										<th class="ith-description"><?= _t('Omschrijving') ?></th>
+										<th class="ith-vat"><?= _t('BTW') ?></th>
+                                        <?php if ( $this->invoice->discount_sum > 0): ?>
+                                        <th class="ith-discount"><?= _t('Kort.') ?> %</th>
+                                        <?php endif; ?>
+										<th class="ith-price"><?= _t('Prijs p/stk') ?></th>
+										<th class="ith-total"><?= _t('Totaal') ?></th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php foreach( $this->invoice->products as $product ): ?>
+									<?= $this->partial('index/view/invoice-row.phtml', array('product' => $product, 'hltc' => $this->hltc, 'discount_sum' => $this->invoice->discount_sum)); ?>
+									<?php endforeach; ?>
+								</tbody>
+							</table> 
+                            
+                            <div class="rule">
+                                                                                            
+                                <ul>
+                                    <?php if ( $this->invoice->discount_sum > 0): ?>
+                                    <li>
+                                        
+                                        <div class="first">
+                                            &nbsp;
+                                        </div>
+                                        
+                                        <div class="second">
+                                            
+                                            <?= _t('Korting') ?>
+                                            
+                                        </div>
+                                       
+                                        <div class="third">
+                                            
+                                            &euro; <?= Utils::numberFormat($this->invoice->discount_sum); ?>
+                                            
+                                        </div>
+                                    
+                                    </li>
+                                    <?php endif; ?>
+                                    <li>
+                                        
+                                        <div class="first">
+                                            
+                                            &nbsp;
+                                            
+                                        </div>
+                                        
+                                        <div class="second">
+                                            
+                                            <?= _t('Totaal excl. BTW') ?>
+                                            
+                                        </div>
+                                       
+                                        <div class="third">
+                                            
+                                            <nobr>&nbsp;&euro; <?= Utils::numberFormat($this->invoice->total_excl_vat); ?></nobr>
+                                            
+                                        </div>
+                                    
+                                    </li>
+                                    <li>
+                                        
+                                        <div class="first">
+                                            
+                                            &nbsp;
+                                            
+                                        </div>
+                                        
+                                        <div class="second">
+                                            
+                                            <?= _t('Totaal BTW') ?>
+                                            
+                                        </div>
+                                       
+                                        <div class="third">
+                                            
+                                            <nobr>&nbsp;&euro; <?= Utils::numberFormat($this->invoice->vat_sum); ?></nobr>
+                                            
+                                        </div>
+                                    
+                                    </li>
+                                </ul>    
+                                <ul>
+                                    <li>
+                                        
+                                        <div class="first">
+                                            
+                                            &nbsp;
+                                            
+                                        </div>
+                                        
+                                        <div class="second">
+                                            
+                                            <?= _t('Totaal incl. BTW') ?>
+                                            
+                                        </div>
+                                       
+                                        <div class="third">
+                                            
+                                            <nobr>&nbsp;&euro; <?= Utils::numberFormat($this->invoice->total_sum); ?></nobr>
+                                            
+                                        </div>
+                                    
+                                    </li>
+                                </ul>
+
+                                <?php //if( $this->invoice->signature_small ): ?>
+                                <!--
+                                    <small><?= _t('Handtekening') ?>:</small>
+                                    <img src="<?= $this->baseUrl() . $this->invoice->signature_small; ?>" />
+                                -->
+                                <?php //endif; ?>
+                            </div>
+                            
+                            <?php if( $this->invoice->notice ): ?>
+                            <div class="text" style="margin-left:51px;width:712px;">
+                               <p><?= Utils::strip_bad_tags($this->invoice->notice); ?></p>
+                            </div>
+                            <?php endif; ?>
+                        
+                        </div>
+                
+                    
+                </div>
+				<!-- END PURCHASE -->
+                </form>
+			</div>
+
+			<?= $this->partial('index/_partials/invoice-send-dialog.phtml', array('enable_dont_send' => false, 'credit' => $this->invoice->credit, 'proforma' => $this->invoice->proforma)); ?>
+            <?= $this->partial('index/_partials/invoice-payment/dialog.phtml'); ?>
+            <?= $this->partial('index/_partials/upload.phtml', array('proforma' => $this->invoice->proforma, 'credit' => $this->invoice->credit)); ?>
+
+			<!-- END LEFT -->
+<script type="text/javascript">
+	$(document).ready(function(){
+
+        if( $('[name="download"]').val() == 1 ){
+            setTimeout(function(){window.location = baseUrl + "/invoices/index/pdf/id/" + $('[name="invoice[id]"]').val();}, 500);
+        }
+
+		$("#downloadinvoice").click(function(){
+			window.location = baseUrl + "/invoices/index/pdf/id/" + $('[name="invoice[id]"]').val();
+		});
+        
+        $('#div_subject').parent().find('.wysiwyg').hallo({
+            plugins: {
+                'halloformat': {},
+                'hallolink': {}
+            },
+            editable: true
+        }).bind('hallomodified', function(){
+            $('[name="subject"]').val($(this).html().trim());
+        }).blur(null);
+        
+        $('#div_body').parent().find('.wysiwyg').hallo({
+            plugins: {
+                'halloformat': {},
+                'hallolink': {}
+            },
+            editable: true
+        }).bind('hallomodified', function(){
+            $('[name="body"]').val($(this).html().trim());
+        }).blur(null);
+        
+        $('#set_invoice_paid_both').on('click', function(){
+            $.post(baseUrl + "/invoices/index/pay-credit", $('#invoice-form').serialize()).success(function(){
+                //window.location = window.location.href.split("?")[0];
+                window.location.reload();
+            });
+        });
+        $('#add_offer_to_invoice').on('click', function(){
+            params = {status:'invoice', id: $('[name="invoice[id]"]').val()};
+            $.post(baseUrl + '/invoices/index/proforma-status/', params).success(function(data){
+                $('#proforma-status').html(data.proforma_status);
+                initCollapsable('#proforma-status');
+                log_reload();
+            });
+        });
+
+		$("#sendinvoice-button").click(function(){
+			$.post(baseUrl + "/invoices/index/send-invoice-fill", $("#invoice-form, #sendinvoice-form").serialize()).success(function(data){
+                $('[name="invoice[contact_id]"]').val(data.contact_id);
+                $('[name="invoice[contact_id]"]').data('contact-name', String(data.company_name).trim());
+                $('[name="invoice[contact_id]"]').data('contact-id', data.contact_id);
+                //invoice_contact_update_icon($('[name="contact[company]"]'));
+                //invoice_contact_update_icon($('[name="contact[firstname]"]'));
+                //invoice_contact_update_icon($('[name="contact[lastname]"]'));
+				$('[name=email]').val(data.email);
+				$('[name=subject]').val(data.subject);
+                $('#div_subject').html(data.subject);
+				$('[name=body]').val(data.body);
+                $('#div_body').html(data.body);
+			});
+		});
+
+		$('#sendinvoice-form').submit(function(event){
+            if ( $('#sendinvoice-form div.left input[name=send]:checked').val() == 1 ) {
+			    $.post(baseUrl + "/invoices/index/email", $('#invoice-form, #sendinvoice-form').serialize()).success(function(){
+				    $.fancybox.close();
+                    log_reload();
+			    });
+            } else {
+                 setTimeout(function(){window.location = baseUrl + "/invoices/index/pdf/id/" + $('[name="invoice[id]"]').val(); $.fancybox.close();}, 500);
+            }
+			return false;
+		});
+
+		$("#sendinvoice-button").fancybox();
+
+
+        log_source_type = 'invoice';
+        log_source_id = $('[name="invoice[id]"]').val();
+        log_init();
+	});
+</script>

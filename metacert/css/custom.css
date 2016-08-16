@@ -1,0 +1,77 @@
+.signup-wrapper .signup-footer p {
+    font-size: 13px;
+}
+.signup-wrapper .price-wrapper, 
+.signup-wrapper .price-wrapper span {
+    font-size: 20px;
+    color: #333;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.signup-wrapper .btn-type {
+    background: #efefef;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    color: #8f8f8f;
+    display: block;
+    font-size: 18px;
+    margin: 5px 0;
+    outline: medium none;
+    padding: 12px 30px;
+    text-align: center;
+    transition: all 0.4s ease 0s;
+    width: 100%;
+    border: 1px solid #dfdfdf;
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+.signup-wrapper .btn-type.active,
+.signup-wrapper .btn-type:hover {
+    background: #ff783c;
+    color: #fff;
+    opacity: 1;
+}
+.signup-wrapper .form-field.ico-card {
+    background: url('../assets/img/ico-lock.png') no-repeat scroll 13px center transparent;
+    padding-left: 33px;
+}
+.section.signup-wrapper > .row {
+    padding-bottom: 50px;
+    padding-top: 80px;
+}
+.signup-wrapper .form-wrapper {
+    margin-bottom: 20px;
+    margin-top: 25px;
+    padding: 40px;
+}
+.api-content .blue-box p,
+.api-content .orange-box p {
+    /*padding-left: 35px;*/
+    /*position: relative;*/
+}
+i.quote {
+    position: absolute;
+    width: 30px;
+    height: 24px;
+}
+i.quote-start {
+    background: url('../assets/img/quote-start.png') no-repeat scroll left top transparent;
+    left: 0;
+    top: 0;
+}
+i.quote-end {
+    background: url('../assets/img/quote-end.png') no-repeat scroll left top transparent;
+    right: 0;
+    bottom: 0;
+}
+.blog-page-wrapper .quotation-wrapper p {
+    position: relative;
+    padding-left: 50px;
+    font-size: 16px;
+    padding-right: 30px;
+    width: 75%;
+    line-height: 25px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}

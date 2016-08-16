@@ -1,0 +1,87 @@
+* Possibility to add tags in the WYSIWYG editor. (for example : Please pay the amount of *tag*invoice_amount*tag* before the expiration date *tag*invoice_expiration*tag
+
+
+Bugs
+
+2. Even with a complete empty stock, when I add a new group, it gets the number following to the previously made groups (even if they are gone)  so on the ipad it shows up weird.
+If there is 1 group in the system the app should also preview the group with number 1, for example the group Koffiebonen has ID 18 on the ipad.
+
+3. When showing the products on alphabet, the numbers should be like 1 comes before 10. At the moment the system says that 10 comes before 1 when its typed in a word (for example)
+
+Coffee 1KG
+Coffee 5KG
+Coffee 10KG
+
+This is how it should look!
+
+And this is how it looks in the System
+
+Coffee 10KG
+Coffee 1KG
+Coffee 5KG
+
+This problem I noticed everywhere in the system (also in stock manage)
+
+4. When I make a credit-invoice from an existing invoice, it doesnt take the official invoice out of the debiteuren group, it just adds both invoices while it normally should substract the credit-invoiced amount.
+
+So when I credit a 150 euro invoice, it should become 0 euro in the report of debiteuren and therefor delete the person out of debiteuren list.
+Now it adds the number and you get 300 euro when it should be 0 euro
+
+
+5. From the moment an invoice is made on the ipad, it gets status “Openstaand” which is good. But if I resync the ipad app, without changing anything on the website, the next time I search for the invoice in the ipad app, it tells me the invoice has been payed.
+
+7. Since Employee list in stock, there are no products visible anymore? I can see the product group, but I cant see the products within the group anymore.
+
+8. Status is not changing in Invoice overview
+
+9. Make the “VAT INCLUDED” button like this
+Onderstaande ingevoerde prijzen zijn :     ( Exclusief BTW ) → standard option in dropdown
+                        ( Inclusief BTW )
+
+10. Translate words in Stock PDF.
+Minimum → Minimum voorraad bereikt
+25% → Voorraad op 25% van beginwaarde
+Normal → Voorraad voldoende
+
+Overall Stock → Totaal
+Stock in depot → Magazijn
+Stock reservated → Bestellingen
+Stock in transit → In transport
+
+Also add a date on the PDF and put this at the top of the page as following
+
+*center*Voorraadlijst
+*center*Lijst opgemaakt op dd-mm-yyyy om hh:mm
+11. Show stock notice on every page, not only the stock page.
+
+12. Change layout of search results as given in screen
+
+13. I cannot delete products from stock.
+
+14. Possibility to delete Contactgroups, Employee groups, Wholesaler groups.
+
+15. VAT report not working (Government)
+
+16. Show openingtimes like this
+09 : 00 - 12 : 00  //  13 : 00 - 18 : 00
+If closed also mind the spaces, because now it is Gesloten- Gesloten Gesloten- Gesloten and should be like this
+Gesloten // Gesloten → so no need for 4 times Gesloten on 1 line.
+
+17. Make box larger of stock notice
+
+
+
+18. In stock manage there are more products then there are showed in the product list? Check the category “Koffie” in stock manage, and then check it in productlist
+
+test and TEST PRODUCT → Dont show up in product list
+test6546 → shows up in product list but not in manage
+
+Stock manage has 16 products in koffie, while list only shows 12?
+
+19. Change font size of “Selecteer een leveranciersgroep” in Wholesalers, because now it gets out of the box
+
+20. Dont show “Functie” in title on suppliers.
+
+21. Delete text in footer (Versie 1.1 / Upgraden naar versie 2.0)
+
+22. When typing a product in the invoice/receipt/offer/purchase/packing list it automatically shows you products with the same letters, could you please show more then 5 results?

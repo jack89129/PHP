@@ -1,0 +1,176 @@
+<style type="text/css">
+    #tabs {
+        border-width:0px;
+        background:none;
+        padding:0px;
+    }
+
+    #tabs ul {
+        background:none;
+        border:none;
+    }
+
+    #tabs ul li {
+        border:none;
+    }
+
+    #tabs ul li.ui-tabs-selected a {
+        color:#666666;
+        font-weight:bold;
+    }
+
+    #tabs ul li.ui-tabs-active a {
+        color: #666666;
+        -moz-border-radius:  4px 4px 0px 0px;
+        border-radius: 4px 4px 0px 0px;
+        background: #f1f1f1;
+    }
+
+    #tabs .ui-tabs-panel {
+        border:none;
+    }
+
+    .drop {
+        width:300px;
+    }
+
+    .drop .ui-combobox {
+        width:220px;
+    }
+
+    .drop .ui-combobox input {
+        width:200px;
+    }
+
+    .status .pack-status {
+        width:10%;
+        float:right !important;
+        min-width: 83px;
+    }
+
+</style>
+<?php include(APPLICATION_PATH . '/layouts/settings-sidebar.phtml'); ?>
+<!-- START RIGHT -->
+<div id="right" class="sub">
+
+    <!-- START NEWS -->
+    <?php if( Utils::user()->can('employee_pack_edit') ): ?>
+    <div class="news_Box">
+
+        <h2><?= _t('Nieuwe paklijst') ?></h2>
+
+        <div class="info">
+
+            <ul>
+                <li><a href="<?= $this->baseUrl() . '/' . $this->current_module . '/pack/view'; ?>"><span><?= _t('Nieuwe paklijst') ?></span></a></li>
+                <!-- <li><a class="bg1" href="#"><span>Creditfactuur</span></a></li> -->
+            </ul>
+
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <?= $this->partial('pack/_partials/pack-bulk-sidebar.phtml'); ?>
+
+    <!-- END OPTIES -->
+
+</div>
+<!-- END RIGHT -->
+
+<!-- START LEFT -->
+<div id="left" class="sub">
+
+    <!-- START OPTIES -->
+    <div class="opties_Box">
+
+        <h2><?= _t('Paklijst overzicht') ?></h2>
+
+        <div class="search">
+
+            <form id="main-pack-form" action="" method="get">
+                <fieldset class="drop">
+                    <label><?= _t('Bekijk') ?>:</label>
+                    <select class="select" name="employee_id" onchange="$(this).parents('form').submit()">
+                        <option value="0"><?= _t('Selecteer een werknemer') ?></option>
+                        <?php foreach( $this->employees as $employee ): ?>
+                        <option <?= $employee->id == $this->employee_id ? 'selected="selected"' : ''; ?> value="<?= $this->escape($employee->id); ?>"><?= $this->escape($employee->name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </fieldset>
+            </form>
+
+        </div>
+
+        <div id="tabs">
+            <ul class="tab" style="padding-left: 0px;">
+                <?php foreach( $this->tabs as $key => $tab ): ?>
+                <li><a id="tab-<?= $this->escape($key); ?>" onclick="set_active_tab('<?= $this->escape($key); ?>')" href="#<?= $this->escape($key); ?>"><?= $this->escape($tab['label'])?></a></li>
+                <?php endforeach; ?>
+            </ul>
+
+            <?php foreach( $this->tabs as $key => $tab ): ?>
+
+            <div class="tab-wrapper" id="<?= $this->escape($key) ?>" style="padding:0px;margin:0px;">
+
+                <?php if( $tab['result'] ): ?>
+
+                <div class="status" style="padding-bottom:1px;">
+                <form id="form-<?= $this->escape($key); ?>" method="get">
+                    <input type="hidden" name="pages[<?= $this->escape($key); ?>]" value="<?= $this->escape($tab['page']); ?>" />
+                    <input type="hidden" name="employee_id" value="<?= $this->escape($this->employee_id); ?>" />
+                    <fieldset>
+                        <ul>
+                            <li class="gap">
+                                <div class="first"><label class="label_check2"><input type="checkbox" class="checkall" /></label></div>
+                                <div class="third"><h3><?= _t('Paklijst') ?></h3></div>
+                                <div class="third"><h3><?= _t('Paklistdatum') ?></h3></div>
+                                <div class="third"><h3><?= _t('Werknemer') ?></h3></div>
+                                <div class="pack-status"><h3><?= _t('Status') ?></h3></div>
+                            </li>
+                            <?php foreach( $tab['result'] as $key => $pack ): ?>
+                            <li <?= $key % 2 == 0 ? 'class="color"' : '' ?>>
+                                <div class="first"><label class="label_check2"><input type="checkbox" name="packs[<?= $this->escape($pack->id); ?>]" value="<?= $this->escape($pack->id); ?>" /></label></div>
+                                <div class="third"><a href="<?= $this->baseUrl(); ?>/settings/pack/view/id/<?= $this->escape($pack->id); ?>"><?= $this->escape($pack->number); ?></a></div>
+                                <div class="third"><?= date(Constants::DATE_FORMAT, $pack->created_time); ?>&nbsp;</div>
+                                <div class="third"><?= $this->escape($pack->employee ? $pack->employee->name : ''); ?>&nbsp;</div>
+                                <div class="pack-status"><a class="concept <?= $this->escape($pack->status_color); ?>"><?= $this->escape($pack->status_text); ?></a></div>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </fieldset>
+
+                </form>
+                </div>
+                <?= $this->paginate($tab['page'], $tab['total'], $tab['per_page'])->html('javascript:result_page({page});'); ?>
+                <?php endif; ?>
+
+            </div>
+
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var active_tab = '<?= $this->escape($this->tab); ?>';
+    var active_tab_init = true;
+    $(document).ready(function(){
+        $('#tabs').tabs();
+        $('#tab-<?= $this->escape($this->tab); ?>').click();
+        $('#main-pack-form [name="employee_id"]').combobox({input_class:'round-drop-down'});
+        active_tab_init = false;
+    });
+
+    function set_active_tab(tab){
+        active_tab = tab;
+        if( active_tab_init == false ){
+            $.get(baseUrl + '/settings/pack/active-tab/tab/' + tab);
+        }
+    }
+
+    function result_page(page){
+        $('[name="pages[' + active_tab + ']"]').val(page).parent('form').submit();
+    }
+
+</script>

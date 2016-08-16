@@ -1,0 +1,44 @@
+<h2>Overige instellingen</h2>
+
+<div class="info">
+
+    <ul style="padding-bottom: 0px;">
+        <!-- SAVE -->
+        <?php if( Utils::user()->can('stock_receipt_edit') ): ?>
+        <li><a class="bg10" id="save-receipt" href="javascript:;" onclick="receipt_save();"><?= _t('Opslaan') ?></a></li>
+        <?php endif; ?>
+        <!-- Back -->
+        <li><a class="bg1" href="<?= $this->baseUrl() . '/' . $this->current_module; ?>/receipt"><span><?= _t('Sluiten') ?></span></a></li>
+        <!-- Final -->
+        <?php if( Utils::user()->can('stock_receipt_edit') && $this->receipt->status != ReceiptModel::STATUS_FINAL ): ?>
+        <li><a class="bg8" id="final-receipt" href="javascript:;" onclick="receipt_final();"><?= _t('Final') ?></a></li>
+        <?php endif; ?>
+        <!-- PACK -->
+        <?php if( Utils::user()->can('stock_receipt_edit') && !$this->receipt->pack_id && $this->receipt->status == ReceiptModel::STATUS_FINAL ): ?>
+        <li><a class="bg4" id="final-receipt" href="javascript:;" onclick="receipt_pack();"><?= _t('Generate packing list') ?></a></li>
+        <?php endif; ?>
+        <!-- INVOICE -->
+        <?php if( Utils::user()->can('stock_receipt_edit') && !$this->receipt->invoice_id && $this->receipt->status == ReceiptModel::STATUS_FINAL && $this->receipt->pack && $this->receipt->pack->status == PackModel::STATUS_FINAL ): ?>
+        <li><a class="bg9" id="final-receipt" href="javascript:;" onclick="receipt_invoice();"><?= _t('Generate invoice') ?></a></li>
+        <?php endif; ?>
+        <!-- PDF -->
+        <li><a class="bg3" href="<?= $this->baseUrl() ?>/stock/receipt/pdf/id/<?= $this->receipt->id; ?>"><span><?= _t('Afdrukken') ?></span></a></li>
+        <!-- DELETE -->
+        <?php if( Utils::user()->can('stock_receipt_delete') ): ?>
+        <li class="last"><a class="bg5" onclick="receipt_delete()" href="javascript:;"><span><?= _t('Verwijder bestel bon') ?></span></a></li>
+        <?php endif; ?>
+    </ul>
+
+</div>
+
+<script type="text/javascript">
+
+    function receipt_delete(){
+        if( !confirm('<?= _t('Are you sure?') ?>') ){
+            return;
+        }
+
+        $.post(baseUrl + "/stock/receipt/delete/", {id:$('[name="receipt[id]"]').val()});
+    }
+
+</script>

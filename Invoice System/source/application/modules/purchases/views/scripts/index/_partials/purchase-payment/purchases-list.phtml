@@ -1,0 +1,27 @@
+<div id="purchase-payment-purchases-list-scroll" style="height:401px;">
+    <?php if( $this->purchases ): ?>
+        <ul>
+            <?php foreach( $this->purchases as $purchase ): ?>
+            <li>
+                <label>
+                    <label class="label_check left">
+                        <input onchange="purchase_payment_load(<?= $this->escape($purchase->id); ?>);" type="radio" <?= $this->purchase && $this->purchase->id == $purchase->id ? 'checked="checked"' : '' ?> name="purchase[id]" value="<?= $this->escape($purchase->id); ?>" class="styled" />
+                    </label>
+                    <span class="link"><?= $this->escape($purchase->number); ?></span>
+                </label>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p style="text-align: center;"><span style="line-height: 39px;"><?= _t('No unpaid purchases!') ?></span></p>
+    <?php endif; ?>
+</div>
+<script type="text/javascript">
+    $('#purchase-payment-purchases-list-scroll').jScrollPane();
+
+    $('#purchase-payment-purchase-list').find('.label_check, .label_radio,.label_check2,.label_check3').click(function(){
+        setupLabel('#purchase-payment-purchase-list');
+    });
+    setupLabel('#purchase-payment-purchase-list');
+
+</script>

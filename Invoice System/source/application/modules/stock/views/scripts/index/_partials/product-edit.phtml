@@ -1,0 +1,359 @@
+<h2><?= _t('Wijzig product') ?></h2>
+
+<?php
+if( !$this->product ){
+    return;
+}
+?>
+
+<style type="text/css">
+
+    .status_Box li {
+        line-height:36px;
+    }
+
+    .status_Box .first {
+        width:120px;
+    }
+
+    #vat_wrapper .ui-combobox {
+        width:76px !important;
+    }
+
+    #vat_wrapper .ui-combobox input {
+        width:54px !important;
+        text-align:right;
+    }
+
+    .ui-combobox {
+        width:120px;
+        border-width:2px;
+    }
+    
+    .long .ui-combobox {
+        width: 400px;
+    }
+    
+    .long .ui-combobox input {
+        width: 378px;
+    }
+
+    .ui-combobox input {
+        width:98px;
+    }
+
+    .status_Box .third {
+        width: 120px;
+    }
+
+    .status_Box .four {
+        width: 120px;
+    }
+
+    .status_Box .second.sub {
+        width:130px;
+    }
+
+    #edit-product-form .second,
+    #edit-product-form .four {
+        width:180px;
+    }
+
+    #edit-product-form h3 {
+        font-family: Verdana, Arial, Tahoma;
+    }
+
+</style>
+
+<form id="edit-product-form" method="POST" enctype="multipart/form-data">
+<input type="hidden" name="product[id]" value="<?= $this->escape($this->product->id); ?>" />
+
+<div class="data">
+    <ul>
+        <li>
+            <div class="right" style="width:auto;margin-left:25px;">
+
+                <ul class="da-circular-stat-wrap">
+                    <li class="da-circular-stat {fillColor: '#63BC3A', value: <?= $this->escape($this->product->stock); ?>, maxValue: <?= $this->escape($this->product->stock_all_count); ?>, label: '<?= _t('op voorraad') ?>'}"></li>
+                    <li class="da-circular-stat {fillColor: '#D08800', value: <?= $this->escape($this->product->reservation_count); ?>, maxValue: <?= $this->escape($this->product->stock_all_count); ?>, label: '<?= _t('reservatie') ?>'}"></li>
+                    <li class="da-circular-stat {fillColor: '#4ECAFE', value: <?= $this->escape($this->product->transit_count); ?>, maxValue: <?= $this->escape($this->product->stock_all_count); ?>, label: '<?= _t('in transit') ?>'}"></li>
+                    <li class="da-circular-stat {fillColor: '#EBEB00', value: <?= $this->escape($this->product->stock_all_count); ?>, maxValue: <?= $this->escape($this->product->last_stock?$this->product->last_stock:$this->product->stock_all_count); ?>, label: '<?= _t('totale stock') ?>'}"></li>
+                </ul>
+
+            </div>
+        </li>
+        <li>
+            <h3><?= _t('Algemene product informatie') ?></h3>
+        </li>
+        <li style="line-height:30px;">
+            <div class="first"><?= _t('Artikelcode') ?>:</div>
+            <div class="second"><?= _t('Naam') ?>:</div>
+        </li>
+        <li style="line-height:30px;">
+            <div class="first"><input type="text" name="product[article_code]" style="width:100px;" class="gray-input" value="<?= $this->escape($this->product->article_code) ?>" /></div>
+            <div class="second"><span><input type="text" name="product[name]" class="gray-input" style="width:500px;" value="<?= $this->escape($this->product->name) ?>" /></span></div>
+        </li>
+
+        <li style="line-height:30px;">
+            <?= _t('Korte beschrijving') ?>:
+        </li>
+        <li style="line-height:30px;">
+            <textarea name="product[short_description]" class="gray-input" style="width:620px;height:30px;"><?= $this->escape($this->product->short_description) ?></textarea>
+        </li>
+        <li style="line-height:30px;">
+            <?= _t('Lange beschrijving') ?>:
+        </li>
+        <li style="line-height:30px;">
+            <textarea name="product[long_description]" class="gray-input" style="width:620px;height:30px;"><?= $this->escape($this->product->long_description) ?></textarea>
+        </li>
+        <li>
+           <br/>
+           <h3><?= _t('Prijsbepaling') ?></h3>
+        </li>
+        <li>
+            <div class="first"><?= _t('Productgroep') ?>:</div>
+            <div class="second">
+                <span>
+                <font style="visibility:hidden;">&euro;</font>
+                <select class="select" name="product[product_group_id]">
+                <?php foreach( $this->groups as $group ): ?>
+                    <option value="<?= $this->escape($group->id); ?>" <?= ($this->product->group && $this->product->group->id == $group->id) || ($group && $this->group->id == $group->id) ? 'selected="selected"' : '' ?>><?= $this->escape($group->name); ?></option>
+                <?php endforeach; ?>
+                </select>
+                </span>
+            </div>
+
+            <div class="third"><?= _t('Status') ?>:</div>
+            <div class="four">
+                <span>
+                <font style="visibility:hidden;">&euro;</font>
+                <select class="select" name="product[status]">
+                    <option value="<?= $this->escape(ProductModel::STATUS_ACTIVE) ?>" <?= $this->product->isActive() ? 'selected="selected"' : '' ?>><?= _t('Actief') ?></option>
+                    <option value="<?= $this->escape(ProductModel::STATUS_INACTIVE) ?>" <?= $this->product->isInactive() ? 'selected="selected"' : '' ?>><?= _t('Inactief') ?></option>
+                </select>
+                </span>
+            </div>
+
+        </li>
+        <li>
+            <div class="first"><?= _t('Kost') ?>:</div>
+            <div class="second">
+                <span>&euro; <input type="text" name="product[cost_price]" class="gray-input" style="width:50px;text-align:right;" value="<?= Utils::numberFormat($this->product->cost_price) ?>" />&nbsp;&nbsp;<?= _t('per stuk') ?></span>
+            </div>
+            <div class="third"><?= _t('BTW') ?>:</div>
+            <div class="four">
+                <span>
+                <font style="visibility:hidden;">&euro;</font>
+                <select class="select" name="product[vat]">
+                    <option value="0">0%</option>
+                    <?php foreach( Constants::$VATS as $vat ): ?>
+                    <option value="<?= $this->escape($vat); ?>" <?= ($this->product->vat == $vat ? 'selected="selected"' : '') ?>><?= $this->escape($vat); ?>%</option>
+                    <?php endforeach; ?>
+                </select>
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="first"><?= _t('Minimum prijs') ?>:</div>
+            <div class="second">
+                <span>&euro; <input type="text" name="product[min_price]" class="gray-input" style="width:50px;text-align:right;" value="<?= Utils::numberFormat($this->product->min_price) ?>" />&nbsp;&nbsp;<?= _t('per stuk') ?></span>
+            </div>
+            <div class="third"><?= _t('Korting') ?>:</div>
+            <div class="four">
+                <font style="visibility:hidden;">&euro;</font>
+                <span><input type="text" name="product[discount]" class="gray-input" style="width:50px;text-align:right;" value="<?= $this->escape($this->product->discount) ?>" />&nbsp;&nbsp;%</span>
+            </div>
+        </li>
+        <li>
+            <div class="first"><?= _t('Verkoopprijs') ?>:</div>
+            <div class="second">
+                <span>&euro; <input type="text" name="product[price]" class="gray-input" style="width:50px;text-align:right;" value="<?= Utils::numberFormat($this->product->price) ?>" />&nbsp;&nbsp;<?= _t('per stuk') ?></span>
+            </div>
+            <div class="third"><?= _t('Gewicht') ?>:</div>
+            <div class="four">
+                <span><font style="visibility:hidden;">&euro;</font> <input type="text" name="product[weight]" class="gray-input" style="width:50px;text-align:right;" value="<?= Utils::numberFormat($this->product->weight); ?>" />&nbsp;&nbsp;<?= _t('kg') ?></span>
+            </div>
+        </li>
+        <li>
+            <br/>
+            <h3><?= _t('Leverancier') ?></h3>
+        </li>
+        <li>
+            <div class="first"><?= _t('Leverancier') ?>:</div>
+            <div class="second">
+                <span>
+                    <font style="visibility:hidden;">&euro;</font>
+                    <select name="product[wholesaler_id]">
+                        <option value="0"><?= _t('Select leverancier') ?></option>
+                    <?php foreach( $this->wholesalers as $wholesaler ): ?>
+                        <option value="<?= $this->escape($wholesaler->id); ?>" <?= $this->product->wholesaler_id == $wholesaler->id ? 'selected="selected"' : '' ; ?>><?= $this->escape($wholesaler->name); ?></option>
+                    <?php endforeach; ?>
+                    </select>
+                </span>
+            </div>
+            <div class="third"><?= _t('Bestelcode') ?>:</div>
+            <div class="four">
+                <span><font style="visibility:hidden;">&euro;</font> <input type="text" name="product[order_code]" class="gray-input" style="width:100px;text-align:left;" value="<?= $this->escape($this->product->order_code); ?>" /></span>
+            </div>
+        </li>
+        <li>
+            <br/>
+            <h3><?= _t('Rapport categorieën') ?></h3>
+        </li>
+        <li>
+            <div class="third"><?= _t('Inkomen categorie') ?>:</div>
+            <div class="four sub long" style="width:50%;">
+                    <span>
+    <!--                    <font style="visibility:hidden;">&euro;</font> -->
+                        <select name="product[income_tag_id]">
+                            <?php foreach( $this->income_tags as $tag ): ?>
+                            <option value="<?= $this->escape($tag->id); ?>" <?= $this->product->income_tag && $this->product->income_tag->id == $tag->id ? 'selected="selected"' : ''; ?>>(<?= $this->escape($tag->number); ?>) <?= $this->escape($tag->name); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </span>
+            </div>
+        </li>
+        <li>
+            <div class="third"><?= _t('Kosten categorie') ?>:</div>
+            <div class="four long" style="width:50%;">
+                    <span>
+      <!--                  <font style="visibility:hidden;">&euro;</font> -->
+                        <select name="product[expense_tag_id]">
+                            <?php foreach( $this->expense_tags as $tag ): ?>
+                            <option value="<?= $this->escape($tag->id); ?>" <?= $this->product->expense_tag && $this->product->expense_tag->id == $tag->id ? 'selected="selected"' : ''; ?>>(<?= $this->escape($tag->number); ?>) <?= $this->escape($tag->name); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </span>
+            </div>
+        </li>
+        <li>
+            <br/>
+            <h3><?= _t('Online webwinkel') ?></h3>
+        </li>
+        <li>
+            <div class="first" style="width:233px;"><?= _t('Tonen in webwinkel') ?>:</div>
+            <div class="second sub">
+                <input type="checkbox" name="product_has_webshop" <?php if ( $this->product->has_webshop == 1 ){ echo 'checked';} ?> /> Ja
+            </div>
+        </li>
+        <?php $tmp = "display:none;"; ?>
+        <li>
+            <div class="first" style="width: 233px;"><?= _t('Andere prijs instellen voor de webshop') ?> : </div>
+            <div class="second sub">
+                <input type="checkbox" id="has_new_price" name="has_new_price" <?php if ( $this->product->has_new_price == 1 ){ echo 'checked'; $tmp="display:block;"; } ?> /> Ja
+            </div>
+        </li>
+        <li id="webshop-price-dialog" style="<?=$tmp?>">
+            <div class="first">Webshop prijs : </div>
+            <div class="second">
+                <span>&euro; <input type="text" name="product[new_price]" class="gray-input" style="width:50px;text-align:right;" value="<?= Utils::numberFormat($this->product->new_price) ?>" />&nbsp;&nbsp;<?= _t('per stuk') ?></span>
+            </div>
+            <div class="first" style="clear:both;"><?= _t('Webshop korting') ?> : </div>
+            <div class="second">
+                <font style="visibility:hidden;">&euro;</font>
+                <span><input type="text" name="product[new_discount]" class="gray-input" style="width:50px;text-align:right;" value="<?= $this->escape($this->product->new_discount) ?>" />&nbsp;&nbsp;%</span>
+            </div>
+            <div class="first" style="clear:both;"><?= _t('Webhop BTW') ?> : </div>
+            <div class="second">
+                <span>
+<!--                <font style="visibility:hidden;">&euro;</font> -->
+                <select class="select" name="product[new_vat]">
+                    <option value="0">0%</option>
+                    <?php foreach( Constants::$VATS as $vat ): ?>
+                    <option value="<?= $this->escape($vat); ?>" <?= ($this->product->new_vat == $vat ? 'selected="selected"' : '') ?>><?= $this->escape($vat); ?>%</option>
+                    <?php endforeach; ?>
+                </select>
+                </span>
+            </div>
+        </li>
+        <li>
+            <br/>
+            <h3><?= _t('Afbeeldingen voor webshop') ?></h3>
+        </li>
+        <li>
+            <div class="first">Afbeelding 1</div>
+            <div class="second">
+                <?php if ( $this->product->main_img != "" ): ?>
+                <img src="<?=$this->product->main_img?>" style="width:200px;"/>
+                <?php endif; ?>
+                <input type="file" name="product_main_img" id="product_main_img" />
+            </div>
+        </li>
+        <li>
+            <div class="first">Afbeelding 2</div>
+            <div class="second">
+                <?php if ( $this->product->sub_img1 != "" ): ?>
+                <img src="<?=$this->product->sub_img1?>" style="width:200px;"/>
+                <?php endif; ?>
+                <input type="file" name="product_sub_img1" id="product_sub_img1" />
+            </div>
+        </li>
+        <li>
+            <div class="first">Afbeelding 3</div>
+            <div class="second">
+                <?php if ( $this->product->sub_img2 != "" ): ?>
+                <img src="<?=$this->product->sub_img2?>" style="width:200px;"/>
+                <?php endif; ?>
+                <input type="file" name="product_sub_img2" id="product_sub_img2" />
+            </div>
+        </li>
+        <li>
+            <div class="first">Afbeelding 4</div>
+            <div class="second">
+                <?php if ( $this->product->sub_img3 != "" ): ?>
+                <img src="<?=$this->product->sub_img3?>" style="width:200px;"/>
+                <?php endif; ?>
+                <input type="file" name="product_sub_img3" id="product_sub_img3" />
+            </div>
+        </li>
+        <li>
+            <div class="first">&nbsp;</div>
+            <div class="second">
+                <input type="button" name="product_img_upload" id="product_img_upload" value="Upload" style="color:#333;padding:1px;"/>
+            </div>
+        </li>
+        </ul>
+
+    </div>
+
+    <br style="clear:both;" />
+    <br/>
+    <a class="link" href="javascript:;" onclick="stock_save_product();"><?= _t('Opslaan') ?></a>
+
+</div>
+</form>
+
+<script type="text/javascript">
+    $('[name="product[product_group_id]"]').combobox();
+    $('[name="product[status]"]').combobox();
+    $('[name="product[income_tag_id]"]').combobox();
+    $('[name="product[expense_tag_id]"]').combobox();
+    $('[name="product[vat]"]').combobox();
+    $('[name="product[new_vat]"]').combobox();
+    $('[name="product[wholesaler_id]"]').combobox();
+    
+    $(document).ready(function(){
+        if ( $('#product_img_upload') ) {
+            $('#product_img_upload').on('click', onProductImageUpload);
+        }
+        
+        $('#has_new_price').on('change', function(){
+            if ( $('#has_new_price:checked').val() ) {
+                $('#webshop-price-dialog').fadeIn(300);
+            } else {
+                $('#webshop-price-dialog').fadeOut(300);
+            }
+        });
+    });
+    
+    function onProductImageUpload() {
+        if ( $('#product_main_img').val() == '' && $('#product_sub_img1').val() == '' && $('#product_sub_img2').val() == '' && $('#product_sub_img3').val() == '' ) {
+            alert("Please select image!");
+            return;
+        }
+        
+        var frmObj = document.getElementById('edit-product-form');
+        frmObj.action = baseUrl + "/stock/index/upload";
+        frmObj.submit();
+    }
+</script>

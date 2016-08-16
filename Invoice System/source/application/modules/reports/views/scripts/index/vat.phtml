@@ -1,0 +1,171 @@
+<style type="text/css">
+
+    .reports-result {
+        width:100%;
+    }
+
+    .reports-result td {
+        height:28px;
+        border-bottom:1px solid #eeeeee;
+        vertical-align: middle;
+        white-space: nowrap;
+        padding-left:10px;
+    }
+
+    .reports-result th {
+        height:28px;
+        vertical-align: middle;
+        white-space: nowrap;
+        padding-left:10px;
+    }
+
+    .reports-result .debit, .reports-result .credit {
+        text-align: right;
+        padding-right:10px;
+        width:100px;
+        font-weight: bold;;
+    }
+
+    .reports-result .date {
+        width:130px;
+        text-align:left;
+    }
+
+    .reports-result .number {
+        text-align:right;
+    }
+
+    .reports-result .info {
+        padding:0px;
+        margin:0px;
+        text-align:left;
+    }
+
+    .reports-result td.odd {
+        background-color:#fafafa;
+    }
+
+    .reports-result td.frst {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .reports-result td.even {
+        background-color:#fdfdfd;
+    }
+
+    .reports-result td a {
+        color:#548C03;
+        text-decoration: none;
+        font-weight:bold;
+    }
+
+    .reports-result td.category {
+        min-width:200px;
+    }
+
+    .reports-result td.period {
+        width:80px;
+        text-align:right;
+        padding-right:10px;
+    }
+
+
+
+    .reports-result td.sum {
+        text-align:right;
+        font-weight:bold;
+        padding-right:10px;
+        padding-left:10px;
+    }
+
+    .reports-result td.tag {
+        font-weight:bold;
+        padding-left:25px;
+        color:#548C03;
+    }
+
+    .reports-result td.total {
+        font-weight:bold;
+        color:#548C03;
+        background-color: transparent;
+    }
+
+    .reports-result td.empty {
+        border-width: 0;
+        background-color: transparent;
+    }
+
+</style>
+<!-- START RESULT -->
+<div class="result_Box">
+
+    <h2><?= _t('BTW-Aangifte') ?></h2>
+    <br/>
+
+    <form action="<?= $this->baseUrl() ?>/reports/index/vat" method="get">
+    <?php if ( $this->type != 'government' ): ?>
+        <div style="float:left;margin-right:50px;">
+            <select name="period" onchange="$(this).parents('form').submit();">
+                <?php foreach( $this->periods as $key => $period ): ?>
+                <option <?= $key == $this->period ? 'selected="selected"' : ''; ?> value="<?= $this->escape($key) ?>"><?= $this->escape($period['label']); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <!--<div style="float:left;margin-right:50px;">
+            <select name="type" onchange="$(this).parents('form').submit();">
+                <?php foreach( $this->types as $key => $type ): ?>
+                <option <?= $key == $this->type ? 'selected="selected"' : ''; ?> value="<?= $this->escape($key) ?>"><?= $this->escape($type); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>-->
+    <?php else: ?>
+        <div style="float:left;margin-right:50px;">
+            <select name="type" onchange="$(this).parents('form').submit();">
+                <?php foreach( $this->types as $key => $type ): ?>
+                <option <?= $key == $this->type ? 'selected="selected"' : ''; ?> value="<?= $this->escape($key) ?>"><?= $this->escape($type); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div style="float:left;margin-right:50px;">
+            <select name="year" style="margin:7px 9px;" id="year" onchange="$(this).parents('form').submit();">
+                <?php for ( $y=2013; $y<2021; $y++ ): ?>
+                <option value="<?=$y?>" <?php if($y==$this->year) echo 'selected'; ?>><?=$y?></option>
+                <?php endfor; ?>
+            </select>
+        </div>
+        <div style="float:left;margin-right:50px;">
+            <select name="month" id="month" onchange="$(this).parents('form').submit();">
+                <?php for ( $m=1; $m<13; $m++ ): ?>
+                <option value="<?=$m?>" <?php if($m==$this->month) echo 'selected'; ?>><?=$m?></option>
+                <?php endfor; ?>
+            </select>
+        </div>
+    <?php endif; ?>
+        <?= $this->render('index/_partials/exports.phtml'); ?>
+    </form>
+
+
+    <div class="clear"></div>
+
+    <div class="info">
+        <br/>
+        <?= $this->render('index/_partials/vat-' . $this->type . '.phtml'); ?>
+    </div>
+
+</div>
+<!-- END RESULT	 -->
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        if ( $('[name="period"]') ) {
+            $('[name="period"]').combobox();
+        }
+        $('[name="type"]').combobox();
+        if ( $('[name="year"]') ) {
+            $('[name="year"]').combobox();
+            $('[name="month"]').combobox();
+        }
+    });
+
+</script>

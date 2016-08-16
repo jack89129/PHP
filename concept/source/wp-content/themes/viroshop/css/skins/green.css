@@ -1,0 +1,110 @@
+/* Green Skin */
+
+/* Link Hover */
+a:hover {
+	color: #8baf8f;
+}
+#breadcrumb a:hover {
+	color: #8baf8f;
+}
+
+/* Widget Title */
+.widgettitle {
+	color: #8baf8f;
+		text-shadow: #fff 1px 1px 0;
+
+}
+
+/* Category Product Price Tag */
+#content ul.products li .price:after {
+	border-color: #4d5d4e transparent transparent #4d5d4e;
+}
+.es-carousel-wrapper .slide-title:after {
+	border-color: #4d5d4e #4d5d4e transparent transparent;
+}
+.es-carousel-wrapper .slide-title, #content ul.products li .price {
+	color: #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8baf8f', endColorstr='#6e8e71');
+	background: -webkit-gradient(linear, left top, left bottom, from(#8baf8f), to(#6e8e71));
+	background: -moz-linear-gradient(top,  #8baf8f,  #6e8e71);
+	text-shadow: #667f68 1px 1px 0;
+}
+
+#content ul.products li .price ins {
+	color: #ffffff;
+
+}
+
+/* Product Price Tag */
+div.product p.price:before {
+	border-color: transparent transparent transparent #8baf8f;
+}
+div.product p.price {
+	color: #ffffff;
+	background-color: #8baf8f;
+	text-shadow: #667f68 1px 1px 0;
+}
+
+div.product p.price .amount {
+	color: #fbfdfd;
+}
+
+.woocommerce .quantity .plus,.woocommerce-page .quantity .plus,.woocommerce #content .quantity .plus,.woocommerce-page #content .quantity .plus,.woocommerce .quantity .minus,.woocommerce-page .quantity .minus,.woocommerce #content .quantity .minus,.woocommerce-page #content .quantity .minus {
+	border: 1px solid #6e8e71;
+	background: #8baf8f;
+	background: -webkit-gradient(linear,left top,left bottom,from(#8baf8f),to(#6e8e71));
+	background: -webkit-linear-gradient(#8baf8f,#6e8e71);
+	background: -moz-linear-gradient(center top,#8baf8f 0%,#6e8e71 100%);
+	background: -moz-gradient(center top,#8baf8f 0%,#6e8e71 100%);
+}
+.woocommerce #content .quantity .plus:hover, .woocommerce #content .quantity .minus:hover {
+	background: #6e8e71;
+
+}
+.woocommerce a.button.alt:hover,.woocommerce-page a.button.alt:hover,.woocommerce button.button.alt:hover,.woocommerce-page button.button.alt:hover,.woocommerce input.button.alt:hover,.woocommerce-page input.button.alt:hover,.woocommerce #respond input#submit.alt:hover,.woocommerce-page #respond input#submit.alt:hover,.woocommerce #content input.button.alt:hover,.woocommerce-page #content input.button.alt:hover {
+	background-color: #6e8e71 !important;
+}
+
+
+
+.woocommerce a.button.alt,.woocommerce-page a.button.alt,.woocommerce button.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt,.woocommerce-page input.button.alt,.woocommerce #respond input#submit.alt,.woocommerce-page #respond input#submit.alt,.woocommerce #content input.button.alt,.woocommerce-page #content input.button.alt {
+	background-color: #8baf8f !important;
+}
+/* Product Category Tags */
+
+.single-product .summary .product_meta a {
+	color: #8baf8f;
+}
+
+/* Product Description */
+
+div.product .product_title {
+	color: #595959;
+}
+.single-product .woocommerce_tabs .panel h2:first-child,
+.single-product .woocommerce_tabs .panel #reviews h2 {
+	color: #6e8e71;
+}
+
+/* Buttons */
+
+table.shop_table .checkout-button.button, #place_order.button   {
+background-color: #8baf8f;
+
+}
+table.shop_table .checkout-button.button:hover, #place_order.button:hover  {
+background-color: #6e8e71;
+
+}
+
+/* Dropcaps */
+
+.square-dropcap, .round-dropcap,.blog .date small {
+
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8baf8f', endColorstr='#6e8e71');
+	background: -webkit-gradient(linear, left top, left bottom, from(#8baf8f), to(#6e8e71));
+	background: -moz-linear-gradient(top,  #8baf8f,  #6e8e71);
+	color: #fff;
+	text-shadow: #667f68 1px 1px 0;
+
+}

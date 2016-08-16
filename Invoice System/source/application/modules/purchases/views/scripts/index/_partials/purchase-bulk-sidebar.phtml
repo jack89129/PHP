@@ -1,0 +1,74 @@
+<h2>Overige instellingen</h2>
+
+<div class="info">
+
+    <ul style="padding-bottom: 0px;">
+        <!-- PAY -->
+        <li><a class="sub" id="pay-bulk-purchase" href="#purchase-payment-dialog"><span><?= _t('Registreer betaling') ?></span></a></li>
+
+        <!-- Print -->
+        <li><a id="sb-download-purchases" class="bg3" href="javascript:;"><span><?= _t('Afdrukken') ?></span></a></li>
+
+        <!-- DELETE -->
+        <?php if( Utils::user()->can('purchase_delete') ): ?>
+        <li class="last"><a class="bg5" id="delete-bulk-purchase" href="javascript:;"><span><?= _t('Verwijder inkoopfactuur') ?></span></a></li>
+        <?php endif; ?>
+    </ul>
+
+</div>
+
+<script type="text/javascript">
+
+    function purchases_collect_checked(){
+        var ids = []
+        var checked = $('#tabs div.tab-wrapper:visible input[type=checkbox]:checked');
+        for( var i = 0; i < checked.length; i++ ){
+            if( checked[i].value > 0 ){
+                ids.push({name:'purchases[]', value:checked[i].value});
+            }
+        }
+
+        return $.param(ids);
+    }
+
+    function purchases_check_selected(){
+        var purchases = purchases_collect_checked();
+        purchase_payment_dialog_init(purchases);
+    }
+
+    $(document).ready(function(){
+
+        $('#pay-bulk-purchase').fancybox({onStart:purchases_check_selected, onClosed:function(){window.location.reload()}});
+
+        /*$('#pay-bulk-purchase').click(function(){
+            if( params = purchases_collect_checked() ){
+                $.post(baseUrl + "/purchases/index/pay-bulk/", params);
+            }else{
+                alert('Select at least one purchase!');
+            }
+        })*/
+
+        $('#sb-download-purchases').click(function(){
+            if( params = purchases_collect_checked() ){
+                var form = $($('#form-' + $('#tabs div.tab-wrapper:visible')[0].id));
+                form.attr('action', baseUrl + '/purchases/index/bulk-pdf/');
+                form.submit();
+            }else{
+                alert('<?= _t('Select at least one purchase!') ?>');
+            }
+
+        });
+
+        $('#delete-bulk-purchase').click(function(){
+            if( !confirm('<?= _t('Are you sure?') ?>') ){
+                return;
+            }
+
+            if( params = purchases_collect_checked() ){
+                $.post(baseUrl + "/purchases/index/bulk-delete/", params);
+            }else{
+                alert('<?= _t('Select at least one purchase!') ?>');
+            }
+        })
+    });
+</script>

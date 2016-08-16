@@ -1,0 +1,10 @@
+<?php if( !$this->wholesaler ){
+    return;
+}
+?>
+<div class="layoutright">
+
+    <div id="wholesaler-groups" class="group">
+        <?= $this->partial('index/_partials/wholesaler-groups.phtml', array('wholesaler' => $this->wholesaler, 'groups' => $this->groups)); ?>
+    </div>
+</div>

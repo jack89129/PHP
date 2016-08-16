@@ -1,0 +1,61 @@
+<style type="text/css">
+    .data .forminputfield {
+        margin-left:0px;
+    }
+
+    .data td {
+        height:42px;
+    }
+</style>
+<div class="left status_Box" style="display:none">
+    <div id="contact-add-dialog" class="data">
+        <h2>Nieuwe contact</h2>
+        <form id="contact-add-form" style="padding:10px;background-color:#F1F1F1;">
+            <table>
+                <tr>
+                    <td style="width:120px;">Voornaam:</td>
+                    <td><input type="text" class="forminputfield" name="contact[firstname]" value="" /></td>
+                </tr>
+                <tr>
+                    <td>Achternaam:</td>
+                    <td><input type="text" class="forminputfield" name="contact[lastname]" value="" /></td>
+                </tr>
+                <tr>
+                    <td>Adres:</td>
+                    <td><input type="text" class="forminputfield" name="contact[address]" value="" /></td>
+                </tr>
+                <tr>
+                    <td>Postcode:</td>
+                    <td><input type="text" class="forminputfield" name="contact[postcode]" value="" /></td>
+                </tr>
+                <tr>
+                    <td>Plaats:</td>
+                    <td><input type="text" class="forminputfield" name="contact[city]" value="" /></td>
+                </tr>
+                <tr>
+                    <td>Land:</td>
+                    <td><input type="text" class="forminputfield" name="contact[country]" value="" /></td>
+                </tr>
+                <tr>
+                    <td>E-mailadres</td>
+                    <td><input type="text" class="forminputfield" name="contact[email_address]" value="" /></td>
+                </tr>
+                <tr>
+                    <td>Telefoonnumers:</td>
+                    <td><input type="text" class="forminputfield" name="contact[phone]" value="" /></td>
+                </tr>
+                <tr>
+                    <td>Functie:</td>
+                    <td><input type="text" class="forminputfield" name="contact[role]" value="" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href="javascript:;" onclick="invoice_save_contact();" class="link" style="margin-left:7px;color:#ffffff;text-decoration: none;font-weight:bold;padding:5px;text-shadow:2px 1px 0px #4F922D;">Opslaan</a>
+                    </td>
+                </tr>
+            </table>
+            <br style="clear: both;" />
+        </form>
+    </div>
+</div>

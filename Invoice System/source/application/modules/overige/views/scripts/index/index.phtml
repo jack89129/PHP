@@ -1,0 +1,169 @@
+	<style type="text/css">
+	#kasboek_date {
+		background-color: transparent;
+		border: none;
+		margin-left: -10px;
+		width: 150px;
+	}
+	</style>
+	
+	<div class="kasboek">                     
+		<h2>Bankboek</h2>
+	<br />
+	
+	<div class="dropdown-kasboek-box">
+     	<h2 class="active opened"><a href="#">Algemene gegevens</a></h2>   
+     	<div class="dropdown-kasboek-content active">  
+	    	<div class="kasboek-algemeen">
+		   		<div class="algemeen-saldo">
+	    			<form id="overige_form" method="POST" action="/overige">
+	    			    <input type="hidden" id="kas_date" name="kas_date" value="<?=$this->start_date?>" />
+	    				<label>Startsaldo: </label>
+	    				<input id="start_balance" class="input-grey" type="text" value="<?= "&euro; ".Utils::numberFormat($this->start_balance); ?>" disabled/>
+
+	    				<label>Eindsaldo: </label>
+	    				<input id="end_balance" class="input-white" type="text" value="<?= "&euro; ".Utils::numberFormat($this->balance); ?>" onfocus="if(this.value == '€ 0,00') { this.value = ''; }" onblur="onBlurEndBalanceInput(this);"/>
+                        <label>Afschriftnummer: </label>
+                        <input id="afsch_num" class="input-white" type="text" value="<?=$this->afsch_num?>" onblur="onSaveAfsch(this);"/>
+	    			
+	    			</form>
+	    		</div>
+	    		
+	    		<div class="link">
+	            	<ul>
+                    	<li class="selected"><a href="javascript:;" onclick="changeDay('past')">Vorige dag</a></li>
+                    	
+                    	<li class="last"><a href="#"><input id="kasboek_date" type="text" value="<?=$this->start_date_str?>" readonly></a></li>
+                    	
+                    	<!--
+                    	<li class="last"><a href="#"><span></span><input id="kasboek_date" type="hidden" value="Vrijdag 20 Juli, 2012" readonly></a></li>
+                    	-->
+                    	<li class="next"><a class="nextday" href="javascript:;" onclick="changeDay('next')">Volgende dag</a></li>
+                    </ul>    
+                 </div>
+	    	</div>
+     	</div>               
+     	<div class="clear"></div>
+	</div>  
+                    
+	<div class="dropdown-kasboek-box">
+     	<h2><a href="#">Bankafschriften invoeren</a></h2>   
+     		<div class="dropdown-kasboek-content" style="display: none;">  
+	     		<div class="bank-left">
+     		   		<form>	    			
+	    				<label>Bedrag: </label>
+	    				<input id="search_amount" class="input-white-big" type="text" />
+    			        <label>Nummer: </label>
+                        <input id="invoice_number" class="input-white-big" type="text" />
+	    			</form>
+	    			<a id="new_afschrift" class="btn" href="javascript:;">Voeg afschrift toe</a>
+                    <a id="dialog_new_afschrift" style="display:none !important;" href="#invoice-payment-dialog"></a><br/>
+                    <a id="bank_print" class="btn" href="javascript:;">Druk deze dag af</a><br/>
+                    <a id="bank_month_print" class="btn" href="javascript:;">Druk deze maand af</a>
+	    		</div>
+	    		
+	    		<div class="bank-right">
+		    		<div class="factuur-table-top">
+			    		<div class="factuur-saldo">
+			    			<div class="factuur-saldo-left"></div>
+			    			<div class="factuur-saldo-text"><p>Saldo</p></div>
+			    			<div class="factuur-saldo-right"></div>
+			    		</div>
+			    	</div>
+			    	<table class="factuur-tabel">
+				    	<thead>   			
+					    	<tr>
+						    	<th style="width:250px;">Factuurnummer</th>
+						    	<th style="width:200px;">Debiteur / Crediteur</th>
+						    	<th style="width:175px;">Credit</th>
+						    	<th style="width:75px;">Debet</th>
+						    </tr>
+						 </thead>
+						 <tbody>
+							 <tr>
+							 	<td>&nbsp;</td>
+							 	<td>&nbsp;</td>
+							 	<td class="credit">&nbsp;</td>
+							 	<td class="debet">&nbsp;</td>
+							 </tr>
+                             <?php $total = 0.0; ?>
+                             <?php if( $this->end_invoice['result'] ): ?> 
+                             <?php foreach( $this->end_invoice['result'] as $key => $invoice ): ?>
+                             <tr>
+                                 <td><?= $this->escape($invoice->number); ?></td>
+                                 <td><?= $invoice->contact ? $invoice->contact->name : '' ?></td>
+                                 <td class="credit"><?php $total += $invoice->total_sum; ?> &euro; <?= Utils::numberFormat($invoice->total_sum); ?></td>
+                                 <td class="debet"></td>
+                             </tr>       
+                                <?php endforeach; ?>  
+                             <?php endif; ?>   
+                             
+                             <?php if( $this->end_purchase['result'] ): ?> 
+                             <?php foreach( $this->end_purchase['result'] as $key => $purchase ): ?>
+                             <tr>
+                                 <td><?= $this->escape($purchase->number); ?></td>
+                                 <td><?= $invoice->contact ? $purchase->contact->name : '' ?></td>
+                                 <td class="credit"></td>
+                                 <td class="debet"><?php $total -= $purchase->total_sum; ?> &euro; <?= Utils::numberFormat($purchase->total_sum); ?></td>
+                             </tr>       
+                                <?php endforeach; ?>  
+                             <?php endif; ?>   
+                             <input type="hidden" id="list_total" value="<?php echo $total; ?>" />
+     			</tbody>
+     			
+     			</table>     
+     			
+     			<div class="factuur-table-bottom"></div>	
+     			
+     			<div class="factuur-bottom">
+	    		
+	    			<div class="bottom-white-div">Verschil met ingegeven eindsaldo:
+	    				<span id="different_balance">&euro; 0.00</span>
+	    			</div>
+	    			<div class="bottom-grey-div" id="start_saldo">Startsaldo voor <?= $this->start_date_str ?>:
+						<span>&euro; 0.00</span>
+					</div>	    					
+				</div>
+			</div>               
+    	</div> 
+    	<div class="clear"></div>
+	</div> 
+
+<!--
+	<div class="dropdown-kasboek-box">
+    	<h2><a href="#">Overige instellingen</a></h2>   
+     		<div class="dropdown-kasboek-content" style="display: none;">  
+                
+     		</div>               
+     	<div class="clear"></div>
+	</div> 
+-->
+<input type="hidden" value="<?=$this->page_idx?>" id="page_type" />
+<div style="display: none;">
+    <div class="betalingen-Box overlaybox" id="invoice-payment-dialog">
+
+        <form id="invoice-payment-form" action="#">
+            <fieldset>
+
+                <h2><?= _t('Betalingen') ?></h2>
+
+                <div class="left-container">
+
+                    <div id="invoice-payment-invoice-list" style="outline:none; height:400px; overflow-y:auto;">
+                    </div>
+
+                </div>
+
+                <div id="invoice-payment-invoice" class="right-container">
+
+
+
+                </div>
+
+                <div class="clear"></div>
+
+            </fieldset>
+        </form>
+
+    </div>
+</div>

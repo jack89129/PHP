@@ -1,0 +1,41 @@
+<style type="text/css">
+    .info {
+        color: #333;
+    }
+</style>
+
+<?php if( $this->result ): ?>
+<?php foreach( $this->result as $type ): ?>
+    <?php if( !$type['rows'] ){ continue; } ?>
+    <h1><?= $this->escape($type['label']); ?></h1>
+    <br/>
+    <table class="reports-result">
+        <thead>
+        <tr>
+            <th class="date">BTW tarief</th>
+            <th class="number">Percentage</th>
+            <th class="number even" style="width:20%;">Totaal bedrag</th>
+            <th class="number odd" style="width:20%;">Totaal BTW</th> 
+        </tr>
+        </thead>
+        <tbody>
+            <?php foreach( $type['rows'] as $index => $result ): $first = $index == 0 ? 'frst' : ''; ?>
+        <tr>
+            <td class="date <?= $first ?>"><?= $this->escape($result['tag']) ?></td>
+            <td class="number <?= $first ?>"><?= $this->escape($result['vat'] . '%'); ?></td>
+            <td class="number even <?= $first ?>">&euro; <?= Utils::numberFormat($result['total_excl_vat']); ?></td>
+            <td class="number odd <?= $first ?>">&euro; <?= Utils::numberFormat($result['vat_sum']); ?></td> 
+        </tr>
+            <?php endforeach; ?>
+        <tr>
+            <td class="total empty"><h3>Totaal</h3></td>
+            <td class="empty"></td>
+            <td class="number empty total">&euro; <?= Utils::numberFormat($type['totals']['total_excl_vat']) ?></td>
+            <td class="number empty total">&euro; <?= Utils::numberFormat($type['totals']['vat_sum']) ?> </td> 
+        </tr>
+        </tbody>
+    </table>
+    <br/><br/>
+    <?php endforeach; ?>
+    <p style="width: 100%; text-align: center; color: #999;">Dit overzicht geeft je de mogelijkheid om eenvoudig de aangifte omzetbelasting voor je bedrijf in te dienen.<br> Alleen de facturen/inkoopfacturen van de aangifte waarvan we informatie hebben binnen Simpel Facturatie zijn opgenomen.<br> Controleer alle bedragen goed, aan dit overzicht kunnen geen rechten ontleend worden.</p>
+<?php endif; ?>

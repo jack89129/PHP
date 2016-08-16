@@ -1,0 +1,195 @@
+<style type="text/css">
+
+    .reports-result {
+        width:100%;
+    }
+
+    .reports-result td {
+        height:28px;
+        border-bottom:1px solid #eeeeee;
+        vertical-align: middle;
+        white-space: nowrap;
+        padding-left:10px;
+    }
+
+    .reports-result th {
+        height:28px;
+        vertical-align: middle;
+        white-space: nowrap;
+        padding-left:10px;
+    }
+
+    .reports-result .debit, .reports-result .credit {
+        text-align: right;
+        padding-right:10px;
+        width:100px;
+        font-weight: bold;;
+    }
+
+    .reports-result .date {
+        width:130px;
+        text-align:left;
+    }
+
+    .reports-result .number {
+        width:200px;
+        text-align:left;
+    }
+
+    .reports-result .info {
+        padding:0px;
+        margin:0px;
+        text-align:left;
+    }
+
+    .reports-result td.odd {
+        background-color:#fafafa;
+    }
+
+    .reports-result td.frst {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .reports-result td.even {
+        background-color:#fdfdfd;
+    }
+
+    .reports-result td a {
+        color:#548C03;
+        text-decoration: none;
+        font-weight:bold;
+    }
+
+    .reports-result td.category {
+        min-width:200px;
+    }
+
+    .reports-result td.period {
+        width:80px;
+        text-align:right;
+        padding-right:10px;
+    }
+
+
+
+    .reports-result td.sum {
+        text-align:right;
+        font-weight:bold;
+        padding-right:10px;
+        padding-left:10px;
+    }
+
+    .reports-result td.tag {
+        font-weight:bold;
+        padding-left:25px;
+        color:#548C03;
+    }
+
+    .reports-result td.total {
+        font-weight:bold;
+        color:#548C03;
+        background-color: transparent;
+    }
+
+    .reports-result td.empty {
+        border-width: 0;
+        background-color: transparent;
+    }
+
+</style>
+<!-- START RESULT -->
+<div class="result_Box">
+
+    <h2><?= _t('Facturen ') ?> <span style="text-transform: lowercase; display: inline-block; background: none;"><?=$this->tag->name?></span></h2>
+    <br/>
+
+    <form action="<?= $this->baseUrl() ?>/reports/index/tag" method="get">
+        <input type="hidden" name="tag" value="<?=$this->tag->id?>" />
+    <!--
+        <div style="float:left;margin-right:50px;">
+        <select name="tag" onchange="$(this).parents('form').submit();">
+            <?php foreach( $this->tags as $key => $tag ): ?>
+            <option <?= $tag->id == $this->tag->id ? 'selected="selected"' : '' ?> value="<?= $this->escape($tag->id); ?>"><?= $this->escape($tag->category->name . ' - ' . $tag->name); ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+      -->  
+        <div style="float:left;margin-right:50px;">
+            <select name="period" onchange="$(this).parents('form').submit();">
+                <?php foreach( $this->periods as $key => $period ): ?>
+                <option <?= $key == $this->period ? 'selected="selected"' : ''; ?> value="<?= $this->escape($key) ?>"><?= $this->escape($period['label']); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+     
+        <?= $this->render('index/_partials/exports.phtml'); ?>
+    </form>
+
+    <div class="clear"></div>
+
+    <div class="info">
+        <br/>
+        <?php if( $this->result ): ?>
+        <table class="reports-result">
+            <thead>
+                <tr>
+                    <th class="date"><?= _t('Datum') ?></th>
+                    <th class="number"><?= _t('Referentie') ?></th>
+                    <th class="info"><?= _t('Contact & Geheugensteun') ?></th>
+                    <th class="credit even"><?= _t('Credit') ?></th>
+                    <th class="debit odd"><?= _t('Debet') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach( $this->result as $index => $result ): $first = $index == 0 ? 'frst' : ''; ?>
+                    <tr>
+                        <td class="date even <?= $first ?>"><?= date('Y-m-d', $result['time']); ?></td>
+                        <td class="number odd <?= $first ?>">
+                            <?= $this->invoice ? _t('Factuur') : _t('inkoop'); ?>
+                            <a href="<?= $this->baseUrl() ?>/<?= $this->invoice ? 'invoices' : 'purchases' ?>/index/view/id/<?= $result['id'] ?>?hltc=<?= $this->tag->id ?>"><?= $this->escape($result['number']); ?></a>
+                        </td>
+                        <td class="info even <?= $first ?>">
+                            <?php if( $result['contact_id'] ): ?>
+                                <a href="<?= $this->baseUrl(); ?>/<?= $this->invoice ? 'contacts/?contact_id=' : 'wholesalers/?wholesaler_id=' ?><?= $result['contact_id'] ?>"><?= $this->escape($result['contact_name']) ?></a>
+                            <?php endif; ?>
+                            <?php if( $result['contact_id'] && $result['info'] ): ?>
+                                -
+                            <?php endif; ?>
+                            <?php if( $result['info'] ): ?>
+                                <?= strip_tags($result['info']); ?>
+                            <?php endif; ?>
+                        </td>
+                        <td class="debit odd <?= $first ?>">&euro; <?= Utils::numberFormat($result['debit']); ?></td>
+                        <td class="credit even <?= $first ?>">&euro; <?= Utils::numberFormat($result['credit']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                <tr>
+                    <td class="total empty"><h3>Totaal</h3></td>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                    <td class="debit empty">&euro; <?= Utils::numberFormat($this->totals['debit']); ?> </td>
+                    <td class="credit empty">&euro; <?= Utils::numberFormat($this->totals['credit']); ?> </td>
+                </tr>
+                <tr>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                    <td colspan="2" class="empty" style="text-align: center;font-weight:bold;border-top:1px solid #eeeeee;padding-left:50px; color: #548C03;">&euro; <?= Utils::numberFormat($this->totals['debit'] + $this->totals['credit']); ?> </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="width: 100%; text-align: center; color: #999;">Alle bedragen op deze pagina zijn in EUR en exclusief BTW.</p>
+        <?php endif; ?>
+    </div>
+
+</div>
+<!-- END RESULT	 -->
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        //$('[name="tag"]').combobox();
+        $('[name="period"]').combobox();
+    });
+
+</script>

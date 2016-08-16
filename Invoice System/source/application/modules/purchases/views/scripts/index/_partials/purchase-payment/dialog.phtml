@@ -1,0 +1,61 @@
+<div style="display: none;">
+    <div class="betalingen-Box overlaybox" id="purchase-payment-dialog">
+
+        <form id="purchase-payment-form" action="#">
+            <fieldset>
+
+                <h2><?= _t('Betalingen') ?></h2>
+
+                <div class="left-container">
+
+                    <div id="purchase-payment-purchase-list" style="outline:none;">
+                    </div>
+
+                </div>
+
+                <div id="purchase-payment-purchase" class="right-container">
+
+
+
+                </div>
+
+                <div class="clear"></div>
+
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    var purchase_payment_purchases;
+    function purchase_payment_dialog_init(purchases){
+        purchase_payment_purchases = purchases;
+        purchase_payment_purchases_list_update(purchases)
+    }
+
+    function purchase_payment_purchases_list_update(purchases){
+        $.post(baseUrl + '/purchases/index/payment-dialog-purchases-list', purchases).success(function(data){
+            $('#purchase-payment-purchase-list').html(data.purchases_list);
+            $('#purchase-payment-purchase').html(data.purchase);
+        });
+    }
+
+    function purchase_payment_load(id){
+        $.post(baseUrl + '/purchases/index/payment-dialog-purchase-load', {id:id}).success(function(data){
+            $('#purchase-payment-purchase').html(data.purchase);
+        });
+    }
+
+    $(document).ready(function(){
+        $('#purchase-payment-form').submit(function(){
+            $.post(baseUrl + '/purchases/index/purchase-payment-pay', $(this).serialize()).success(function(){
+                purchase_payment_dialog_init(purchase_payment_purchases);
+            });
+            return false;
+        });
+    });
+
+</script>

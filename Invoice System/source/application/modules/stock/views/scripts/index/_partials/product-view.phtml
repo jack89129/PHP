@@ -1,0 +1,220 @@
+<div class="status_Box">
+<h2><?= _t('Product') ?></h2>
+
+<?php
+    if( !$this->product ){
+            return;
+    }
+?>
+
+<style type="text/css">
+
+    .status_Box .first {
+        width:120px;
+    }
+
+    .product-edit-wrapper h3 {
+        font-family: Verdana, Arial, Tahoma;
+    }
+
+</style>
+<div class="data product-edit-wrapper">
+
+    <h3><?= $this->escape($this->product->name) ?></h3>
+
+    <ul>
+        <li>
+            <div class="right" style="width:auto;margin-left:25px;">
+
+                <ul class="da-circular-stat-wrap">
+                    <li class="da-circular-stat {fillColor: '#63BC3A', value: <?= $this->escape($this->product->stock); ?>, maxValue: <?= $this->escape($this->product->stock_all_count); ?>, label: '<?= _t('op voorraad') ?>'}"></li>
+                    <li class="da-circular-stat {fillColor: '#D08800', value: <?= $this->escape($this->product->reservation_count); ?>, maxValue: <?= $this->escape($this->product->stock_all_count); ?>, label: '<?= _t('reservatie') ?>'}"></li>
+                    <li class="da-circular-stat {fillColor: '#4ECAFE', value: <?= $this->escape($this->product->transit_count); ?>, maxValue: <?= $this->escape($this->product->stock_all_count); ?>, label: '<?= _t('in transit') ?>'}"></li>
+                    <li class="da-circular-stat {fillColor: '#EBEB00', value: <?= $this->escape($this->product->stock_all_count); ?>, maxValue: <?= $this->escape($this->product->last_stock?$this->product->last_stock:$this->product->stock_all_count); ?>, label: '<?= _t('totale stock') ?>'}"></li>
+                </ul>
+
+            </div>
+        </li>
+        <li>
+            <h3><?= _t('Algemene product informatie') ?></h3>
+        </li>
+        <li style="line-height:30px;">
+            <div class="first"><?= _t('Artikelcode') ?>:</div>
+            <div class="second"><?= _t('Naam') ?>:</div>
+        </li>
+        <li style="line-height:30px;">
+            <div class="first"><span><?= $this->escape($this->product->article_code) ?></span></div>
+            <div class="second"><span><?= $this->escape($this->product->name) ?></span></div>
+        </li>
+        <li>
+            <div class="first"><?= _t('Korte beschrijving') ?>:</div>
+            <div class="second">
+                <span><?= $this->escape($this->product->short_description) ?></span>
+            </div>
+        </li>
+        <li>
+            <div class="first"><?= _t('Lange beschrijving') ?>:</div>
+            <div class="five">
+                <span><?= $this->escape($this->product->long_description) ?></span>
+            </div>
+        </li>
+        <li>
+            <br/>
+            <h3><?= _t('Prijsbepaling') ?></h3>
+        </li>
+        <li>
+            <div class="first"><?= _t('Productgroep') ?>:</div>
+            <div class="second">
+                <span><?= $this->escape($this->product->group->name); ?></span>
+            </div>
+
+            <div class="third"><?= _t('Status') ?>:</div>
+            <div class="four">
+                <span><?= $this->product->isActive() ? 'Actief' : 'Inactief' ?></span>
+            </div>
+        </li>
+        <li>
+            <div class="first"><?= _t('Kost') ?>:</div>
+            <div class="second">
+                <span>&euro; <?= Utils::numberFormat($this->product->cost_price) ?> - per stuk</span>
+            </div>
+
+            <div class="third"><?= _t('BTW') ?>:</div>
+            <div class="four">
+                <?php
+                $autovat = $this->product->income_tag ? $this->product->income_tag->vat : null;
+                $autovat = !$autovat && $this->product->income_tag && $this->product->income_tag->category ? $this->product->income_tag->category->vat : $autovat;
+                $autovat = !$autovat ? '' : ' (' . $autovat . '%)';
+                ?>
+                <span><?= ($this->product->vat ? $this->escape($this->product->vat) . '%' : _t('By category') . $autovat) ?></span>
+            </div>
+
+        </li>
+        <li>
+            <div class="first"><?= _t('Minimum prijs') ?>:</div>
+            <div class="second">
+                <span>&euro; <?= Utils::numberFormat($this->product->min_price) ?> - <?= _t('per stuk') ?></span>
+            </div>
+            <div class="third"><?= _t('Korting') ?>:</div>
+            <div class="four">
+                <span><?= $this->escape($this->product->discount) ?>%</span>
+            </div>
+        </li>
+        <li>
+            <div class="first"><?= _t('Verkoopprijs') ?>:</div>
+            <div class="second">
+                <span>&euro; <?= Utils::numberFormat($this->product->price) ?> - <?= _t('per stuk') ?></span>
+            </div>
+            <div class="third">Gewicht:</div>
+            <div class="four">
+                <span><?= Utils::generalFormat($this->product->weight, '', '', null, '', 'left', '%.1f'); ?> <?= _t('kg') ?></span>
+            </div>
+        </li>
+        <li>
+            <br/>
+            <h3><?= _t('Leverancier') ?></h3>
+        </li>
+        <li>
+            <div class="first"><?= _t('Leverancier') ?>:</div>
+            <div class="second">
+                <span><?= $this->escape($this->product->wholesaler ? $this->product->wholesaler->name : ''); ?></span>
+            </div>
+        </li>
+        <li>
+            <div class="third"><?= _t('Bestelcode') ?>:</div>
+            <div class="four">
+                <span><?= $this->escape($this->product->order_code); ?></span>
+            </div>
+        </li>
+        <li>
+            <br/>
+            <h3><?= _t('Rapport categorieën') ?></h3>
+        </li>
+        <li>
+            <div class="third"><?= _t('Inkomen categorie') ?>:</div>
+            <div class="four" style="width: 50%;">
+                <span><?= $this->escape($this->product->income_tag ? '('.$this->product->income_tag->number.') '.$this->product->income_tag->name : ''); ?></span>
+            </div>            
+        </li>
+        <li>
+            <div class="third"><?= _t('Kosten categorie') ?>:</div>
+            <div class="four" style="width: 50%;">
+                <span><?= $this->escape($this->product->expense_tag ? '('.$this->product->expense_tag->number.') '.$this->product->expense_tag->name : ''); ?></span>
+            </div>
+        </li>
+<!--        <li>
+            <br/>
+            <h3><?= _t('Online webwinkel') ?></h3>
+        </li>
+        <li>
+            <div class="first"><?= _t('Tonen in webwinkel') ?>:</div>
+            <div class="second">
+                <?php if ( $this->product->has_webshop == 1 ): ?>
+                <span>Ja</span>
+                <?php else: ?>
+                <span>Geen</span>
+                <?php endif; ?>
+            </div>
+        </li> -->
+        <li>
+            <br/>
+            <h3><?= _t('Afbeeldingen voor webshop') ?></h3>
+        </li>
+        <li>
+            <div class="first"><?= _t('Afbeelding 1') ?></div>
+            <div class="second"> 
+                <?php if ( $this->product->main_img != "" ): ?>
+                <img src="<?=$this->product->main_img?>" style="width:200px; margin-bottom:10px;"/>
+                <?php endif; ?>
+            </div>
+        </li>
+        <li>
+            <div class="first"><?= _t('Afbeelding 2') ?></div>
+            <div class="second"> 
+                <?php if ( $this->product->sub_img1 != "" ): ?>
+                <img src="<?=$this->product->sub_img1?>" style="width:200px; margin-bottom:10px;"/>
+                <?php endif; ?>
+            </div>
+        </li>
+        <li>
+            <div class="first"><?= _t('Afbeelding 3') ?></div>
+            <div class="second"> 
+                <?php if ( $this->product->sub_img2 != "" ): ?>
+                <img src="<?=$this->product->sub_img2?>" style="width:200px; margin-bottom:10px;"/>
+                <?php endif; ?>
+            </div>
+        </li>
+        <li>
+            <div class="first"><?= _t('Afbeelding 4') ?></div>
+            <div class="second"> 
+                <?php if ( $this->product->sub_img3 != "" ): ?>
+                <img src="<?=$this->product->sub_img3?>" style="width:200px;"/>
+                <?php endif; ?>
+            </div>
+        </li>
+    </ul>
+
+    </div>
+
+
+    <?php if( Utils::user()->can('stock_edit') ): ?>
+    <br style="clear:both;" />
+    <a class="link" href="javascript:;" onclick="stock_edit_product(<?= $this->product->id ?>);">Product wijzigen</a>
+    <?php endif; ?>
+
+    <div class="clear"></div>
+    <br/>
+
+    <h2><?= _t('Verkopers') ?></h2>
+
+    <div class="text1">
+        <a class="link" href="javascript:;" onclick="stock_update_employees(<?= $this->product->id ?>);"><?= _t('Lijst verkopers') ?></a>
+    </div>
+
+    <div class="text">
+
+        <p><?= _t('Er zijn op dit moment %s werknemers die verbonden zijn aan dit product.', array(count($this->product->employees))) ?>
+        </p>
+
+    </div>
+</div>

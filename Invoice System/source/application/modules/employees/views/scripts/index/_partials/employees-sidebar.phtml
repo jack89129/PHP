@@ -1,0 +1,54 @@
+<style type="text/css">
+    .ui-combobox {
+        width:200px;
+        border-width:2px;
+    }
+
+    .ui-combobox input {
+        width:186px;
+    }
+
+    li.no-employees:hover {
+        background-color:transparent;
+    }
+</style>
+<!-- START LEFT -->
+
+	<!-- START WORKER -->
+	<div class="worker_Box">
+		<h2><?= _t('Werknemers op alfabet') ?></h2>
+		<div class="search">
+		<form method="post">
+			<fieldset>
+				<p>
+					<input id="search" type="text" onblur="if (this.value == '') {this.value = '<?= _t('Zoek een werknemer') ?>';}" onfocus="if(this.value == '<?= _t('Zoek een werknemer') ?>') {this.value = '';}" value="<?= _t('Zoek een werknemer') ?>" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" class="field" name="searchText"/>
+				</p>
+				<p>
+					<select name="group_id" class="select">
+						<option value="0"><?= _t('Selecteer een werknemergroep') ?></option>
+						<?php foreach($this->groups as $group){ ?>
+							<option value="<?php echo $this->escape($group->id) ?>"><?php echo $this->escape($group->name) ?></option>
+						<?php } ?>						
+					</select>					
+				</p>
+			</fieldset>
+		</form> 
+		</div>
+
+        <div class="info" id="info">
+            <div id="employees">
+            <?= $this->partial('index/_partials/employees-list.phtml', array('employees' => $this->employees)); ?>
+            </div>
+            <div class="right">
+                <ul>
+                    <?php $letters = array_map('chr', range(ord('A'), ord('Z'))); ?>
+                    <?php foreach($letters as $letter ): ?>
+                    <li style="width:10px;text-align:center;"><a href="javascript:;" onclick="employees_filter_by_letter('<?= $letter ?>');"><?= $this->escape($letter); ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+	</div>
+	<!-- END WORKER -->
+<!-- END LEFT -->
+

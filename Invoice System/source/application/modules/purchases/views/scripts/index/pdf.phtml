@@ -1,0 +1,219 @@
+<html>
+	<head>
+		<title><?= _t('Inkoop') ?></title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		
+		<style type="text/css">
+		body {
+			width:800px;
+			font-family: DejaVuSans, Tahoma, Verdana;
+			font-size: 12px;
+			padding:0px;
+			margin:auto;
+			color: #666666;
+		}
+
+        mark {
+            background-color:#ffff00;
+        }
+		
+		table td {
+			vertical-align:top;
+		}
+			
+		.invoice-view-table {
+			width: 100%;
+			border-spacing: 0;
+		}
+		
+		.invoice-view-table th {
+			background-color: #E61F26; /*#67BF3B*/
+			color: #ffffff;
+			/*text-shadow: 2px 1px 0px #4F922D;*/
+			height: 41px;
+			font-size:12px;
+		}
+		
+		.invoice-view-table th:first-child {
+			border-radius: 5px 0px 0px 0px;
+		}
+		
+		.invoice-view-table th:last-child {
+			border-radius: 0px 5px 0px 0px;
+		}
+		
+		.invoice-view-table td {
+			min-height: 32px;
+            padding-top:10px;
+			drop-shadow: 0px 1px 1px #ffffff;
+			font-size:12px;
+			vertical-align:middle;
+		}
+		
+		td.itd-qty,th.ith-qty {
+			width: 40px;
+			text-align: left;
+			padding-left: 10px;
+		}
+		
+		td.itd-article_code {
+			width: 90px;
+			padding-left: 10px;
+            text-align: center;
+		}
+
+        th.ith-description {
+            text-align:left;
+        }
+		
+		td.itd-vat,th.ith-vat {
+			width: 60px;
+			text-align: right;
+			padding-left: 10px;
+		}
+		
+		td.itd-price,th.ith-price {
+			width: 80px;
+			text-align: right;
+		}
+		
+		td.itd-total,th.ith-total {
+			width: 80px;
+			text-align: right;
+			padding-right: 10px;
+		}
+
+        td.itd-discount, th.ith-discount {
+            width: 60px;
+            text-align:right;
+        }
+		
+		ul {
+			list-style-type: none;
+		}
+		
+		.totals-table {
+			width:210px;
+			font-size:12px;
+		}
+		
+		.totals-table td {
+			height:20px;
+			vertical-align:middle;
+		}
+		
+		.line {
+			border-top:1px solid #dddddd;
+			margin-top:10px;
+			margin-bottom:10px;
+			clear:both;
+		}
+		
+		</style>
+	</head>
+	<body>
+
+        <table style="width:100%;">
+        <tr>
+            <td style="width:50%;">
+                <?php if( $this->purchase->contact ): ?>
+                <p><b><?= $this->escape($this->purchase->contact->company_name); ?></b></p>
+                <p><?= _t('T.a.v.') ?> <?= $this->escape($this->purchase->contact->name); ?></p>
+                <p><?= $this->escape($this->purchase->contact->address); ?></p>
+                <p><?= $this->escape($this->purchase->contact->postcode) . ', ' . $this->escape($this->purchase->contact->city); ?></p>
+                <p><?= $this->escape($this->purchase->contact->country); ?></p>
+                <br/>
+                <p><?= $this->escape($this->purchase->contact->vat_number); ?></p>
+                <?php endif; ?>
+            </td>
+        </tr>
+        </table>
+
+        <br/>
+        <br/>
+
+        <table style="width:100%">
+            <tr>
+            <td>
+
+                <table style="width:100%;">
+                    <tr>
+                        <td><h4 style="color:#999999;font-size:11px;"><?= _t('klantnummer') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                        <td><h4 style="color:#999999;font-size:11px;"><?= _t('factuurnummer') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                        <td><h4 style="color:#999999;font-size:11px;"><?= _t('factuurdatum') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                        <td><h4 style="color:#999999;font-size:11px;"><?= _t('vervaldatum') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                    </tr>
+                    <tr>
+                        <td style="color:#000000;font-size:10px;"><?php if( $this->purchase->contact ): ?><?= $this->escape($this->purchase->contact->number); ?><?php endif; ?></td>
+                        <td style="color:#000000;font-size:10px;"><?= $this->escape($this->purchase->number) ?></td>
+                        <td style="color:#000000;font-size:10px;"><?= date(Constants::DATE_FORMAT, $this->purchase->invoice_time) ?></td>
+                        <td style="color:#000000;font-size:10px;"><?= date(Constants::DATE_FORMAT, $this->purchase->expire_time) ?></td>
+                    </tr>
+
+                </table>
+            </td>
+            </tr>
+        </table>
+
+        <br/>
+        <br/>
+
+
+        <?php if( $this->purchase->info ): ?>
+        <div style="width:100%;color:#333333;text-align:justify;padding:10px;font-weight:normal;line-height:15px;margin-bottom:20px;">
+            <?= Utils::strip_bad_tags($this->purchase->info); ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if( $this->purchase->intro ): ?>
+        <div style="width:100%;color:#333333;text-align:justify;padding:10px;font-weight:normal;line-height:15px;margin-bottom:20px;">
+            <?= Utils::strip_bad_tags($this->purchase->intro); ?>
+        </div>
+            <?php endif; ?>
+
+		<table class="invoice-view-table" cellspacing="0">
+			<thead>
+				<tr>
+					<th class="ith-qty"><?= _t('Aantal') ?></th>
+					<th class="ith-article_code"><?= _t('Productnr') ?></th>
+					<th class="ith-description"><?= _t('Omschrijving') ?></th>
+					<th class="ith-vat"><?= _t('BTW') ?></th>
+                    <th class="ith-discount"><?= _t('Kort.') ?> %</th>
+					<th class="ith-price"><?= _t('Prijs p/stk') ?></th>
+					<th class="ith-total"><?= _t('Totaal') ?></th>
+				</tr>
+			</thead>
+			<tbody>
+                <?php foreach( $this->purchase->products as $product ): ?>
+                <?= $this->partial('index/pdf/purchase-row.phtml', array('product' => $product)); ?>
+                <?php endforeach; ?>
+			</tbody>
+		</table>
+		
+		<br/>
+		<div class="line"></div>
+		<table align="right" class="totals-table">
+		<tr>
+			<td style="width:120px;"><?= _t('Korting') ?></td>
+			<td style="text-align:right;white-space: nowrap;">&nbsp;&euro; <?= Utils::numberFormat($this->purchase->discount_sum); ?></td>
+		</tr>
+		<tr>
+			<td><?= _t('Totaal excl. BTW') ?></td>
+			<td style="text-align:right;white-space: nowrap;">&nbsp;&euro; <?= Utils::numberFormat($this->purchase->total_excl_vat); ?></td>
+		</tr>
+		<tr>
+			<td><?= _t('Totaal BTW') ?></td>
+			<td style="text-align:right;white-space: nowrap;">&nbsp;&euro; <?= Utils::numberFormat($this->purchase->vat_sum); ?></td>
+		</tr>
+		</table>
+		<div class="line"></div>
+		<table align="right" class="totals-table">
+		<tr>
+			<td><?= _t('Totaal incl. BTW') ?></td>
+			<td style="text-align:right;white-space: nowrap;">&nbsp;&euro; <?= Utils::numberFormat($this->purchase->total_sum); ?></td>
+		</tr>
+		</table>
+		
+		<br style="clear:both;" />
+	</body>
+</html>

@@ -1,0 +1,71 @@
+<?php 
+    $m = $this->calc_month;
+    $y = $this->calc_year;
+    
+    $num_last_month = date('t', strtotime($y.'-'.($m-1).'-01'));
+    $num_cur_month = date('t', strtotime($y.'-'.$m.'-01'));
+    $first_day_num = date('w', strtotime($y.'-'.$m.'-01'));
+    $last_day_num = date('w', strtotime($y.'-'.$m.'-'.$num_cur_month));
+    $str_last_month = date("F", mktime(0, 0, 0, ($m-1), 10));
+    $str_cur_month = date("F", mktime(0, 0, 0, $m, 10));
+    $str_next_month = date("F", mktime(0, 0, 0, ($m+1), 10));
+    
+?>
+
+<ul class="name">
+    <li class="first">Ma</li>
+    <li>di</li>
+    <li>wo</li>
+    <li>do</li>
+    <li>vr</li>
+    <li>za</li>
+    <li class="last">zo</li>
+</ul>
+
+<div class="calendar">                                            
+    <ul>
+        <?php for($d=$num_last_month-$first_day_num+2; $d<$num_last_month+1; $d++): ?>
+            <li class="date"><span><?=$str_last_month?></span><p><?=$d?></a></p>
+        <?php endfor; ?>
+        <?php for($d=1; $d<$num_cur_month+1; $d++): ?>
+            <?php if ( in_array($d, $this->green_days) ): ?>
+            <li><span><?=$str_cur_month?></span><a href="javascript:;" class="green"><?=$d?></a></li>
+            <?php elseif( in_array($d, $this->orange_days) ): ?>
+            <li><span><?=$str_cur_month?></span><a href="javascript:;" class="orange"><?=$d?></a></li>
+            <?php elseif( in_array($d, $this->red_days) ): ?>
+            <li><span><?=$str_cur_month?></span><a href="javascript:;" class="red"><?=$d?></a></li>
+            <?php else: ?>
+            <li><span><?=$str_cur_month?></span><a href="javascript:;"><?=$d?></a></li>
+            <?php endif; ?>
+        <?php endfor; ?>
+        <?php if ($last_day_num > 0): ?>
+        <?php for($d=1; $d<6-$last_day_num+2; $d++): ?>
+            <li class="date"><span><?=$str_next_month?></span><p><?=$d?></a></p>
+        <?php endfor; ?>
+        <?php endif; ?>                         
+    </ul>                                                           
+    
+    <div style="display: none">
+        <div class="add-date">
+            <div class="inner">
+                <div class="middle">
+                    <form action="/agenda/index/detail" method="post" id="popupForm">
+                        <fieldset>                    
+                            <input type="hidden" id="agenda_id" name="agenda_id" value="" />
+                            <input type="hidden" class="agenda_date" name="agenda_date" value="2013-06-09" />
+                            <a href="javascript:;" class="add-date-close" onclick="$('.add-date').parent().hide();">X</a>
+                            <h5>Dagoverzicht - 9 June 2013</h5>
+                            <div id="location_wrapper">
+                            </div>
+                            <div class="btns">
+                                <input type="button" value="Print" id="agenda_print" />
+                                <input type="submit" value="Reserve" />
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>  
+    </div>
+</div>

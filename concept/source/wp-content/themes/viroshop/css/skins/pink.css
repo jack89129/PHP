@@ -1,0 +1,110 @@
+/* Pink Skin */
+
+/* Link Hover */
+a:hover {
+	color: #f998bf;
+}
+#breadcrumb a:hover {
+	color: #f998bf;
+}
+
+/* Widget Title */
+.widgettitle {
+	color: #f998bf;
+		text-shadow: #fff 1px 1px 0;
+
+}
+
+/* Category Product Price Tag */
+#content ul.products li .price:after {
+	border-color: #b6597e transparent transparent #b6597e;
+}
+.es-carousel-wrapper .slide-title:after {
+	border-color: #b6597e #b6597e transparent transparent;
+}
+.es-carousel-wrapper .slide-title, #content ul.products li .price {
+	color: #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f998bf', endColorstr='#d8769d');
+	background: -webkit-gradient(linear, left top, left bottom, from(#f998bf), to(#d8769d));
+	background: -moz-linear-gradient(top,  #f998bf,  #d8769d);
+	text-shadow: #d27298 1px 1px 0;
+}
+
+#content ul.products li .price ins {
+	color: #ffffff;
+
+}
+
+/* Product Price Tag */
+div.product p.price:before {
+	border-color: transparent transparent transparent #d8769d;
+}
+div.product p.price {
+	color: #ffffff;
+	background-color: #d8769d;
+	text-shadow: #d27298 1px 1px 0;
+}
+
+div.product p.price .amount {
+	color: #fbfdfd;
+}
+
+.woocommerce .quantity .plus,.woocommerce-page .quantity .plus,.woocommerce #content .quantity .plus,.woocommerce-page #content .quantity .plus,.woocommerce .quantity .minus,.woocommerce-page .quantity .minus,.woocommerce #content .quantity .minus,.woocommerce-page #content .quantity .minus {
+	border: 1px solid #d8769d;
+	background: #f998bf;
+	background: -webkit-gradient(linear,left top,left bottom,from(#f998bf),to(#d8769d));
+	background: -webkit-linear-gradient(#f998bf,#d8769d);
+	background: -moz-linear-gradient(center top,#f998bf 0%,#d8769d 100%);
+	background: -moz-gradient(center top,#f998bf 0%,#d8769d 100%);
+}
+.woocommerce #content .quantity .plus:hover, .woocommerce #content .quantity .minus:hover {
+	background: #d8769d;
+
+}
+.woocommerce a.button.alt:hover,.woocommerce-page a.button.alt:hover,.woocommerce button.button.alt:hover,.woocommerce-page button.button.alt:hover,.woocommerce input.button.alt:hover,.woocommerce-page input.button.alt:hover,.woocommerce #respond input#submit.alt:hover,.woocommerce-page #respond input#submit.alt:hover,.woocommerce #content input.button.alt:hover,.woocommerce-page #content input.button.alt:hover {
+	background-color: #d8769d !important;
+}
+
+
+
+.woocommerce a.button.alt,.woocommerce-page a.button.alt,.woocommerce button.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt,.woocommerce-page input.button.alt,.woocommerce #respond input#submit.alt,.woocommerce-page #respond input#submit.alt,.woocommerce #content input.button.alt,.woocommerce-page #content input.button.alt {
+	background-color: #f998bf !important;
+}
+/* Product Category Tags */
+
+.single-product .summary .product_meta a {
+	color: #f998bf;
+}
+
+/* Product Description */
+
+div.product .product_title {
+	color: #595959;
+}
+.single-product .woocommerce_tabs .panel h2:first-child,
+.single-product .woocommerce_tabs .panel #reviews h2 {
+	color: #f998bf;
+}
+
+/* Buttons */
+
+table.shop_table .checkout-button.button, #place_order.button   {
+background-color: #f998bf;
+
+}
+table.shop_table .checkout-button.button:hover, #place_order.button:hover  {
+background-color: #d8769d;
+
+}
+
+/* Dropcaps */
+
+.square-dropcap, .round-dropcap,.blog .date small {
+
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f998bf', endColorstr='#d8769d');
+	background: -webkit-gradient(linear, left top, left bottom, from(#f998bf), to(#d8769d));
+	background: -moz-linear-gradient(top,  #f998bf,  #d8769d);
+	color: #fff;
+	text-shadow: #d27298 1px 1px 0;
+
+}

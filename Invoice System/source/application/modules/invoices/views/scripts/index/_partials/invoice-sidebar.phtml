@@ -1,0 +1,117 @@
+<div class="collapse">
+
+	<h2><span><?= _t('Overige instellingen') ?><a class="i-down"></a></span></h2>
+	
+	<div class="info" id="othersettings">
+		<ul class="gap">
+
+            <!-- Save -->
+            <?php if( Zend_Controller_Front::getInstance()->getRequest()->getActionName() == 'new' ): ?>
+            <li><a class="bg10" href="javascript:;" onclick="invoice_save();"><span><?= _t('Opslaan') ?></span></a></li>
+            <?php endif; ?>
+
+            <!-- Edit -->
+            <?php if( ($this->invoice->proforma && Utils::user()->can('offer_edit')) || (!$this->invoice->proforma && Utils::user()->can('invoice_edit'))): ?>
+            <?php if( Zend_Controller_Front::getInstance()->getRequest()->getActionName() == 'view' ): ?>
+            <li><a class="sub1" onclick="return confirm('<?= _t('This %s is final! Are you sure you want to edit %s it?', array(($this->invoice->proforma ? _t('offer') : _t('invoice')), ($this->invoice->proforma ? _t('offer') : _t('invoice')))) ?>');" href="<?= $this->baseUrl() . "/".$this->current_module."/index/edit/id/" . $this->invoice->id; ?>/force_edit/1"><span><?= _t('Bewerk %s', ($this->invoice->proforma ? _t('offerte') :($this->invoice->credit ? _t('credit-factuur') : _t('factuur')))) ?></span></a></li>
+            <?php endif; ?>
+            <?php endif; ?>
+
+            <!-- Back -->
+            <li><a class="bg1" href="<?= $this->baseUrl() . '/' . $this->current_module . "?credit=" . $this->invoice->credit ?>"><span><?= _t('Sluiten') ?></span></a></li>
+
+            <!-- Pay -->
+			<?php if( !((int) $this->invoice->paid_time) && !$this->invoice->proforma ): ?>
+			<li><a id="sb-pay-invoice" class="bg8" href="#invoice-payment-dialog"><span><?= _t('Betaald') ?></span></a></li>
+			<?php endif; ?>
+
+            <!-- Send -->
+			<li><a id="sb-send-invoice" class="bg2" href="javascript:;"><span>
+                <?php 
+                $cur_date = strtotime(date('Y-m-d H:i:s'));
+                if ( $this->invoice->invoice_status_key == 'late' ) : ?>
+                <?= _t('1ste Herinnering verzenden') ?>
+                <?php elseif ( $this->invoice->invoice_status_key == 'urgent' ): ?>
+                <?= _t('2de Herinnering verzenden') ?>
+                <?php elseif ( $this->invoice->invoice_status_key == 'judge' ): ?>
+                <?= _t('Aanmaning verzenden') ?>
+                <?php else : ?>
+                <?= _t('Verzenden') ?>
+                <?php endif; ?>
+            </span></a></li>
+
+			<!-- Print -->
+			<li><a id="sb-download-invoice" class="bg3" href="javascript:;"><span><?= _t('Afdrukken') ?></span></a></li>
+            <li><a href="javascript:;" onclick="upload_show();"><span><?= _t('Bijlage toevoegen') ?></span></a></li>
+
+            <!-- Creadit -->
+            <?php if( (!$this->invoice->proforma && Utils::user()->can('invoice_edit'))): ?>
+			<?php if( $this->invoice->isFinal() && $this->invoice->credit == 0 ): ?>
+			<li><a id="sb-credit-invoice" class="bg1" href="javascript:;"><span><?= _t('Crediteren') ?></span></a></li>
+			<?php endif; ?>
+            <?php endif; ?>
+
+			<!-- Duplicate -->
+            <?php if( ($this->invoice->proforma && Utils::user()->can('offer_edit')) || (!$this->invoice->proforma && Utils::user()->can('invoice_edit'))): ?>
+			<li><a id="sb-duplicate-invoice" class="bg4" href="javascript:;"><span><?= _t('Dupliceren') ?></span></a></li>
+            <?php endif; ?>
+
+			<!-- Delete -->
+            <?php if( ($this->invoice->proforma && Utils::user()->can('offer_delete')) || (!$this->invoice->proforma && Utils::user()->can('invoice_delete'))): ?>
+			<li <?php if ( $this->invoice->invoice_status_key != 'paid' ) { echo 'class="last"';} ?>><a id="sb-delete-invoice" class="bg5" href="javascript:;"><span><?= _t('Verwijderen') ?></span></a></li>
+            <?php endif; ?>
+            
+            <!-- Unset paid -->
+            <?php if ( $this->invoice->invoice_status_key == 'paid' ) : ?>
+            <?php if( ($this->invoice->proforma && Utils::user()->can('offer_delete')) || (!$this->invoice->proforma && Utils::user()->can('invoice_delete'))): ?>
+            <li class="last"><a id="sb-unset-invoice" class="bg1" href="javascript:;"><span><?= _t('Maak betaling ongedaan') ?></span></a></li>
+            <?php endif; ?>
+            <?php endif; ?>
+		</ul>
+		
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$('#sb-pay-invoice').fancybox({onStart:function(){
+            if( $('[name="invoice[id]"]').val() == 0 ){
+                alert('Save invoice first!');
+                return false;
+            }
+            invoice_payment_dialog_init([{name:'invoices[]', value:$('[name="invoice[id]"]').val()}]);
+        }, onClosed: function(){
+           window.location = baseUrl + '/invoices/index/<?= Zend_Controller_Front::getInstance()->getRequest()->getActionName() ?>/id/' + $('[name="invoice[id]"]').val();
+        }});
+
+		$('#sb-send-invoice').click(function(){
+			$("#sendinvoice-button").click();	
+		});
+
+		$('#sb-download-invoice').click(function(){
+			$("#downloadinvoice").click();
+		});
+
+		$('#sb-credit-invoice').click(function(){
+			$.post(baseUrl + "/invoices/index/credit/id/" + $('[name="invoice[id]"]').val());
+		});
+
+		$('#sb-duplicate-invoice').click(function(){
+			$.post(baseUrl + "/invoices/index/duplicate/id/" + $('[name="invoice[id]"]').val());
+		});
+		
+		$('#sb-delete-invoice').click(function(){
+			if( confirm('<?= _t('Are you sure?') ?>') ){
+				$.post(baseUrl + "/invoices/index/delete/id/" + $('[name="invoice[id]"]').val());
+			}
+		});
+        
+        $('#sb-unset-invoice').click(function(){
+            if( confirm('<?= _t('Are you sure?') ?>') ){
+                $.post(baseUrl + "/invoices/index/unpaid/id/" + $('[name="invoice[id]"]').val());
+            }
+        });
+	});
+
+</script>

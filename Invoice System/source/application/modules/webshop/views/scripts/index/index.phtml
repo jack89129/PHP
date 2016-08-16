@@ -1,0 +1,32 @@
+<div id="left">
+<?= $this->partial('index/_partials/webshop-sidebar.phtml', array('result' => $this->result, 'product' => $this->product)); ?>
+</div>
+
+<div id="right">
+	<div class="oerview_Box">
+		<h2><?= _t('Detail informatie van gekozen product') ?></h2>
+
+		<div id="webshop-view-wrapper" class="info">
+			<div id="webshop-view">
+                <?= $this->partial('index/_partials/webshop-view.phtml', array('product' => $this->product, 'group_name' => $this->group_name)) ?>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+    });
+    
+    function webshop_select_product(id, obj) {
+        $('.webshop-product-list li').removeClass('selected');
+        $(obj).addClass('selected');
+        $.post(baseUrl + '/webshop/index/get', {id:id}).success(function(data){
+            $('#webshop-view').html(data.content);
+        });
+    }
+
+</script>

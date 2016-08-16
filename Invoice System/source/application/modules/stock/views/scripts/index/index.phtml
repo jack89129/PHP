@@ -1,0 +1,269 @@
+<?php
+    $group = $this->groups ? reset($this->groups) : null ;
+    $products = $group ? $group->products : array();
+    $product = reset($products);
+?>
+<div id="left" class="sub3">
+
+    <!-- PRODUCTS GROUPS -->
+    <div id="groups">
+        <?= $this->partial('index/_partials/groups-list.phtml', array('groups' => $this->groups)); ?>
+    </div>
+
+    <!-- GROUP PRODUCTS -->
+    <div id="products">
+        <?php echo ''; // removed step by step show /*$this->partial('index/_partials/products-list.phtml', array('products' => $products));*/ ?>
+    </div>
+
+</div>
+
+<div id="right" class="sub2">
+    <div id="product">
+        <?php echo ''; // removed step by step show /*$this->partial('index/_partials/product-view.phtml', array('product' => $product));*/ ?>
+    </div>
+    <div id="product-edit" class="status_Box" style="display:none;">
+    </div>
+    <div id="employees" class="status_Box" style="display:none;min-height: 525px">
+    </div>
+</div>
+
+<?= $this->partial('index/_partials/group-edit-dialog.phtml', array('product' => $product)); ?>
+
+<script type="text/javascript">
+    var init = true;
+    var stock_last_group = <?= $group ? $group->id : 0 ; ?>;
+
+    $(document).ready(function(){
+        stock_init_groups();
+
+        $('#add-group-form').submit(function(){
+            $.post(baseUrl + '/stock/index/add-group', $(this).serialize()).success(function(data){
+                $.fancybox.close();
+                stock_update_groups();
+            });
+            return false;
+        })
+        // removed step by step show
+        //stock_init_products();
+        //stock_init_product();
+        init = false;
+    });
+
+    function stock_init_groups(){
+        $('#add-group-button').fancybox();
+        stock_init_add_group();
+
+        $('#groups .group-item').click(function(event){
+            var target = event.target || event.srcElement;
+
+            stock_last_group = $(this).data('id');
+
+            var checkbox = $('[name="groups[]"][value=' + stock_last_group + ']');
+
+            if( target.tagName.toLowerCase() != 'input' ){
+                if( !checkbox.attr('checked') ){
+                    checkbox.attr('checked', 'checked').change();
+                }else{
+                    checkbox.removeAttr('checked', 'checked').change();
+                }
+                setupLabel();
+            }
+
+            if( target.tagName.toLowerCase() == 'label' || target.tagName.toLowerCase() == 'p' ){
+                stock_update_products($(this).data('id'));
+            }
+        });
+
+        $('#groups input[type="text"]').keyup(function(){
+            stock_search($('#groups'), this.value);
+        });
+
+        if( !init ){
+            $('#groups .scroll-pane').jScrollPane();
+        }
+        stock_slide_groups();
+    }
+
+    function stock_init_products(){
+        $('#products .product-item').click(function(event){
+            var target = event.target || event.srcElement;
+
+            var checkbox = $('[name="products[]"][value=' + $(this).data('id') + ']');
+
+            if( target.tagName.toLowerCase() != 'input' ){
+                if( !checkbox.attr('checked') ){
+                    checkbox.attr('checked', 'checked').change();
+                }else{
+                    checkbox.removeAttr('checked', 'checked').change();
+                }
+                setupLabel();
+            }
+
+            if( target.tagName.toLowerCase() == 'label' || target.tagName.toLowerCase() == 'p' ){
+                stock_update_product($(this).data('id'));
+            }
+        });
+
+        $('#products input[type="text"]').keyup(function(){
+            stock_search($('#products'), this.value);
+        });
+
+        if( !init ){
+            $('#products .scroll-pane').jScrollPane();
+        }
+        stock_slide_products();
+    }
+
+    function stock_init_product(){
+        if( !init ){
+            $('#product .scroll-pane').jScrollPane();
+        }
+
+        $('#product-edit').hide();
+        $('#employees').hide();
+        stock_slide_product();
+    }
+
+    function stock_slide_groups(){
+        $('#groups').hide().slideDown(700);
+    }
+
+    function stock_slide_products(){
+        $('#products').hide().slideDown(500);
+    }
+
+    function stock_slide_product(){
+        $('#product').hide().slideDown(300, function(){
+            $(".da-circular-stat").daCircularStat();
+        });
+    }
+
+    function stock_slide_employees(){
+        $("html, body").animate({ scrollTop: 0 }, 300);
+        $('#employees').hide().slideDown(300, function(){
+            $(".da-circular-stat").daCircularStat();
+        });
+    }
+
+    function stock_search(container, text){
+        var items = $(container).find('.searchable');
+
+        if( !text.length ){
+            items.show();
+            return;
+        }
+
+        items.hide();
+        for( var i = 0; i < items.length; i++ ){
+            var item = $(items[i]);
+            if( item.text().toLowerCase().indexOf(text.toLowerCase()) > -1 ){
+                item.show();
+            }
+        }
+    }
+
+    function stock_init_add_group(){
+        $('#add-group-form input[name=name]').val('<?= _t('Productgroepen naam') ?>');
+    }
+
+    function stock_update_products(group, product){
+        params = {};
+        params.id = group;
+        params.product = product != undefined ? product : 0 ;
+
+        return $.post(baseUrl + '/stock/index/update-products', params).success(function(data){
+            $('#products').html(data.products);
+            // removed step by step show
+            //$('#product').html(data.product);
+            $('.label_check, .label_radio,.label_check2,.label_check3').click(function(){
+                setupLabel('#products');
+            });
+            stock_init_products();
+            // removed step by step show
+            //stock_init_product();
+        });
+    }
+
+    function stock_update_product(product){
+        return $.post(baseUrl + '/stock/index/update-product', {id:product}).success(function(data){
+            $('#product').html(data.product);
+            $('.label_check, .label_radio,.label_check2,.label_check3').click(function(){
+                setupLabel('#product');
+            });
+            stock_init_product();
+        });
+    }
+
+    function stock_update_groups(){
+        return $.post(baseUrl + '/stock/index/update-groups').success(function(data){
+            $('#groups').html(data.groups);
+            $('.label_check, .label_radio,.label_check2,.label_check3').click(function(){
+                setupLabel('#groups');
+            });
+
+            stock_init_groups();
+        });
+    }
+
+    function stock_delete_groups(){
+        if( !confirm('<?= _t('Are you sure?') ?>') ){
+            return;
+        }
+
+        $.post(baseUrl + '/stock/index/delete-groups/', $('#groups input[type="radio"]:checked').serialize()).success(function(){
+            stock_update_groups();
+        });
+    }
+
+    function stock_delete_products(){
+        if( !confirm('<?= _t('Are you sure?') ?>') ){
+            return;
+        }
+
+        $.post(baseUrl + '/stock/index/delete-products/', $('#products input[type="radio"]:checked').serialize()).success(function(){
+            stock_update_products(stock_last_group);
+        });
+    }
+
+    function stock_edit_product(product){
+        params = {id:product};
+        if( params.id == 0 ){
+            params.group = stock_last_group;
+        }
+
+        $.post(baseUrl + '/stock/index/edit-product', params).success(function(data){
+            $('#product-edit').html(data.product_edit);
+            $('#product').hide();
+            $("html, body").animate({ scrollTop: 0 }, 100);
+            $('#product-edit').hide().slideDown(500, function(){
+                $(".da-circular-stat").daCircularStat();
+            });
+        });
+    }
+
+    function stock_save_product(){
+        $.post(baseUrl + '/stock/index/save-product', $('#edit-product-form').serialize()).success(function(data){
+            stock_update_products(data.product_group_id, data.id);
+            stock_update_product(data.id);
+        });
+    }
+
+    function stock_update_employees(product){
+        $.post(baseUrl + '/stock/index/update-employees', {product:product}).success(function(data){
+            $('#employees').html(data.employees);
+            stock_init_employees();
+        });
+    }
+
+    function stock_init_employees(){
+        $('#product').hide();
+        stock_slide_employees();
+    }
+
+    <?php if( $this->product ): ?>
+        stock_update_products(<?= $this->product->product_group_id ?>).success(function(){
+            stock_update_product(<?= $this->product->id ?>);
+        });
+    <?php endif; ?>
+
+</script>

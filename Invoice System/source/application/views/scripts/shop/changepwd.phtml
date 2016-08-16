@@ -1,0 +1,81 @@
+<!-- strat the main content area -->
+    
+<div class="container">
+
+        <div id="user_log" class="clearfix">
+
+            <div class="nine columns">
+                <div class="login">
+                    <div class="box_head">
+                        <h3>Verander wachtwoord</h3>
+                    </div>
+                    <?php if ( !empty($this->message) ): ?>
+                    <h6 style="color: firebrick;"><?=$this->message?></h6>
+                    <?php endif; ?>
+
+                    <form id="loginForm" method="post" action="/shop/changepwd">
+                        <ol>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="curpass">Huidig wachtwoord <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="curpass" type="password" name="curpass" value="" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="newpass">Nieuw wachtwoord <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="newpass" type="password" name="newpass" value="" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="confirmpass">Bevestig wachtwoord <em>*</em></label>
+                                <div class="inputOuter">
+                                <input id="confirmpass" type="password" name="confirmpass" value="" placeholder="">
+                                </div>
+                            </li>
+                            <li class="row clearfix">
+                                <label class="input_tag" for="update_pwd">&nbsp;</label>
+                                <div class="inputOuter button">
+                                <a id="update_pwd" class="blue_btn" href="#">Aanpassen</a>&nbsp;&nbsp;&nbsp;
+                                <a id="cancel" class="green_btn" href="/shop/account">Annuleren</a>
+                                </div>
+                            </li>
+                        </ol>
+                    </form>
+
+                </div><!--end login-->
+                
+            </div><!--end seven-->
+
+        </div><!--end user_log-->
+
+</div><!--end container-->
+<!-- end the main content area -->
+    
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#update_pwd').on('click', function(){
+            if ( $('#curpass').val() == "" ) {
+                alert("Please input current password!");
+                $('#curpass').focus();
+                return;
+            }
+            if ( $('#newpass').val() == "" ) {
+                alert("Please input new password!");
+                $('#newpass').focus();
+                return;
+            }
+            if ( $('#confirmpass').val() != $('#newpass').val() ) {
+                alert("Do not match password!");
+                $('#confirmpass').val("");
+                $('#newpass').select();
+                $('#newpass').focus();
+                return;
+            }
+            var oForm = $('#loginForm');
+            oForm.submit();
+        });
+    });
+
+</script>

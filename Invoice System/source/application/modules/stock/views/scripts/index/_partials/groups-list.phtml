@@ -1,0 +1,38 @@
+<div class="news_Box gap productgroups">
+<h2><?= _t('Productgroepen') ?></h2>
+
+<div class="search">
+
+    <form action="#">
+        <fieldset>
+            <input type="text" name="search" onblur="if (this.value == '') {this.value = '<?= _t('Zoek productgroep') ?>';}" onfocus="if(this.value == '<?= _t('Zoek productgroep') ?>') {this.value = '';}" value="<?= _t('Zoek productgroep') ?>" class="field" />
+        </fieldset>
+    </form>
+
+</div>
+
+<div class="scroll-pane">
+    <div class="product">
+        <?php foreach( $this->groups as $group ): ?>
+        <p class="group-item searchable" data-id="<?= $this->escape($group->id) ?>">
+            <label class="label_check left"><input type="radio" name="groups[]" value="<?= $this->escape($group->id) ?>" /></label>
+            <label><?= $this->escape($group->name); ?></label>
+        </p>
+        <?php endforeach; ?>
+    </div>
+
+</div>
+
+<?php if( Utils::user()->can('stock_edit') || Utils::user()->can('stock_delete') ): ?>
+    <ul class="tab">
+        <?php if( Utils::user()->can('stock_edit') ): ?>
+        <li class="selected"><a id="add-group-button" href="#add-group-dialog"><?= _t('Nieuw') ?></a></li>
+        <?php endif; ?>
+
+        <?php if( Utils::user()->can('stock_delete') ): ?>
+        <li class="last"><a  href="javascript:;" onclick="stock_delete_groups();"><?= _t('Verwijder') ?></a></li>
+        <?php endif; ?>
+    </ul>
+<?php endif; ?>
+
+</div>

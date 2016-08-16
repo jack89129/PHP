@@ -1,0 +1,64 @@
+<div style="display: none;">
+    <div class="betalingen-Box overlaybox" id="invoice-payment-dialog">
+
+        <form id="invoice-payment-form" action="#">
+            <fieldset>
+
+                <h2><?= _t('Betalingen') ?></h2>
+
+                <div class="left-container">
+
+                    <div id="invoice-payment-invoice-list" style="outline:none;">
+                    </div>
+
+                </div>
+
+                <div id="invoice-payment-invoice" class="right-container">
+
+
+
+                </div>
+
+                <div class="clear"></div>
+
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    var invoice_payment_invoices;
+    function invoice_payment_dialog_init(invoices){
+        invoice_payment_invoices = invoices;
+        invoice_payment_invoices_list_update(invoices)
+    }
+
+    function invoice_payment_invoices_list_update(invoices){
+        $.post(baseUrl + '/invoices/index/payment-dialog-invoices-list', invoices).success(function(data){
+            $('#invoice-payment-invoice-list').html(data.invoices_list);
+            $('#invoice-payment-invoice').html(data.invoice);
+        });
+    }
+
+    function invoice_payment_load(id){
+        $.post(baseUrl + '/invoices/index/payment-dialog-invoice-load', {id:id}).success(function(data){
+            $('#invoice-payment-invoice').html(data.invoice);
+        });
+    }
+
+    $(document).ready(function(){
+        $('#invoice-payment-form').submit(function(){
+            $.post(baseUrl + '/invoices/index/invoice-payment-pay', $(this).serialize()).success(function(){
+                window.location.href = "/invoices/index/view/id/" + $('[name="payment[invoice_id]"]').val();
+                //document.location.href = "/invoices";
+                //window.location.reload();
+                invoice_payment_dialog_init(invoice_payment_invoices);
+            });
+            return false;
+        });
+    });
+
+</script>

@@ -1,0 +1,247 @@
+<?php include(APPLICATION_PATH . '/layouts/settings-sidebar.phtml'); ?>
+
+<!-- START RIGHT -->
+<div id="right">
+
+    <!-- START OVERVIE -->
+    <div class="oerview_Box1">
+
+        <h2>Basis Instellingen</h2>
+
+        <div class="form">
+            <form action="#" id="settingForm" enctype="multipart/form-data" method="post">
+                <h3 style="margin:10px 0 -15px 10px;">Naam & Adres</h3>
+                <fieldset>
+                    <div>
+
+                        <label>Bedrijfsnaam</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?=$this->company==''? '&nbsp;' : Utils::strip_bad_tags($this->company); ?></div>
+                        <input type="hidden" name="setting_contact[company]" value="<?= $this->escape($this->company) ?>" />
+
+                    </div>            
+                    
+                    <div>
+
+                        <label>Straat</label>
+                        <input type="text" class="field" name="setting_contact[addr_street]" id="addr_street" value="<?= $this->escape($this->addr_street) ?>"/>
+
+                    </div>            
+                    
+                     <div>
+                     
+                        <label>Huisnummer</label>
+                        <input type="text" class="field" name="setting_contact[addr_num]" id="addr_num" value="<?= $this->escape($this->addr_num) ?>" />
+
+                    </div>
+                    
+                    <div>
+                    
+                        <label>Postcode</label>
+                        <input type="text" class="field" id="addr_postal" name="setting_contact[addr_post]" value="<?= $this->escape($this->addr_postal) ?>"  />
+                        
+                    </div>
+                    
+                    <div>
+                    
+                        <label>Gemeente</label>
+                        <input type="text" class="field" name="setting_contact[addr_city]" id="addr_city" value="<?= $this->escape($this->addr_city) ?>" />
+
+                    </div>
+                    
+                    <div>
+                    
+                        <label>Land</label>
+                        <div style="width: 55%; float: right; text-align: left; border-bottom:0; padding-right: 30px;">
+                            <select name="setting_contact[land]">      
+                                <option value="">Uw land</option>
+                                <option value="Belgie" <?php if ( $this->country == 'Belgie' ) echo 'selected'; ?>>Belgi&euml;</option>
+                                <option value="Nederland" <?php if ( $this->country == 'Nederland' ) echo 'selected'; ?>>Nederland</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    
+                    <div id="kvk_wrapper" <?php if ( $this->country != 'Nederland' ) echo 'style="display:none;"'; ?>>
+
+                        <label>KVK nummer</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?= $this->kvk==''? '&nbsp;' : Utils::strip_bad_tags($this->kvk); ?></div>
+                        <input type="hidden" name="setting_contact[kvk]" value="<?= $this->escape($this->kvk) ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>BTW nummer <?=$this->country?></label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?= $this->btw==''? '&nbsp;' : Utils::strip_bad_tags($this->btw); ?></div>
+                        <input type="hidden" name="setting_contact[btw]" value="<?= $this->escape($this->btw) ?>" />
+
+                    </div>
+                    
+                </fieldset>
+                <h3 style="margin:10px 0 -15px 10px;">Contact gegevens</h3>
+                
+                <fieldset>
+
+                    <div>
+
+                        <label>Telefoonnummer</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?=$this->phone==''? '&nbsp;' : Utils::strip_bad_tags($this->phone); ?></div>
+                        <input type="hidden" name="setting_contact[phone]" value="<?= $this->escape($this->phone) ?>" />
+
+                    </div>
+                    <div>
+
+                        <label>Email</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?= Utils::strip_bad_tags($this->email); ?></div>
+                        <input type="hidden" name="setting_contact[email]" value="<?= $this->escape($this->email) ?>" />
+
+                    </div>
+
+                    <div>
+
+                        <label>Website</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?= $this->website==''? '&nbsp;' : Utils::strip_bad_tags($this->website); ?></div>
+                        <input type="hidden" name="setting_contact[website]" value="<?= $this->escape($this->website) ?>" />
+
+                    </div>
+                    
+                </fieldset>
+                
+                <h3 style="margin:10px 0 -15px 10px;">Bank gegevens</h3>
+                <fieldset>
+                    <div>
+
+                        <label>Banknaam</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?= $this->bankname==''? '&nbsp;' : Utils::strip_bad_tags($this->bankname); ?></div>
+                        <input type="hidden" name="setting_contact[bankname]" value="<?= $this->escape($this->bankname) ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Bank plaats</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?= $this->banklocation==''? '&nbsp;' : Utils::strip_bad_tags($this->banklocation); ?></div>
+                        <input type="hidden" name="setting_contact[banklocation]" value="<?= $this->escape($this->banklocation) ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Rekeningnummer</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?= $this->banknum==''? '&nbsp;' : Utils::strip_bad_tags($this->banknum); ?></div>
+                        <input type="hidden" name="setting_contact[banknum]" value="<?= $this->escape($this->banknum) ?>" />
+
+                    </div>
+
+                    <div>
+
+                        <label>IBAN</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?= $this->kvk==''? '&nbsp;' : Utils::strip_bad_tags($this->kvk); ?></div>
+                        <input type="hidden" name="setting_contact[kvk]" value="<?= $this->escape($this->kvk) ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>BIC/SWIFT</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?= $this->bic==''? '&nbsp;' : Utils::strip_bad_tags($this->bic); ?></div>
+                        <input type="hidden" name="setting_contact[bic]" value="<?= $this->escape($this->bic) ?>" />
+
+                    </div>
+                    
+                </fieldset>
+                  
+                <h3 style="margin:10px 0 -15px 10px;">Factuur instellingen</h3>
+                
+                <fieldset>
+                    
+                    <div>
+
+                        <label>Naam afzender</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?= Utils::strip_bad_tags($this->mail_from_name); ?></div>
+                        <input type="hidden" name="setting_contact[mail_from_name]" value="<?= $this->escape($this->mail_from_name) ?>" />
+
+                    </div>
+                    
+                    <div>
+
+                        <label>E-mail afzender</label>
+                        <div class="gray-input wysiwyg field" contenteditable="true" style="height:auto;"><?= Utils::strip_bad_tags($this->mail_from_addr); ?></div>
+                        <input type="hidden" name="setting_contact[mail_from_addr]" value="<?= $this->escape($this->mail_from_addr) ?>" />
+
+                    </div> 
+                    
+                    <div>
+
+                        <label>Factuur/Offerte tabel kleur</label>
+                        <div style="width: 55%; float: right; padding:5px 30px 5px 0px;">
+                        <div id="tableColorSelector" class="colorPickerSelector"><div style="background-color: <?=$this->table_color?>"></div></div>
+                        <input type="hidden" name="setting_contact[table_color]" id="contact_table_color" value="<?=$this->table_color?>" />
+                        </div>
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Factuur/Offerte koptekst kleur</label>
+                        <div style="width: 55%; float: right; padding:5px 30px 5px 0px;">
+                        <div id="textColorSelector" class="colorPickerSelector"><div style="background-color: <?=$this->text_color?>"></div></div>
+                        <input type="hidden" name="setting_contact[text_color]" id="contact_text_color" value="<?=$this->text_color?>" />
+                        </div>
+
+                    </div>
+                    
+                    <div>
+
+                        <label>Bedrijfslogo</label>
+                        <div style="width: 55%; float: right; padding:5px 30px 5px 0px;">
+                        <input type="hidden" id="logo_img_path" value="<?=$this->logo_path?>" />
+                        <input type="file" name="setting_contact_logo" id="setting_contact_logo" />
+                        <!--<input type="button" name="upload" id="upload" value="Upload" style="color:#333;padding:1px;"/>-->
+                        <img id="logo_image" src="<?=$this->logo_path?>" style="width:250px;"/>
+                        </div>
+
+                    </div>
+                    
+                    <div>   
+                        <input type="button" name="save" id="save_contact" value="Opslaan" class="green-button" />
+                    </div>
+
+                </fieldset>
+                
+            </form>
+
+        </div>
+
+    </div>
+    <!-- END OVERVIE -->
+
+</div>
+<!-- END RIGHT -->
+<?php if ( !empty($this->is_welcome) ): ?>
+<div style="display: none;">
+    <a href="#welcome-dialog" id="welcome-dialog-link"></a>
+    <div class="importeren-Box overlaybox upload-light" id="welcome-dialog">
+        <fieldset>
+            <h2>Welkom</h2>
+            <p>
+                Welkom <?=$this->firstname?> <?=$this->lastname?>, <br><br>
+                U bent succesvol voor de eerste keer ingelogd! We danken dat u heeft gekozen voor Simpelfacturatie.     <br><br>                                                                           
+                Om ons facturatie systeem volledig te kunnen gebruiken dient u uw gegevens correct in te voeren nadat u dit scherm heeft gesloten. Uiteraard kunt u deze gegevens aanpassen wanneer u wenst. <br><br>
+                Indien u nog vragen heeft kijkt u dan op onze website voor uitleg onder het kopje "F.A.Q". Indien uw vraag hier niet tussenstaat kunt altijd een helpdesk verzoek indienen. We doen ons uiterste best om uw vraag s.a.p. te kunnen beantwoorden. <br><br>
+                Veel succes met uw onderneming, met simpelfactuur bent u garandeert voor een correcte facturatie.<br><br>
+                Simpelfacturatie Team<br><br>
+            </p>
+        </fieldset>
+    </div>
+</div>
+
+<script type="text/javascript">                          
+    
+    $(document).ready(function(){
+        $('#welcome-dialog-link').fancybox();
+        $('#welcome-dialog-link').click();
+    });
+
+</script>
+<?php endif; ?>

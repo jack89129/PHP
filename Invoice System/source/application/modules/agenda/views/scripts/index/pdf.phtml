@@ -1,0 +1,166 @@
+<html>
+	<head>
+		<title><?= _t('Agenda') ?></title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		
+		<style type="text/css">
+		body {
+			width:800px;
+			font-family: DejaVuSans, Tahoma, Verdana;
+			font-size: 15px;
+			padding:0px;
+			margin:auto;
+			color: #000;
+		}
+
+        mark {
+            background-color:#ffff00;
+        }
+		
+		table td {
+			vertical-align: middle;
+            text-align: center;
+            line-height: 20px;
+		}
+		
+		td.itd-qty,th.ith-qty {
+			width: 40px;
+			text-align: left;
+			padding-left: 10px;
+		}
+		
+		td.itd-article_code {
+			width: 90px;
+			padding-left: 10px;
+            text-align: center;
+		}
+
+        th.ith-description {
+            text-align:left;
+        }
+		
+		td.itd-vat,th.ith-vat {
+			width: 60px;
+			text-align: right;
+			padding-left: 10px;
+		}
+		
+		td.itd-price,th.ith-price {
+			width: 80px;
+			text-align: right;
+		}
+		
+		td.itd-total,th.ith-total {
+			width: 80px;
+			text-align: right;
+			padding-right: 10px;
+		}
+
+        td.itd-discount, th.ith-discount {
+            width: 60px;
+            text-align:right;
+        }
+		
+		ul {
+			list-style-type: none;
+		}
+		
+		.totals-table {
+			width:210px;
+			font-size:12px;
+		}
+		
+		.totals-table td {
+			height:20px;
+			vertical-align:middle;
+		}
+		
+		.line {
+			border-top:1px solid #dddddd;
+			margin-top:10px;
+			margin-bottom:10px;
+			clear:both;
+		}
+		
+		</style>
+	</head>
+	<body>
+
+        <table style="width:100%;">
+            <tr>
+                <td colspan="3" style="height: 50px; background-color: #92D050; font-size: 30px; font-weight:bold;">DAGOVERZICHT</td>
+            </tr>
+            <tr>
+                <td colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border: 2px solid #000; width:35%;">GEGEVENS KLANT</td>
+                <td rowspan="3">&nbsp;</td>
+                <td rowspan="3" style="border: 1px solid #000; background-color: #FFFF00;">
+                    <p style="font-size: 26px; font-weight:bold;text-transform:uppercase; line-height: 33px;"><?=$this->curday?></p>
+                    <p style="color: #FF0000; font-weight:bold; font-size:23px; line-height: 33px;"><?=$this->start_hour?>u<?=$this->start_minute?></p>
+                    <p style="color: #FF0000; font-weight:bold; font-size:23px; line-height: 33px;"><?=$this->agenda->adults?> volw + <?=$this->agenda->children?> kind</p>
+                    <p style="color: #FF0000; font-weight:bold; font-size:16px; line-height: 33px;text-transform: uppercase;"><?=$this->locationText?></p>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000;">
+                    <?= $this->escape($this->agenda->contact? $this->agenda->contact->company_name : '') ?><br>
+                    <?= $this->escape($this->agenda->contact? $this->agenda->contact->firstname.' '.$this->agenda->contact->lastname : '') ?><br>
+                    <?= $this->escape($this->agenda->street) ?> <?= $this->escape($this->agenda->addrnr) ?><br>
+                    <?= $this->escape($this->agenda->post) ?> <?= $this->escape($this->agenda->city) ?><br>
+                    <?= $this->escape($this->agenda->phone) ?> <?= $this->escape($this->agenda->cellphone) ?><br>
+                    <?= $this->escape($this->agenda->vat) ?>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="border: 2px solid #000;font-size:25px;">RECEPTIE / ONTVANGST</td>
+            </tr>
+            <tr>
+                <td colspan="3">                               
+                    Ontvangst met <b><?=$this->receptions[$this->agenda->reception_id]?></b> en fruitsap<br>
+                    <?php foreach ( $this->hapje as $hapje ): ?>
+                        <?=$hapje?><br>
+                    <?php endforeach; ?>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="border: 2px solid #000;font-size:25px;">MENU</td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                <?php foreach ( $this->menu_opt as $tid ): ?>
+                    <br>
+                    <b><?=$this->types[$tid]?> (<?php echo $this->menu_select[$tid][0]==1 ? "Buffet":"Aan tafel"; ?>)</b><br>
+                    <?php foreach ( $this->menu_pname[$tid] as $pname ): ?>
+                        <?=$pname?><br>
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+                </td>
+            </tr>
+<!--            <tr>
+                <td colspan="3" style="border: 2px solid #000;font-size:25px;text-transform:uppercase;">
+                    <?php if ( $this->agenda->drink == 1 ): ?>
+                        Drankenformule
+                    <?php else: ?>
+                        Exclusief dranken
+                    <?php endif; ?> - ALL IN - GEDURENDE <span style="color: #FF0000;"><?=$this->agenda->hours?></span> UREN
+                </td>
+            </tr>    -->
+        </table>
+        <div style="border: 2px solid #000;font-size:25px;text-transform:uppercase; text-align:center; width:100%; position: fixed; bottom: 0;">
+            <?php if ( $this->agenda->drink == 1 ): ?>
+                        Drankenformule
+                    <?php else: ?>
+                        Exclusief dranken
+                    <?php endif; ?> - ALL IN - GEDURENDE <span style="color: #FF0000;"><?=$this->agenda->hours?></span> UREN
+        </div>
+		
+	</body>
+</html>

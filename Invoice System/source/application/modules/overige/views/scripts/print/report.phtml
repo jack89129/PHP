@@ -1,0 +1,157 @@
+<?php
+    $settingModel = new SettingsModel();
+    $empSettingModel = new EmpSettingModel();
+    
+    $user = new Zend_Session_Namespace('user');
+    $emp_id = $user->id;
+    $addr_street = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderAddressStreetKey());
+    if ( $addr_street == null ) $addr_street = SettingsModel::getInvoiceProviderAddressStreet();
+    $addr_num = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderAddressNumKey());
+    if ( $addr_num == null ) $addr_num = SettingsModel::getInvoiceProviderAddressNum();
+    $addr_post = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderAddressPostKey());
+    if ( $addr_post == null ) $addr_post = SettingsModel::getInvoiceProviderAddressPost();
+    $addr_city = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderAddressCityKey());
+    if ( $addr_city == null ) $addr_city = SettingsModel::getInvoiceProviderAddressCity();
+    
+    $addr_one = $addr_street.' '.$addr_num;
+    $addr_two = $addr_post.' '.$addr_city;
+    $btw  = $empSettingModel->getValue($emp_id, $settingModel->getInvoiceProviderBTWKey());
+    if ( $btw == null ) $btw = SettingsModel::getInvoiceProviderBTW();
+?>
+
+<style type="text/css">
+#report td span {
+    font-weight: bold;
+}
+
+#report td {
+    color: #333;
+}
+</style>
+
+<table cellspacing="0" id="report" border="0">
+    <colgroup>
+        <col width="150px">
+        <col width="150px">
+        <col width="150px">
+        <col width="100px">
+        <col width="150px">
+        <col width="150px">
+    </colgroup>
+    <tr>
+        <td colspan="6"><h1>BANKBOEK</h1></td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <span><b>Datum :</b></span> <?=$this->kas_date?>
+        </td>
+        <?php if ( empty($this->is_month_view) ): ?>
+        <td colspan="2">
+            <span><b>Afschriftnummer :</b></span>
+        </td>
+        <td><?=$this->afsch?></td>
+        <?php else: ?>
+        <td colspan="3">&nbsp;</td>
+        <?php endif; ?>
+    </tr>
+    <tr>
+        <td colspan="6">
+            <span><b>Boekhoudperiode : </b></span><?=$this->period?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6">&nbsp;</td>
+    </tr>
+    <tr>
+        <td><span><b>Startsaldo : </b></span></td>
+        <td>&euro; <?=Utils::numberFormat($this->startsaldo)?></td>
+        <td colspan="4">&nbsp;</td>
+    </tr>
+    <tr>
+        <td><span><b>Eindsaldo : </b></span></td>
+        <td>&euro; <?=Utils::numberFormat($this->endsaldo)?></td>
+        <td colspan="4">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="6">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="6"><span><b>Bedrijfsgegevens</b></span></td>
+    </tr>
+    <!-- insert part -->
+    <!-- end -->
+    <tr>
+        <td colspan="6">Jovado Nv.</td>
+    </tr>
+    <tr>
+        <td colspan="6"><?=$addr_one?></td>
+    </tr>
+    <tr>
+        <td colspan="6"><?=$addr_two?></td>
+    </tr>
+    <tr>
+        <td colspan="6">BTW <?=$btw?></td>
+    </tr>
+    <tr>
+        <td colspan="6">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="6">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="6">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="100px"><span><b>Factuurnummer</b></span></td>
+        <td width="100px"><span><b>Debiteur/Crediteur</b></span></td>
+        <td width="40px">&nbsp;</td>
+        <td width="120px" align="right"><span><b>Debet</b></span></td>
+        <td width="120px" align="right"><span><b>Credit</b></span></td>
+        <td width="120px" align="right"><span><b>Saldo</b></span></td>
+    </tr>
+    <tr>
+        <td colspan="6">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="5">&nbsp;</td>
+        <td align="right">&euro; <?=Utils::numberFormat($this->startsaldo)?></td>
+    </tr>
+    <?php $total = $this->startsaldo; ?>
+    <?php if( $this->purchases['result'] ): ?> 
+     <?php foreach( $this->purchases['result'] as $key => $purchase ): ?>
+     <?php $total -= $purchase->total_sum; ?>
+     <tr>
+         <td><?= $this->escape($purchase->number); ?></td>
+         <td><?= $invoice->contact ? $purchase->contact->name : '' ?></td>
+         <td>&nbsp;</td>
+         <td align="right">-&euro; <?= Utils::numberFormat($purchase->total_sum); ?></td>
+         <td></td>
+         <td align="right">&euro; <?= Utils::numberFormat($total) ?></td>
+     </tr>       
+        <?php endforeach; ?>  
+     <?php endif; ?>   
+    <?php if( $this->invoices['result'] ): ?> 
+     <?php foreach( $this->invoices['result'] as $key => $invoice ): ?>
+     <?php $total += $invoice->total_sum; ?>
+     <tr>
+         <td><?= $this->escape($invoice->number); ?></td>
+         <td><?= $invoice->contact ? $invoice->contact->name : '' ?></td>
+         <td>&nbsp;</td>
+         <td></td>
+         <td align="right">&euro; <?= Utils::numberFormat($invoice->total_sum); ?></td>
+         <td align="right">&euro; <?= Utils::numberFormat($total) ?></td>
+     </tr>       
+        <?php endforeach; ?>  
+     <?php endif; ?>   
+    <tr>
+        <td colspan="6">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="6">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="4">&nbsp;</td>
+        <td><span><b>Eindsaldo</b></span></td>
+        <td align="right">&euro; <?=Utils::numberFormat($this->endsaldo)?></td>
+    </tr>
+</table>

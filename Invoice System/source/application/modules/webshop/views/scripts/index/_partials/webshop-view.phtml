@@ -1,0 +1,46 @@
+<div class="left">
+    <h3><?=$this->group_name?>><span style="color:red;"><?=$this->product->name?></span>
+    </h3>
+    <div class="image-div">
+        <div style="margin:10px auto 20px; width: 230px;">
+        <?php if ( $this->product->main_img != "" ): ?>
+            <img src="<?=$this->product->main_img?>" style="width:200px;"/>
+        <?php endif; ?>
+        </div>
+        <div style="margin:0 auto; width: 360px;">
+        <div style="margin-right:10px;float:left;">
+        <?php if ( $this->product->sub_img1 != "" ): ?>
+            <img src="<?=$this->product->sub_img1?>" style="width:100px;"/>
+        <?php endif; ?>
+        </div>
+        <div style="margin-right:10px;float:left;">
+        <?php if ( $this->product->sub_img2 != "" ): ?>
+            <img src="<?=$this->product->sub_img2?>" style="width:100px;"/>
+        <?php endif; ?>
+        </div>
+        <div style="margin-right:10px;float:left;">
+        <?php if ( $this->product->sub_img3 != "" ): ?>
+            <img src="<?=$this->product->sub_img3?>" style="width:100px;"/>
+        <?php endif; ?>
+        </div>
+        </div>
+    </div>
+    <div class="product-info-div">
+        <p><b>Artikel code : </b><?=$this->product->article_code?></p>
+        <p><b>Artikel status : </b><?php if ( $this->product->status == 'active' ) { echo 'Op voorraad'; } else { echo 'Tijdelijk uitverkocht'; }?></p>
+        <br/>
+        <p><b>Normale verkoopsprijs : </b>&euro; <?=$this->product->price?> - per stuk</p>
+        <p><b>Aanbiedingsprijs : </b>&euro; <?php echo Utils::numberFormat(($this->product->price*(100-$this->product->discount))/100); ?> - per stuk</p>
+        <br/>
+        <p><b>Aantal  : </b>
+        <select name="quantity">
+            <option value="0">--SELECT--</option>
+            <?php for ($i=0; $i<30; $i++) { ?>
+            <option value="<?=$i?>"><?=$i?></option>
+            <?php } ?>
+        </select>
+        </p>
+        <br/>
+        <a href="#" class="cart">Toevoegen aan winkelwagen</a>
+    </div>
+</div>

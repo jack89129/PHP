@@ -1,0 +1,50 @@
+<div style="margin: 11px 19px 17px 19px;">
+    <?php if( Utils::user()->can('employee_edit') ): ?>
+    <h3><?= _t('Toevoegen aan werknemersgroep') ?></h3>
+    <?php else: ?>
+    <h3><?= _t('Werknemergroep') ?></h3>
+    <?php endif; ?>
+
+    <?php if( !$this->employee->groups ): ?>
+    <p><?= _t('Deze werknemer is niet gekoppeld aan een of meer werknemersgroepen.') ?></p>
+    <?php endif; ?>
+
+    <?php foreach( $this->employee->groups as $employeeGroup ) : ?>
+    <p style="font-weight:bold;margin:0px;padding-bottom:5px;line-height: 18px;vertical-align: middle;">
+        <?= $this->escape($employeeGroup->name) ?>
+        <?php if( Utils::user()->can('employee_edit') ): ?>
+        <span style="float:right;"><a href="javascript:;" onclick="employees_remove_employee_from_group(<?= $this->employee->id . ', ' . $employeeGroup->id; ?>);" style="text-decoration:none;"><img style="display:inline;vertical-align:top;" src="<?= $this->baseUrl() . '/images/img3.jpg'; ?>" alt="<?= _t('Verwijderen') ?>" /></a></span>
+        <?php endif; ?>
+        <br style="clear:both;" />
+    </p>
+    <?php endforeach; ?>
+
+    <?php if( Utils::user()->can('employee_edit') ): ?>
+    <p><?= _t('Toevoegen aan werknemersgroep') ?>:</p>
+    <select id="employee_group_id" name="employee_group_id" class="select">
+        <option value="0"><?= _t('Selecteer een werknemergroep') ?></option>
+        <?php
+            foreach($this->groups as $group){
+                foreach( $this->employee->groups as $employeeGroup ){
+                    if( $employeeGroup->id == $group->id ){
+                        continue 2;
+                    }
+                }
+        ?>
+        <option value="<?= $this->escape($group->id) ?>" <?= $this->selected_group && $this->selected_group == $group->id ? 'selected="selected"' : '' ?>><?= $this->escape($group->name) ?></option>
+        <?php } ?>
+    </select>
+
+    <div class="clear"></div>
+    <div style="float: left;">
+        <input type="button" onclick="employees_add_employee_to_group(<?= $this->employee->id ?>, $('[name=employee_group_id]').val());" value="<?= _t('Toevoegen') ?>" class="btn" />
+    </div>
+
+    <div style="float: left; margin-top: 32px; margin-left: 20px;">
+        <a id="add-group-link" href="#add-group-dialog" style="color:#666666;text-decoration:none;font-weight: bold;"><?= _t('Nieuwe groep') ?></a><br />
+		<a id="remove-group-link" href="javascript:;" style="color: #666666; text-decoration: none; font-weight: bold; display: none;" onclick="employees_remove_employee_group();"><?= _t('Verwijderen groep') ?></a>
+    </div>
+    <?php endif; ?>
+    <div class="clear"></div>
+
+</div>

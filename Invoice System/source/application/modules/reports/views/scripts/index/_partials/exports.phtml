@@ -1,0 +1,27 @@
+<style type="text/css">
+    #exports {
+        font-weight: bold;
+    }
+
+    #exports a {
+        color:#548C03;
+        font-weight: bold;
+        text-decoration: none;
+    }
+</style>
+<div id="exports" style="float:right;">
+    Export:
+    <a href="javascript:;" onclick="reports_export('pdf');">PDF</a><!-- -
+    <a href="javascript:;" onclick="reports_export('excel');">Excel</a> -->
+    <?php if( $this->type == 'government' && strpos($this->period, 'quarter') !== false ): ?>
+         -
+        <a href="javascript:;" onclick="reports_export('government');">Government</a>
+    <?php endif; ?>
+    <input type="hidden" name="export" value="" />
+</div>
+<script type="text/javascript">
+    function reports_export(type){
+        $('[name=export]').val(type).parents('form').submit();
+        $('[name=export]').val('')
+    }
+</script>

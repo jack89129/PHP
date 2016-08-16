@@ -1,0 +1,101 @@
+<style type="text/css">
+
+    .log ul {
+        border:none;
+    }
+
+    .log li{
+        border:none;
+        height:auto;
+    }
+
+    .log li a, .log li a:hover {
+        background:none;
+        padding:0px;
+        margin:0px;
+        height:auto;
+        display:inline;
+    }
+
+    .log li.log-date {
+        font-size:10px;
+        font-weight:bold;
+        line-height:15px;
+        margin-bottom: 5px;
+        margin-top:5px;
+        border-bottom:1px solid #e1e1e1;
+    }
+
+    .log li.log-text {
+        line-height:22px;
+        border-radius:5px;
+    }
+
+    .log .log-event-manual {
+        background-color: #feffd3;
+        margin-bottom:10px;
+    }
+
+</style>
+<div class="news_Box sub log">
+    <div class="collapse">
+        <h2><span>Geschiedenis<a class="i-down"></a></span></h2>
+
+        <div class="info">
+            <ul>
+                <?php
+                if( $this->logs ){
+                    $last_date = null;
+                    foreach( $this->logs as $log ){
+                        $date = date('d-m-Y \o\m H:i', $log->created_time);
+                        if( $last_date != $date ){
+                            echo '<li class="log-date">', $date, '</li>';
+                            $last_date = $date;
+                        }
+
+                        echo '<li class="log-text log-event-', $log->event, '" style="cursor:pointer;" title="', $this->escape($log->employee ? $log->employee->name : _t('No employee information stored')) , '">';
+                        echo str_replace('%baseUrl%', $this->baseUrl(), nl2br($log->text));
+                        if( $log->event == LogModel::EVENT_MANUAL && $log->employee_id == Utils::user()->id ){
+                            echo '<div style="text-align:right;display:none;">',
+                                    '<a href="javascript:;" onclick="log_edit(' . $log->id . ');">' . _t('wijzig') . '</a>',
+                                    ' - ',
+                                    '<a href="javascript:;" onclick="log_delete(' . $log->id . ');">' . _t('verwijder') . '</a>',
+                                 '</div>';
+                        }
+                        echo '</li>';
+                    }
+                }else{
+                    echo '<li class="log-text" style="text-align: center;">' . _t('Geen geschiedenis!') . '</li>';
+                }
+                ?>
+            </ul>
+            <div id="log-add">
+                <?= $this->partial('log/add.phtml'); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function log_edit(id){
+        $.post(baseUrl + '/log/log/edit/', {id:id}).success(function(data){
+            $('#log-add').html(data.log_add);
+        });
+    }
+
+    function log_delete(id){
+        $.post(baseUrl + '/log/log/delete/', {id:id}).success(function(){
+            log_reload()
+        });
+    }
+
+    $('#log li').mouseenter(function(){
+        $(this).find('div').show();
+    });
+
+    $('#log li').mouseleave(function(){
+        $(this).find('div').hide();
+    });
+
+</script>

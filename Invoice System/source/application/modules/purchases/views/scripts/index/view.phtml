@@ -1,0 +1,250 @@
+<?php
+    $tableColor = SettingsModel::getContactTableColor();  
+    $textColor = SettingsModel::getContactTextColor();    
+?>
+<style type="text/css">
+    .invoice-view-table {
+        width:723px;
+        margin-left:61px;
+        border-spacing: 0;
+        font-weight:bold;
+    }
+
+    .invoice-view-table th {
+        background-color:<?=$tableColor?>;  
+        color:#ffffff;                       
+        height:41px;
+    }
+
+    .invoice-view-table th:first-child {
+        border-radius:5px 0px 0px 0px;
+    }
+
+    .invoice-view-table th:last-child {
+        border-radius:0px 5px 0px 0px;
+    }
+
+    .invoice-view-table td {
+        min-height:32px;
+        padding-top:5px;
+        padding-bottom:5px;
+        drop-shadow:0px 1px 1px #ffffff;
+    }
+
+    td.itd-qty, th.ith-qty { width: 40px; text-align:right; padding-left:10px; }
+    td.itd-article_code{ width: 80px;  padding-left:30px; }
+    td.itd-vat, th.ith-vat { width: 60px; text-align:right;  padding-left:10px; }
+    td.itd-discount, th.ith-discount { width:52px; text-align:right; }
+    td.itd-price, th.ith-price{ width:80px; text-align:right; }
+    td.itd-total, th.ith-total{ width:80px; text-align:right; padding-right:10px; }
+    td.itd-category, th.ith-category { padding-left:20px; text-align:left; }
+    td.itd-description, th.ith-description { text-align:left; padding-left: 30px; }
+
+    .hltc {
+        background-color: #CFF6D1 !important;
+    }
+
+    .contact-info p {
+        line-height:18px;
+    }
+
+</style>
+<!-- START RIGHT -->
+<div id="right" class="sub">
+
+    <!-- START NEWS -->
+    <div class="news_Box sub">
+
+        <?= $this->render('index/_partials/purchase-sidebar.phtml'); ?>
+
+    </div>
+
+    <?= $this->render('index/_partials/purchase-attachment-sidebar.phtml'); ?>
+
+    <div id="log">
+    </div>
+    <!-- END OPTIES -->
+
+</div>
+<!-- END RIGHT -->
+
+<!-- START LEFT -->
+<div id="left" class="sub">
+
+<form id="purchase-form" style="max-width: 1140px;">
+<input type="hidden" name="purchase[id]" value="<?= $this->escape($this->purchase->id) ?>" />
+
+<!-- START PURCHASE -->
+<div class="purchase_Box sub">
+
+    <div class="big">
+
+        <div class="main sub" style="width:836px;">
+
+            <div class="left" style="margin-top:0px;padding-top: 0px;">
+
+                <div class="deb">
+
+                    <fieldset class="invoice">
+                        <label><?= _t('Crediteur') ?>:</label>
+                        <?php if( $this->purchase->contact ): ?>
+                        <div class="contact-info">
+                            <p><h3><?= $this->escape($this->purchase->contact->company_name); ?></h3></p>
+                            <p><?= _t('T.a.v.') ?> <?= $this->escape($this->purchase->contact->firstname2); ?>&nbsp;<?= $this->escape($this->purchase->contact->lastname2); ?></p>
+                            <p><?= $this->escape($this->purchase->contact->address); ?></p>
+                            <p><?= $this->escape($this->purchase->contact->postcode) . ', ' . $this->escape($this->purchase->contact->city); ?></p>
+                            <p><?= $this->escape($this->purchase->contact->country); ?></p>
+                            <br/>
+                            <p><?= $this->escape($this->purchase->contact->vat_number); ?></p>
+                        </div>
+                        <?php endif; ?>
+                    </fieldset>
+
+                </div>
+
+            </div>
+
+            <br style="clear:both;" />
+
+        </div>
+
+        <div class="factur" style="width:722px;">
+            <ul>
+                <li><?= _t('klantnummer') ?>: <span><?= $this->purchase->contact ? $this->purchase->contact->number : 'Kies crediteur'; ?></span></li>
+                <li>
+                    <?= _t('factuurnummer') ?>:
+                    <span><?= $this->escape($this->purchase->number); ?></span>
+
+                </li>
+                <li><?= _t('factuurdatun') ?>: <span><?= $this->escape(date(Constants::DATE_FORMAT, $this->purchase->invoice_time)); ?></span></li>
+                <li class="last"><?= _t('vervaldatum') ?>:
+                    <span id="expire_date"><?= $this->escape(date(Constants::DATE_FORMAT, $this->purchase->expire_time)); ?></span>
+                </li>
+            </ul>
+        </div>
+
+        <?php if( $this->purchase->info ): ?>
+        <div style="margin-left:61px;width:712px;color:#333333;text-align:justify;padding:10px;font-weight:normal;line-height:15px;margin-bottom: 20px;">
+            <?= Utils::strip_bad_tags($this->purchase->info); ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if( $this->purchase->intro ): ?>
+        <div style="margin-left:61px;width:712px;color:#333333;text-align:justify;padding:10px;font-weight:normal;line-height:15px;margin-bottom: 20px;">
+            <?= Utils::strip_bad_tags($this->purchase->intro); ?>
+        </div>
+        <?php endif; ?>
+
+        <table class="invoice-view-table" cellspacing="0">
+            <thead>
+            <tr>
+                <th class="ith-qty"><?= _t('Aantal') ?></th>                
+                <th class="ith-description"><?= _t('Omschrijving') ?></th>
+                <th class="ith-vat"><?= _t('BTW') ?></th>
+                <th class="ith-discount"><?= _t('Kort.') ?> %</th>
+                <th class="ith-price"><?= _t('Prijs p/stk') ?></th>
+                <th class="ith-total"><?= _t('Totaal') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach( $this->purchase->products as $product ): ?>
+                <?= $this->partial('index/view/purchase-row.phtml', array('product' => $product, 'hltc' => $this->hltc)); ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <div class="rule">
+
+            <ul>
+                <li>
+
+                    <div class="first">
+                        &nbsp;
+                    </div>
+
+                    <div class="second">
+                        <?= _t('Korting') ?>
+                    </div>
+
+                    <div class="third">
+                        <nobr>&nbsp;&euro; <?= Utils::numberFormat($this->purchase->discount_sum); ?></nobr>
+                    </div>
+
+                </li>
+                <li>
+
+                    <div class="first">
+                        &nbsp;
+                    </div>
+
+                    <div class="second">
+                        <?= _t('Totaal excl. BTW') ?>
+                    </div>
+
+                    <div class="third">
+                        <nobr>&nbsp;&euro; <?= Utils::numberFormat($this->purchase->total_excl_vat); ?></nobr>
+                    </div>
+
+                </li>
+                <li>
+
+                    <div class="first">
+                        &nbsp;
+                    </div>
+
+                    <div class="second">
+                        <?= _t('Totaal BTW') ?>
+                    </div>
+
+                    <div class="third">
+                        <nobr>&nbsp;&euro; <?= Utils::numberFormat($this->purchase->vat_sum); ?></nobr>
+                    </div>
+
+                </li>
+            </ul>
+            <ul>
+                <li>
+
+                    <div class="first">
+                        &nbsp;
+                    </div>
+
+                    <div class="second">
+                        <?= _t('Totaal incl. BTW') ?>
+                    </div>
+
+                    <div class="third">
+                        <nobr>&nbsp;&euro; <?= Utils::numberFormat($this->purchase->total_sum); ?></nobr>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <br/>
+        <div id="purchase-attachments" style="margin-left:10px;"><?= $this->partial('index/show-attachment.phtml'); ?></div>
+
+    </div>
+
+</div>
+<!-- END PURCHASE -->
+</form>
+</div>
+
+<?= $this->partial('index/_partials/purchase-payment/dialog.phtml'); ?>
+<?= $this->partial('index/_partials/upload.phtml', array('purchase' => $this->purchase)); ?>
+
+<!-- END LEFT -->
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#downloadpurchase").click(function(){
+            window.location = baseUrl + "/purchases/index/pdf/id/" + $('[name="purchase[id]"]').val();
+        });
+
+        log_source_type = 'purchase';
+        log_source_id = $('[name="purchase[id]"]').val();
+        log_init();
+        reload_attachments(0);
+    });
+</script>

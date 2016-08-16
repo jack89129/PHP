@@ -1,0 +1,16 @@
+<tr class="<?= $this->product->product && $this->product->product->income_tag && $this->product->product->income_tag->id == $this->hltc ? 'hltc' : '' ?>">
+	<td class="itd-qty"><?= Utils::numberFormat($this->product->qty); ?></td>
+<!--	<td class="itd-article_code"><?= $this->escape($this->product->product ? $this->product->product->article_code : ''); ?></td>-->
+	<td class="itd-description">
+        <?= Utils::strip_bad_tags($this->product->description); ?>
+        <?php if( $this->hltc > 0 && $this->product->product && $this->product->product->income_tag ): ?>
+            <?= '<br/><small style="' . ($this->product->product->income_tag->id == $this->hltc ? 'color:#008b00;' : '') . '">(' . $this->product->product->income_tag->number . ') - ' . $this->product->product->income_tag->name . '</small>'; ?>
+        <?php endif; ?>
+    </td>
+	<td class="itd-vat"><?= $this->escape($this->product->vat) ?>%</td>
+    <?php if ( $this->discount_sum > 0 ): ?>
+    <td class="itd-discount"><?= $this->product->discount ? $this->escape($this->product->discount.'%') : '' ?></td>
+    <?php endif; ?>
+	<td class="itd-price"><nobr>&nbsp;&euro; <?= Utils::numberFormat($this->product->price, 2, '.', ','); ?></nobr></td>
+	<td class="itd-total"><nobr>&nbsp;&euro; <?= Utils::numberFormat($this->product->total_sum, 2, '.', ','); ?></nobr></td>
+</tr>

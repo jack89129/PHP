@@ -1,0 +1,48 @@
+<input type="hidden" name="payment[purchase_id]" value="<?= $this->escape($this->purchase->id); ?>" />
+
+<div class="center">
+    <div class="first"><label><?= _t('Bedrag') ?>:</label></div>
+
+    <div class="second">
+        <input type="text" name="payment[amount]" class="field" value="<?= Utils::numberFormat($this->purchase->unpaid_sum); ?>" />
+
+        <label class="gap"><?= _t('Betaaldatum') ?>:</label>
+        <input type="text" name="payment[paid_time]" class="field" value="<?= date(Constants::DATE_FORMAT, time()); ?>" />
+    </div>
+</div>
+
+<div class="center">
+    <div class="first"><label><?= _t('Betaalwijze') ?>:</label></div>
+
+    <div class="second">
+        <div class="popup">
+
+            <select name="payment[payment_method]" class="styled dropdown">
+                 <option value="over"><?= _t('Overschrijving') ?></option>
+                <option value="cont"><?= _t('Contant') ?></option>
+                <option value="paypal"><?= _t('Paypal') ?></option>
+                <option value="credit"><?= _t('Credit-Card') ?></option>
+                <option value="ideal"><?= _t('iDeal') ?></option>
+                <option value="mister"><?= _t('Mistercash') ?></option>
+            </select>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="clear"></div>
+
+<input type="submit" class="button" value="<?= _t('Opslaan') ?>" style="margin-top:0px;margin-bottom:10px;" />
+
+<script type="text/javascript">
+
+    $('[name="payment[paid_time]"]').datepicker({dateFormat:'dd-mm-yy'});
+    $('[name="payment[payment_method]"]').easySelectBox();
+
+    $('#purchase-payment-purchase').find('.label_check, .label_radio, .label_check2,.label_check3').click(function(){
+        setupLabel('#purchase-payment-purchase');
+    });
+    setupLabel('#purchase-payment-purchase');
+
+</script>

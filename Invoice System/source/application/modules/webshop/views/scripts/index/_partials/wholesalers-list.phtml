@@ -1,0 +1,30 @@
+<div class="left">
+    <div id="pane1">
+        <div class="scroll-pane">
+        <ul style="padding-top:5px;">
+            <?php $last_letter = null; ?>
+            <?php
+                foreach($this->wholesalers as $wholesaler){
+                    $groups = array('wholesaler-group-0');
+                    foreach( $wholesaler->groups as $group ){
+                        $groups[] = 'wholesaler-group-' . $group->id;
+                    }
+            ?>
+            <li class="searchable <?= implode(' ', $groups); ?>">
+                <a href="javascript:;" onclick="wholesalers_view_wholesaler(<?= $this->escape($wholesaler->id) ?>);">
+                    <?php echo $this->escape($wholesaler->name_reversed); ?> <span><?= $this->escape($wholesaler->role) ?></span>
+                </a>
+                <?php
+                    $this_letter = strtoupper(iconv_substr($wholesaler->name_reversed, 0, 1, 'UTF-8'));
+                    if( $last_letter != $this_letter ){
+                        $last_letter = $this_letter;
+                        echo '<div class="digit"><span class="word">', $this->escape($this_letter), '</span></div>';
+                    }
+                ?>
+            </li>
+            <?php } ?>
+            <li class="no-wholesalers" style="display:none;line-height:50px;text-align:center;font-weight:bold;border-top-color:transparent;padding:0px;width:100%;"><?= _t('No wholesalers found!') ?></li>
+        </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<form id="annex-form-<?= $this->annex->id ?>">
+<input type="hidden" name="id" value="<?= $this->annex->id ?>" />
+<input type="text" name="name" value="<?= $this->escape($this->annex->name); ?>" style="width:220px;margin-left:-5px;padding:5px;" />
+</form>
+<script type="text/javascript">
+    $('#annex-form-<?= $this->annex->id ?>').submit(function(){
+        $.post(baseUrl + '/invoices/index/annex-save', $(this).serialize()).success(function(){
+            invoices_annexes_reload();
+            log_reload();
+        });
+        return false;
+    }).find('input').focus();
+</script>

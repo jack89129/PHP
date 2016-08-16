@@ -1,0 +1,87 @@
+<?php 
+	if( !$this->paginator->totalPages() ){
+		return;
+	}
+?>
+
+<style type="text/css">
+
+	.paginate {
+		margin:10px;
+		line-height:26px;
+	}
+
+	.paginate img {
+		display:inline-block;
+		vertical-align:middle;
+	}
+
+	.paginate a {
+		color:#639E16;
+		font-weight:bold;
+		text-decoration:none;
+	}
+	
+	.paginate .prev-page {
+		display:inline-block;
+		text-align:left;
+	}
+	
+	.paginate .pages {
+		float:left;
+		margin-left:10px;
+	}
+	
+	.paginate .pages .page {
+		float:left;
+		margin-right:10px;
+	}
+	
+		
+	.paginate .pages .page a {
+		display:inline-block;
+		padding:0px 10px 0px 10px;
+	}
+	
+	.paginate .pages .page.active a {
+		border:1px solid #639E16;
+	}
+		
+	
+	.paginate .prev-page {
+		width:120px;
+		float:left;
+		text-align:left;
+	}
+	
+	.paginate .next-page {
+		width:120px;
+		float:right;
+		display:inline-block;
+		text-align:right;
+	}
+
+</style>
+
+<?php if( $this->paginator->totalPages() > 1 ): ?>
+    <div class="paginate">
+        <?php if( $this->paginator->prevPage() !== null ): ?>
+        <div class="prev-page">
+            <a href="<?= str_replace('{page}', $this->paginator->prevPage(), $this->link); ?>"><img src="<?= $this->baseUrl(); ?>/images/left-arrow.jpg" alt="<?= _t('Previous page') ?>" />&nbsp; <?= _t('Previous page') ?></a>
+        </div>
+        <?php endif; ?>
+
+        <div class="pages">
+        <?php foreach( $this->paginator->pages(5) as $page ): ?>
+            <div class="page <?= $this->paginator->currentPage() == $page ? 'active' : ''; ?>"><a href="<?= str_replace('{page}', $page, $this->link); ?>"><?= $page + 1 ?></a></div>
+        <?php endforeach; ?>
+        </div>
+
+        <?php if( $this->paginator->nextPage() !== null ): ?>
+        <div class="next-page">
+            <a href="<?= str_replace('{page}', $this->paginator->nextPage(), $this->link); ?>"><?= _t('Next page') ?> &nbsp;<img src="<?= $this->baseUrl(); ?>/images/right-arrow.jpg" alt="<?= _t('Next page') ?>" /></a>
+        </div>
+        <br style="clear:both;" />
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

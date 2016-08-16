@@ -1,0 +1,304 @@
+<?php
+    $settingModel = new SettingsModel();
+    $addr_street = SettingsModel::getInvoiceProviderAddressStreet();
+    $addr_num = SettingsModel::getInvoiceProviderAddressNum();
+    $addr_post = SettingsModel::getInvoiceProviderAddressPost();
+    $addr_city = SettingsModel::getInvoiceProviderAddressCity();
+    $address = $addr_street.' '.$addr_num.' <br/>'.$addr_post.' '.$addr_city;
+    $phone = SettingsModel::getInvoiceProviderPhone();
+    $email = SettingsModel::getInvoiceProviderEmail();
+    $website = SettingsModel::getInvoiceProviderWebsite();
+    $banknum = SettingsModel::getInvoiceProviderBankNumber();
+    $kvk = SettingsModel::getInvoiceProviderKVK();
+    $bic = SettingsModel::getInvoiceProviderBIC();
+    $btw = SettingsModel::getInvoiceProviderBTW();
+    $tableColor = SettingsModel::getContactTableColor();
+    $textColor = SettingsModel::getContactTextColor();
+    $logoPath = SettingsModel::getContactDefaultLogoPath();
+?>
+
+<html>
+	<head>
+		<title><?= _t('Factuur') ?></title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		
+		<style type="text/css">
+		body {
+			width:800px;
+			font-family: DejaVuSans, Tahoma, Verdana;
+			font-size: 12px;
+			padding:0px;
+			margin:auto;
+			color: #666666;
+		}
+
+        mark {
+            background-color:#ffff00;
+        }
+		
+		table td {
+			vertical-align:top;
+		}
+			
+		.invoice-view-table {
+			width: 100%;
+			border-spacing: 0;
+		}
+		
+		.invoice-view-table th {
+			background-color: <?=$tableColor?>; /*#67BF3B*/
+			color: #ffffff;
+			/*text-shadow: 2px 1px 0px #4F922D;*/
+			height: 41px;
+			font-size:12px;
+		}
+		
+		.invoice-view-table th:first-child {
+			border-radius: 5px 0px 0px 0px;
+		}
+		
+		.invoice-view-table th:last-child {
+			border-radius: 0px 5px 0px 0px;
+		}
+		
+		.invoice-view-table td {
+			min-height: 32px;
+            padding-top:10px;
+			drop-shadow: 0px 1px 1px #ffffff;
+			font-size:12px;
+			vertical-align:middle;
+		}
+		
+		td.itd-qty,th.ith-qty {
+			width: 40px;
+			text-align: left;
+			padding-left: 10px;
+		}
+		
+		td.itd-article_code {
+			width: 90px;
+			padding-left: 10px;
+            text-align: center;
+		}
+        td.itd-description, th.ith-description { text-align:left; padding-left:30px;}
+		
+		td.itd-vat,th.ith-vat {
+			width: 60px;
+			text-align: right;
+			padding-left: 10px;
+		}
+		
+		td.itd-price,th.ith-price {
+			width: 80px;
+			text-align: right;
+		}
+		
+		td.itd-total,th.ith-total {
+			width: 80px;
+			text-align: right;
+			padding-right: 10px;
+		}
+
+        td.itd-discount, th.ith-discount {
+            width: 60px;
+            text-align:right;
+        }
+		
+		ul {
+			list-style-type: none;
+		}
+		
+		.totals-table {
+			width:210px;
+			font-size:12px;
+		}
+		
+		.totals-table td {
+			height:20px;
+			vertical-align:middle;
+		}
+		
+		.line {
+			border-top:1px solid #dddddd;
+			margin-top:10px;
+			margin-bottom:10px;
+			clear:both;
+		}
+		
+		</style>
+	</head>
+	<body>
+
+        <table style="width:100%;">
+        <tr>    
+            <td style="width:50%;">
+                <?php if( $this->providerLogo()->exists() ): ?>
+                <img src="<?= $logoPath ?>" alt="" style="width:250px;"/> <?php endif; ?>
+                <br/>
+                <br/>
+                <?php if( $this->invoice->contact ): ?>
+                <p><b><?= $this->escape($this->invoice->contact->company_name); ?></b></p>
+                <p><?= _t('T.a.v.') ?> <?= $this->escape($this->invoice->contact->name); ?></p>
+                <p><?= $this->escape($this->invoice->contact->address); ?></p>
+                <p><?= $this->escape($this->invoice->contact->postcode) . ', ' . $this->escape($this->invoice->contact->city); ?></p>
+                <p><?= $this->escape($this->invoice->contact->country); ?></p>
+                <br/>
+                <p><?= $this->escape($this->invoice->contact->vat_number); ?></p>
+                <?php endif; ?>
+            </td>
+            <td style="width:50%;">
+                <div style="height:10px;">&nbsp;</div>
+                <table align="right">
+                <tr>
+                    <td style="text-align:right;color:<?=$textColor?>;font-size:10px;line-height:16px;" width="175px" align="right"><?= _t('adres') ?></td>
+                    <td width="25px">&nbsp;</td>
+                    <td style="color:<?=$textColor?>;font-size:10px;line-height:16px;" width="175px">bank nr.</td>
+                </tr>
+                <tr>
+                    <td style="font-size:10px;line-height:16px;color:#BCC0C2;" rowspan="2" align="right"><?= $address ?></td>
+                    <td></td>
+                    <td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= nl2br($banknum); ?></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="color:<?=$textColor?>;font-size:10px;line-height:16px;"><?= _t('iban') ?></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;color:<?=$textColor?>;font-size:10px;line-height:16px;" align="right"><?= _t('tel') ?></td>
+                    <td></td>
+                    <td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape($kvk); ?></td>
+                </tr>
+                <tr>
+                    <td style="color:#BCC0C2;font-size:10px;line-height:16px;" align="right"><?= $this->escape($btw); ?></td>
+                    <td></td>
+                    <td style="color:<?=$textColor?>;font-size:10px;line-height:16px;"><?= _t('bic/swift') ?></td>
+                </tr>                                                                      
+                <tr>
+                    <td style="text-align:right;color:<?=$textColor?>;font-size:10px;line-height:16px;" align="right"><?= _t('E-mail') ?></td>
+                     <td></td>
+                     <td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape($bic); ?></td>
+                </tr>                                                                                                
+                <tr>
+                    <td style="color:#BCC0C2;font-size:10px;line-height:16px;" align="right"><?= $this->escape($email); ?></td>
+                    <td></td>
+                    <td></td>
+                </tr>                            
+                <tr>
+                    <td style="text-align:right;color:<?=$textColor?>;font-size:10px;line-height:16px;" align="right"><?= _t('Website') ?></td>
+                    <td></td>
+                    <td style="color:<?=$textColor?>;font-size:10px;line-height:16px;">btw nr.</td>
+                </tr>
+                <tr>
+                    <td align="right"><a style="text-decoration:none;color:#858C8F;font-size:10px;" href="<?= $this->escape($website); ?>"><?= $this->escape($website); ?></a></td>
+                    <td></td>
+                    <td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape($btw); ?></td>
+                </tr>   
+                </table>
+            </td>     
+        </tr>
+        </table>
+
+        <br/>
+        <br/>
+
+        <table style="width:100%">
+            <tr>
+            <td>
+
+                <table style="width:100%;">
+                    <tr>
+                        <td><h4 style="color:#999999;font-size:11px;"><?= _t('klantnummer') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                        <td><h4 style="color:#999999;font-size:11px;"><?= _t('factuurnummer') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                        <td><h4 style="color:#999999;font-size:11px;"><?= _t('factuurdatum') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                        <td><h4 style="color:#999999;font-size:11px;"><?= _t('vervaldatum') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                    </tr>
+                    <tr>
+                        <td style="color:#000000;font-size:10px;"><?php if( $this->invoice->contact ): ?><?= $this->escape($this->invoice->contact->number); ?><?php endif; ?></td>
+                        <td style="color:#000000;font-size:10px;"><?= $this->escape($this->invoice->number) ?></td>
+                        <td style="color:#000000;font-size:10px;"><?= date(Constants::DATE_FORMAT, $this->invoice->invoice_time) ?></td>
+                        <td style="color:#000000;font-size:10px;"><?= date(Constants::DATE_FORMAT, $this->invoice->expire_time) ?></td>
+                    </tr>
+
+                </table>
+            </td>
+            <td style="text-align:right;">
+                <img src="<?= $this->baseUrl(); ?>/images/<?= $this->invoice->proforma ? 'off.jpg' : ($this->invoice->credit ? 'cre-fac.jpg' : 'fac.jpg') ?>" alt="" />
+            </td>
+            </tr>
+        </table>
+
+        <br/>
+        <br/>
+
+<!--
+        <?php if( $this->invoice->info ): ?>
+        <div style="width:100%;color:#333333;text-align:justify;padding:10px;font-weight:normal;line-height:15px;margin-bottom:20px;">
+            <?= Utils::strip_bad_tags($this->invoice->info); ?>
+        </div>
+        <?php endif; ?>
+-->
+        <?php if( $this->invoice->intro ): ?>
+        <div style="width:100%;color:#333333;text-align:justify;padding:10px;font-weight:normal;line-height:15px;margin-bottom:20px;">
+            <?= Utils::strip_bad_tags($this->invoice->intro); ?>
+        </div>
+            <?php endif; ?>
+
+		<table class="invoice-view-table" cellspacing="0">
+			<thead>
+				<tr>
+					<th class="ith-qty"><?= _t('Aantal') ?></th>
+					<!--<th class="ith-article_code"><?= _t('Productnr') ?></th>-->
+					<th class="ith-description"><?= _t('Omschrijving') ?></th>
+					<th class="ith-vat"><?= _t('BTW') ?></th>
+                    <?php if ( $this->invoice->discount_sum > 0): ?>
+                    <th class="ith-discount"><?= _t('Kort.') ?> %</th>
+                    <?php endif; ?>
+					<th class="ith-price"><?= _t('Prijs p/stk') ?></th>
+					<th class="ith-total"><?= _t('Totaal') ?></th>
+				</tr>
+			</thead>
+			<tbody>
+                <?php foreach( $this->invoice->products as $product ): ?>
+                <?= $this->partial('index/pdf/invoice-row.phtml', array('product' => $product, 'discount_sum' => $this->invoice->discount_sum)); ?>
+                <?php endforeach; ?>
+			</tbody>
+		</table>
+		
+		<br/>
+		<div class="line"></div>
+		<table align="right" class="totals-table">
+        <?php if ( $this->invoice->discount_sum > 0): ?>
+		<tr>
+			<td style="width:120px;"><?= _t('Korting') ?></td>
+			<td style="text-align:right;white-space: nowrap;">&nbsp;&euro; <?= Utils::numberFormat($this->invoice->discount_sum); ?></td>
+		</tr>
+        <?php endif; ?>
+		<tr>
+			<td><?= _t('Totaal excl. BTW') ?></td>
+			<td style="text-align:right;white-space: nowrap;">&nbsp;&euro; <?= Utils::numberFormat($this->invoice->total_excl_vat); ?></td>
+		</tr>
+		<tr>
+			<td><?= _t('Totaal BTW') ?></td>
+			<td style="text-align:right;white-space: nowrap;">&nbsp;&euro; <?= Utils::numberFormat($this->invoice->vat_sum); ?></td>
+		</tr>
+		</table>
+		<div class="line"></div>
+		<table align="right" class="totals-table">
+		<tr>
+			<td><?= _t('Totaal incl. BTW') ?></td>
+			<td style="text-align:right;white-space: nowrap;">&nbsp;&euro; <?= Utils::numberFormat($this->invoice->total_sum); ?></td>
+		</tr>
+		</table>
+		
+		<br style="clear:both;" />
+
+        <?php //if( $this->invoice->signature_small ): ?>
+        <!--
+            <small><?= _t('Handtekening') ?>:</small>
+            <br/>
+            <img src="<?= $this->baseUrl() . $this->invoice->signature_small; ?>" />
+        -->
+        <?php //endif; ?>
+		
+	</body>
+</html>

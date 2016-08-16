@@ -1,0 +1,97 @@
+<?php 
+    $has_permission = SettingsModel::getPermissionPurchase();
+?>
+<div class="link_Box">
+	<ul>
+		<!-- <li class=""><a href=""><span>Dashboard</span></a></li> -->
+		<li class="icon"><a href="<?= $this->baseUrl(); ?>/agenda"><span>Agenda</span></a></li> 
+        <?php if( Utils::user()->can('invoice_view') ): ?>
+		<li class="icon1 sub <?php if($this->current_module == "invoices"){ echo "selected"; }?>">
+			<a href="<?= $this->baseUrl(); ?>/invoices"><span><?= _t('Facturen') ?></span></a>
+			<ul>
+				<?php if( Utils::user()->can('invoice_edit') ): ?>
+                    <li><a href="<?= $this->baseUrl(); ?>/invoices/index/new"><?= _t('Nieuwe factuur maken') ?></a></li>
+                <?php endif; ?>
+				<li><a href="<?= $this->baseUrl(); ?>/invoices"><?= _t('Overzicht facturen') ?></a></li>
+                <!--<?php if( Utils::user()->can('invoice_edit') ): ?>
+                <li><a href="<?= $this->baseUrl(); ?>/invoices/index/new?credit=1"><?= _t('Nieuwe credit factuur') ?></a></li>
+                <?php endif; ?>
+                <li><a href="<?= $this->baseUrl(); ?>/invoices/?credit=1"><?= _t('Overzicht credit facturen') ?></a></li>
+                -->
+			</ul>
+		</li>
+        <?php endif; ?>
+
+        <?php if( Utils::user()->can('offer_view') ): ?>
+		<li class="icon13 sub <?php if($this->current_module == "offers"){ echo "selected"; }?>">
+		<a href="<?= $this->baseUrl(); ?>/offers"><span><?= _t('Offertes') ?></span></a>
+		<ul>
+            <?php if( Utils::user()->can('offer_edit') ): ?>
+			<li><a href="<?= $this->baseUrl(); ?>/offers/index/new"><?= _t('Nieuwe offerte maken') ?></a></li>
+            <?php endif; ?>
+			<li><a href="<?= $this->baseUrl(); ?>/offers"><?= _t('Overzicht offertes') ?></a></li>
+		</ul>                            
+		</li>
+        <?php endif; ?>
+
+        <?php if( Utils::user()->can('purchase_view') ): ?>
+		<li class="icon3 sub <?php if($this->current_module == "purchases"){ echo "selected"; }?>">
+			<a href="<?= $this->baseUrl(); ?>/purchases"><span><?= _t('Inkoop') ?></span></a>
+			<ul>
+                <?php if( Utils::user()->can('purchase_edit') && $has_permission ): ?>
+				<li><a href="<?= $this->baseUrl() . '/purchases/index/new'; ?>"><?= _t('Nieuwe inkoop maken') ?></a></li>
+                <?php endif; ?>
+				<li><a href="<?= $this->baseUrl() . '/purchases'; ?>"><?= _t('Overzicht inkoop') ?></a></li>
+			</ul>
+		</li>
+        <?php endif; ?>
+		<!--
+        <?php if( Utils::user()->can('stock_view') ): ?>
+		<li class="icon4 <?php if($this->current_module == "stock"){ echo "selected"; }?>"><a href="<?= $this->baseUrl(); ?>/stock"><span><?= _t('Voorraadbeheer') ?></span></a></li>
+        <?php endif; ?>-->
+		<!-- 
+		<li class="icon5"><a href="/contacts"><span><?= _t('Bestandsbeheer') ?></span></a></li>
+		!-->
+
+        <?php if( Utils::user()->can('contact_view') ): ?>
+		<li class="icon7 sub <?php if($this->current_module == "contacts"){ echo "selected"; }?>">
+            <a href="<?php echo $this->baseUrl()?>/contacts"><span><?= _t('Contacten') ?></span></a>
+            <ul>                                                   
+                <li><a href="<?= $this->baseUrl() . '/contacts'; ?>"><?= _t('Debiteuren') ?></a></li>
+                <?php if ( $has_permission ): ?>
+                <li><a href="<?= $this->baseUrl() . '/wholesalers'; ?>"><?= _t('Crediteuren') ?></a></li>
+                <?php endif; ?>
+            </ul>
+        </li>
+        <?php endif; ?>
+        <!--
+        <?php if( Utils::user()->can('employee_view') ): ?>
+		<li class="icon8 <?php if($this->current_module == "employees"){ echo "selected"; }?>"><a href="<?php echo $this->baseUrl()?>/employees"><span><?= _t('Werknemers') ?></span></a></li>
+        <?php endif; ?>
+            
+        <?php if( Utils::user()->can('wholesaler_view') ): ?>
+        <li class="icon7 <?php if($this->current_module == "wholesalers"){ echo "selected"; }?>"><a href="<?php echo $this->baseUrl()?>/wholesalers"><span><?= _t('Leveranciers') ?></span></a></li>
+        <?php endif; ?>
+        -->
+        <?php if( Utils::user()->can('report_view') ): ?>
+        <li class="icon10 <?php if($this->current_module == "reports"){ echo "selected"; }?>"><a href="<?php echo $this->baseUrl()?>/reports"><span><?= _t('Rapporten') ?></span></a></li>
+        <?php endif; ?>
+        <li class="icon12 <?php if($this->current_module == "settings"){ echo "selected"; }?>"><a href="<?php echo $this->baseUrl()?>/settings/contact"><span><?= _t('Instellingen') ?></span></a></li>
+		<!--  
+		<li class="icon9"><a href=""><span>Urenregistratie</span></a></li>
+		-->
+		<!-- <li class="icon10"><a href="<?= $this->baseUrl() ?>/reports"><span>Rapporten</span></a></li> -->
+		<!--
+		<?php if( Utils::user()->can('report_view') ): ?>
+		<li class="icon11 sub <?php if($this->current_module == "overige"){ echo "selected"; }?>"><a href="<?= $this->baseUrl(); ?>/overige"><span><?= _t('Overige') ?></span></a>
+            <ul>
+                <li><a href="<?= $this->baseUrl(); ?>/overige"><?= _t('Bankboek') ?></a></li>
+                <li><a href="<?= $this->baseUrl(); ?>/overige/kasboek"><?= _t('Kasboek') ?></a></li>
+            </ul>
+        </li>
+		<?php endif; ?>
+		-->
+		<li class="last btn"><a href="<?= $this->baseUrl() ?>/login/logout"><span><?= _t('Uitloggen') ?></span></a></li>
+	</ul>
+
+</div>

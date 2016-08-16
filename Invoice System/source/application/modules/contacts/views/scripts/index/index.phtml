@@ -1,0 +1,262 @@
+<div id="left">
+<?= $this->partial('index/_partials/contacts-sidebar.phtml', array('groups' => $this->groups, 'contacts' => $this->contacts)); ?>
+</div>
+
+<div id="right">
+	<div class="oerview_Box">
+		<h2><?= _t('Debiteur informatie') ?></h2>
+
+		<div id="contact-view-wrapper" class="info">
+			<div id="contact-view" style="display:none;">
+                <?= $this->partial('index/_partials/contact-view.phtml', array('contact' => $this->contact, 'groups' => $this->groups, 'employees' => $this->employees)) ?>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+        <div id="contact-edit-wrapper" class="info" style="display:none;">
+            <?= $this->partial('index/_partials/contact-edit.phtml', array('contact' => $this->contact)); ?>
+        </div>
+	</div>
+</div>
+<?= $this->partial('index/_partials/add-group-dialog.phtml', array('contact' => $this->contact)); ?>
+<?= $this->partial('index/_partials/contacts-import-dialog.phtml'); ?>
+
+<script type="text/javascript">
+
+    var contact_id = <?= $this->contact ? $this->contact->id : 0 ?>;
+
+    $(document).ready(function(){
+        //$('#contacts-import-link').fancybox();
+        $('#contact-view').hide().slideDown();
+        contacts_init_contacts_sidebar();
+        contacts_init_contact_view();
+
+        $('#add-group-dialog').submit(function(){
+           params = {};
+           params.name = $('#add-group-form input[name=name]').val();
+           params.contact = contact_id;
+
+           $.post(baseUrl + '/contacts/index/add-group/', params).success(function(data){
+               $.fancybox.close();
+               $('#contact-groups').html(data.contact_groups);
+               contacts_init_contact_view();
+               contacts_update_contacts_list();
+               $('#contact_group_id').change();
+           });
+           return false;
+        });
+		
+    });
+
+    function contacts_view_contact(id){
+        contact_id = id;
+        $.post(baseUrl + '/contacts/index/view-contact', {id:id}).success(function(data){
+            contacts_edit_cancel();
+            $('#contact-view').html(data.contact).hide().slideDown();
+            contacts_init_contact_view()
+        });
+    }
+
+    function contacts_filter_by_letter(letter){
+        var items = $('#contacts').find('.searchable');
+
+        items.hide();
+
+        var last_letter = null;
+        for( var i = 0; i <= items.length; i++ ){
+            var item = $(items[i]);
+            var word = item.find('.word');
+            if( word.length ){
+                last_letter = word.text().trim();
+            }
+
+            if( last_letter == letter ){
+                item.show();
+            }
+        }
+
+        showHideNoContacts(true);
+    }
+
+    function contacts_filter_by_group(group){
+        var all_items = $('#contacts').find('.searchable');
+        var group_items = $('#contacts').find('.searchable.contact-group-' + group);
+
+        all_items.hide();
+        group_items.show();
+        showHideNoContacts(true);
+    }
+
+    function contacts_search(text){
+        var items = $('#contacts').find('.searchable');
+
+        if( !text.length ){
+            items.show();
+            return;
+        }
+
+        items.hide();
+        for( var i = 0; i < items.length; i++ ){
+            var item = $(items[i]);
+            if( item.text().toLowerCase().indexOf(text.toLowerCase()) > -1 ){
+                item.show();
+            }
+        }
+
+        showHideNoContacts(false);
+    }
+
+    function showHideNoContacts(effect){
+        $('#contacts .scroll-pane').data('jsp').reinitialise();
+
+        if( $('#contacts li.searchable:visible').length == 0 ){
+            $('#contacts li.no-contacts').show()
+            if( effect ){
+                $('#contacts li.no-contacts').effect("highlight", {color:'#CCFFCC'}, 500)
+            }
+        }else{
+            $('#contacts li.no-contacts').hide();
+        }
+    }
+
+    function contacts_remove_contact_from_group(contact, group){
+        if( !confirm('<?= _t('Are you sure?') ?>')){
+            return;
+        }
+
+        $.post(baseUrl + '/contacts/index/remove-contact-from-group', {contact:contact, group:group}).success(function(data){
+            $('#contact-groups').html(data.contact_groups);
+            contacts_init_contact_view();
+            contacts_update_contacts_list();
+        });
+    }
+
+    function contacts_add_contact_to_group(contact, group){
+        if( group == 0 ){
+            alert('Gelieve een groep te selecteren!');
+            return;
+        }
+
+        $.post(baseUrl + '/contacts/index/add-contact-to-group', {contact:contact, group:group}).success(function(data){
+            $('#contact-groups').html(data.contact_groups);
+            contacts_init_contact_view();
+            contacts_update_contacts_list();
+        });
+    }
+
+    function contacts_remove_employee(contact, employee){
+        if( !confirm('<?= _t('Are you sure?') ?>') ){
+            return;
+        }
+
+        $.post(baseUrl + '/contacts/index/remove-contact-employee', {contact:contact, employee:employee}).success(function(data){
+            $('#contact-employees').html(data.contact_employees);
+            contacts_init_contact_view();
+            contacts_update_contacts_list();
+        });
+    }
+
+    function contacts_add_employee(contact, employee){
+        if( employee == 0 ){
+            alert('<?= _t('Please, select a employee!') ?>');
+            return;
+        }
+
+        $.post(baseUrl + '/contacts/index/add-contact-employee', {contact:contact, employee:employee}).success(function(data){
+            $('#contact-employees').html(data.contact_employees);
+            contacts_init_contact_view();
+            contacts_update_contacts_list();
+        });
+    }
+
+    function contacts_edit_contact(id){
+        $.post(baseUrl + '/contacts/index/edit-contact', {id:id}).success(function(data){
+            $('#contact-view-wrapper').hide();
+            $('#contact-edit-wrapper').html(data.contact_edit).slideDown(500);
+        })
+    }
+    
+    function contact_to_wholesaler(id){
+        $.post(baseUrl + '/contacts/index/makewholesaler', {id:id}).success(function(data){
+            window.location.href = '/wholesalers?wholesaler_id=' + data.wholesaler_id;        
+        })
+    }
+
+    function contacts_edit_cancel(){
+        if( $('#contact-edit-wrapper:visible').length > 0 ){
+            $('#contact-edit-wrapper').hide();
+            $('#contact-view-wrapper').slideDown(500);
+        }
+    }
+
+    function contacts_save_contact(){
+        var vat = $('[name="contact[vat_number]"]').val();
+        var is_valid = $('#contact_is_b2b').val();
+        if ( vat != "" && is_valid == 0 ) {
+            alert("U heeft een ongeldig BTW nummer ingegeven. Gelieve het BTW nummer aan te passen of het veld terug leeg te maken.");
+        } else {
+       	    $.post(baseUrl + '/contacts/index/save-contact', $('#contact-edit-form').serialize()).success(function(data){
+	   		    contacts_view_contact(data.id);
+          	    contacts_update_contacts_list();
+       	    });
+        }
+    }
+
+    function contacts_update_contacts_list(){
+        $.post(baseUrl + '/contacts/index/update-contacts-list').success(function(data){
+            $('#left').html(data.contacts_list);
+            contacts_init_contacts_sidebar();
+            $('#contacts .scroll-pane').jScrollPane();
+
+        });
+    }
+
+    function contacts_init_contacts_sidebar(){
+        $('#search').keyup(function(){
+            contacts_search($(this).val());
+        });
+
+        $('[name=group_id]').combobox({input_class:'round-drop-down'}).change(function(){
+            contacts_filter_by_group($(this).val());
+        });
+    }
+
+    function contacts_init_contact_view(){
+        $('[name=contact_group_id]').combobox({input_class:'round-drop-down'});
+        $('[name=employee_id]').combobox({input_class:'round-drop-down'});
+        $('#add-group-link').fancybox();
+        
+        $('#remove-group-link').hide();
+        $('#contact_group_id').change(function() {
+			if ($(this).val() != "0") {
+				show_remove_group_link();
+			} else {
+				hide_remove_group_link();
+			}
+		});
+    }
+    
+    function show_remove_group_link() {
+    	$('#add-group-link').parent().css("margin-top", "25px");
+		$('#remove-group-link').show();
+    }
+    function hide_remove_group_link() {
+		$('#add-group-link').parent().css("margin-top", "32px");
+		$('#remove-group-link').hide();
+    }
+	
+	function contacts_remove_contact_group() {
+	    params = {};
+		params.group = $('#contact_group_id').val();
+		params.contact = contact_id;
+		$.post(baseUrl + '/contacts/index/remove-group', params).success(function(data) {
+			if (data.contact_groups) {
+				$('#contact-groups').html(data.contact_groups);
+				contacts_init_contact_view();
+				contacts_update_contacts_list();
+			} else {
+				alert("<?= _t("Failed to remove group!") ?>");
+			}
+		});
+	}
+</script>

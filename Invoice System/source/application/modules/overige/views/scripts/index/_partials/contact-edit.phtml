@@ -1,0 +1,214 @@
+<style type="text/css">
+    .data .forminputfield {
+        margin-left:0px;
+    }
+
+    .data td {
+        height:42px;
+    }
+
+    .delivery {
+        display:none;
+    }
+</style>
+<div class="left status_Box" style="background-color:#F1F1F1;">
+    <div class="data">
+        <form id="contact-edit-form">
+        <input type="hidden" name="contact[id]" value="<?= $this->escape($this->contact->id); ?>" />
+        <table style="width:100%;">
+            <tr>
+                <td><?= _t('Company name') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="contact[company_name]" value="<?= $this->escape($this->contact->company_name); ?>" /></td>
+            </tr>
+            <tr>
+                <td style="width:120px;"><?= _t('Voornaam') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="contact[firstname]" value="<?= $this->escape($this->contact->firstname); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Achternaam') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" value="<?= $this->escape($this->contact->lastname); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('VAT number') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="contact[vat_number]" value="<?= $this->escape($this->contact->vat_number); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Adres') ?>:</td>
+                <td><input type="text" class="gray-input" style="width:260px;" name="contact[address]" value="<?= $this->escape($this->contact->address); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Postcode') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[postcode]" value="<?= $this->escape($this->contact->postcode); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Plaats') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[city]" value="<?= $this->escape($this->contact->city); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Land') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[country]" value="<?= $this->escape($this->contact->country); ?>" /></td>
+            </tr>
+            <!--<tr>
+                <td><?= _t('Afleveradres') ?>:</td>
+                <td style="line-height:29px;">
+                    <label class="label_check2">
+                    <input type="checkbox" name="delivery" <?= $this->contact->have_delivery ? 'checked="checked"' : '' ?> />
+                    </label>
+                    &nbsp;&nbsp;
+                    <?= _t('Use additional address for delivery') ?>
+                </td>
+            </tr>-->
+            <tr class="delivery">
+                <td style="padding-left:30px;"><?= _t('Voornaam') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[delivery_firstname]" value="<?= $this->escape($this->contact->delivery_firstname); ?>" /></td>
+            </tr>
+            <tr class="delivery">
+                <td style="padding-left:30px;"><?= _t('Achternaam') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[delivery_lastname]" value="<?= $this->escape($this->contact->delivery_lastname); ?>" /></td>
+            </tr>
+            <tr class="delivery">
+                <td style="padding-left:30px;"><?= _t('Adres') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[delivery_address]" value="<?= $this->escape($this->contact->delivery_address); ?>" /></td>
+            </tr>
+            <tr class="delivery">
+                <td style="padding-left:30px;"><?= _t('Postcode') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[delivery_postcode]" value="<?= $this->escape($this->contact->delivery_postcode); ?>" /></td>
+            </tr>
+            <tr class="delivery">
+                <td style="padding-left:30px;"><?= _t('Plaats') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[delivery_city]" value="<?= $this->escape($this->contact->delivery_city); ?>" /></td>
+            </tr>
+            <tr class="delivery">
+                <td style="padding-left:30px;"><?= _t('Land') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[delivery_country]" value="<?= $this->escape($this->contact->delivery_country); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('E-mailadres') ?></td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[email_address]" value="<?= $this->escape($this->contact->email_address); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Telefoonnummer 1') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[phone1]" value="<?= $this->escape($this->contact->phone1); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Telefoonnummer 2') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[phone2]" value="<?= $this->escape($this->contact->phone2); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('FAX') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[fax]" value="<?= $this->escape($this->contact->fax); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Gsm nummer') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[cellphone]" value="<?= $this->escape($this->contact->cellphone); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Contactpersoon') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[contact_person]" value="<?= $this->escape($this->contact->contact_person); ?>" /></td>
+            </tr>
+            <tr>
+                <td><?= _t('Functie') ?>:</td>
+                <td><input type="text"  class="gray-input" style="width:260px;" name="contact[role]" value="<?= $this->escape($this->contact->role); ?>" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top;"><?= _t('Openingsuren') ?>:</td>
+                <td></td>
+            </tr>
+
+            <? $days = array(_t('Maandag'), _t('Dinsdag'), _t('Woensdag'), _t('Donderdag'), _t('Vrijdag'), _t('Zaterdag'), _t('Zondag')); ?>
+            <?php foreach( $days as $index => $day ): ?>
+            <tr>
+                <td style="padding-left:20px;">
+                    <?= $this->escape($day) ?>
+                </td>
+                <td>
+
+
+                    <span style="line-height: 29px;">
+                            <input type="text" class="gray-input" style="width:32px;" name="days[<?= $index ?>][0]" value="<?= $this->escape($this->contact->days[$index][0]); ?>" />
+                            -
+                            <input type="text" class="gray-input" style="width:32px;" name="days[<?= $index ?>][1]" value="<?= $this->escape($this->contact->days[$index][1]); ?>" />
+                            <span>
+                                <label class="label_check2" style="float:none;display: inline-block;margin-bottom:-1px;">
+                                    <input type="checkbox" name="days[<?= $index ?>][2]" <?= !empty($this->contact->days[$index][2]) ? 'checked="checked"' : '' ; ?> />
+                                </label>
+                                <span style="vertical-align:bottom;"><?= _t('Gesloten') ?></span>
+                            </span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="text" class="gray-input" style="width:32px;" name="days[<?= $index ?>][3]" value="<?= $this->escape($this->contact->days[$index][3]); ?>" />
+                            -
+                            <input type="text" class="gray-input" style="width:32px;" name="days[<?= $index ?>][4]" value="<?= $this->escape($this->contact->days[$index][4]); ?>" />
+
+                            <span>
+                                <label class="label_check2" style="float:none;display: inline-block;margin-bottom:-1px;">
+                                    <input type="checkbox" name="days[<?= $index ?>][5]" <?= !empty($this->contact->days[$index][5]) ? 'checked="checked"' : '' ; ?> />
+                                </label>
+                                <span style="vertical-align:bottom;"<?= _t('Gesloten') ?></span>
+                            </span>
+
+                    </span>
+                    <br/>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+            <tr>
+                <td><?= _t('Extra informatie') ?>:</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="wysiwyg gray-input" style="height:120px;width:98%;"><?= Utils::strip_bad_tags($this->contact->info); ?></div>
+                    <textarea name="contact[info]" style="padding:10px;width:99%;height:120px;display:none;"><?= $this->escape($this->contact->info); ?></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <a href="javascript:;" onclick="contacts_save_contact();" class="link"><?= _t('Opslaan') ?></a>
+                </td>
+            </tr>
+        </table>
+        <br style="clear: both;" />
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.label_check, .label_radio,.label_check2,.label_check3').click(function(){
+        setupLabel('#contact-edit-form');
+    });
+    setupLabel('#contact-edit-form');
+
+    $('[name="contact[info]"]').parent().find('.wysiwyg').bind('hallomodified', function(){
+        $('[name="contact[info]"]').val($(this).html().trim());
+    }).hallo({
+        plugins: {
+            'halloformat': {},
+            'hallolink': {}
+        },
+        editable: true
+    });
+
+    function contacts_init_delivery(checked){
+        if( checked ){
+           $('.delivery').css('display', 'table-row');
+        }else{
+           $('.delivery').css('display', 'none');
+        }
+    }
+
+    $('[name="delivery"]').change(function(){
+        contacts_init_delivery(this.checked)
+    });
+
+    $('[name^=days]').blur(function(){
+        if( this.value.match(/^[0-9]{1,2}$/) ){
+            this.value = this.value + ':00';
+        }
+    });
+
+    <?php if( $this->contact->have_delivery ): ?>
+        contacts_init_delivery(true);
+    <?php endif; ?>
+
+</script>

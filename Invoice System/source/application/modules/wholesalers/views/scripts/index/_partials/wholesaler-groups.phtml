@@ -1,0 +1,49 @@
+<div style="margin: 11px 19px 17px 19px;">
+    <?php if( Utils::user()->can('wholesaler_edit') ): ?>
+    <h3><?= _t('Toevoegen aan crediteurgroep') ?></h3>
+    <?php else: ?>
+    <h3><?= _t('Crediteurgroep') ?></h3>
+    <?php endif; ?>
+    <?php if( !$this->wholesaler->groups ): ?>
+    <p><?= _t('Deze crediteur is niet gekoppeld aan &eacute;&eacute;n of meerdere crediteurgroepen.') ?></p>
+    <?php endif; ?>
+
+    <?php foreach( $this->wholesaler->groups as $wholesalerGroup ) : ?>
+    <p style="font-weight:bold;margin:0px;padding-bottom:5px;line-height: 18px;vertical-align: middle;">
+        <?= $this->escape($wholesalerGroup->name) ?>
+        <?php if( Utils::user()->can('wholesaler_edit') ): ?>
+        <span style="float:right;"><a href="javascript:;" onclick="wholesalers_remove_wholesaler_from_group(<?= $this->wholesaler->id . ', ' . $wholesalerGroup->id; ?>);" style="text-decoration:none;"><img style="display:inline;vertical-align:top;" src="<?= $this->baseUrl() . '/images/img3.jpg'; ?>" alt="<?= _t('Verwijderen') ?>" /></a></span>
+        <?php endif; ?>
+        <br style="clear:both;" />
+    </p>
+    <?php endforeach; ?>
+
+    <?php if( Utils::user()->can('wholesaler_edit') ): ?>
+    <p><?= _t('Toevoegen aan wholesalergroep') ?>:</p>
+    <select id="wholesaler_group_id" name="wholesaler_group_id" class="select">
+        <option value="0"><?= _t('Selecteer een wholesalergroep') ?></option>
+        <?php
+            foreach($this->groups as $group){
+                foreach( $this->wholesaler->groups as $wholesalerGroup ){
+                    if( $wholesalerGroup->id == $group->id ){
+                        continue 2;
+                    }
+                }
+        ?>
+        <option value="<?= $this->escape($group->id) ?>" <?= $this->selected_group && $this->selected_group == $group->id ? 'selected="selected"' : '' ?>><?= $this->escape($group->name) ?></option>
+        <?php } ?>
+    </select>
+
+    <div class="clear"></div>
+    <div style="float: left;">
+        <input type="button" onclick="wholesalers_add_wholesaler_to_group(<?= $this->wholesaler->id ?>, $('[name=wholesaler_group_id]').val());" value="<?= _t('Toevoegen') ?>" class="btn" />
+    </div>
+
+    <div style="float: left; margin-top: 32px; margin-left: 20px;">
+        <a id="add-group-link" href="#add-group-dialog" style="color:#666666;text-decoration:none;font-weight: bold;"><?= _t('Nieuwe groep') ?></a><br />
+		<a id="remove-group-link" href="javascript:;" style="color: #666666; text-decoration: none; font-weight: bold; display: none;" onclick="wholesalers_remove_wholesaler_group();"><?= _t('Verwijderen groep') ?></a>
+    </div>
+    <?php endif; ?>
+    <div class="clear"></div>
+
+</div>

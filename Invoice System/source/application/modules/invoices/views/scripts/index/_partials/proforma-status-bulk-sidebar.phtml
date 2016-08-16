@@ -1,0 +1,26 @@
+<div class="collapse">
+
+    <h2><span><?= _t('Offerte staat') ?><a class="i-down"></a></span></h2>
+
+    <div class="info">
+        <ul class="gap">
+            <li><a href="javascript:;" onclick="set_proformas_status('<?= InvoiceModel::PROFORMA_STATUS_OPEN ?>');"><?= _t('Openstaand') ?></a></li>
+            <li><a href="javascript:;" onclick="set_proformas_status('<?= InvoiceModel::PROFORMA_STATUS_ACCEPTED ?>');"><?= _t('Geaccepteerd') ?></a></li>
+            <li><a href="javascript:;" onclick="set_proformas_status('<?= InvoiceModel::PROFORMA_STATUS_DENIED ?>');"><?= _t('Geweigerd') ?></a></li>
+            <li><a href="javascript:;" onclick="set_proformas_status('<?= InvoiceModel::PROFORMA_STATUS_INVOICE ?>');"><?= _t('Gefactuurerd') ?></a></li>
+            <li><a href="javascript:;" onclick="set_proformas_status('<?= InvoiceModel::PROFORMA_STATUS_ARCHIVE ?>');"><?= _t('Gearchiveerd') ?></a></li>
+        </ul>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function set_proformas_status(status){
+        if( params = invoices_collect_checked() ){
+            $.post(baseUrl + '/invoices/index/bulk-proforma-status/status/' + status, params);
+        }else{
+            alert('<?= _t('Select at least one offer!') ?>');
+        }
+    }
+</script>

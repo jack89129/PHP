@@ -1,0 +1,33 @@
+<li class="product1" style="margin:0px;margin-bottom:2px;">
+    <input type="hidden" name="row[<?= $this->index; ?>]" value="<?= $this->index; ?>" />
+    <input type="hidden" name="ord[]" value="<?= $this->index; ?>" />
+
+    <div style="margin-left:10px;width:50px;">
+    <?php if( !$this->readonly ): ?>
+    <a href="javascript:;" onmouseup="setTimeout(pack_auto_save,0)" class="sorthandle"><img class="sort" src="<?= $this->baseUrl(); ?>/images/img2.jpg" alt="" /></a>
+    <a href="javascript:;" onclick="pack_remove_row(this)"><img class="del" src="<?= $this->baseUrl(); ?>/images/img3.jpg" alt="" /></a>
+    <?php endif; ?>
+    &nbsp;
+    </div>
+    <?php if( !$this->readonly ): ?>
+    <div class="first" style="width:400px;">
+        <div id="product_description_<?= $this->index ?>" class="wysiwyg gray-input" style="height:auto;width:80%;"><?= Utils::strip_bad_tags($this->product->description ? $this->product->description : '&nbsp;'); ?></div>
+        <input type="hidden" name="product[<?= $this->index ?>][description]" value="<?= $this->escape($this->product->description); ?>" />
+        <input type="hidden" name="product[<?= $this->index ?>][product_id]" value="<?= $this->escape($this->product->product_id); ?>" />
+    </div>
+    <?php else: ?>
+    <div class="first wysiwyg" style="width:400px;">
+        <?= Utils::strip_bad_tags($this->product->description); ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if( !$this->readonly ): ?>
+    <div class="second">
+        <input class="gray-input" style="width:40px;text-align:right;" type="text" name="product[<?= $this->index ?>][qty]" value="<?= $this->escape($this->product->qty); ?>" />
+    </div>
+    <?php else: ?>
+    <div class="second" style="text-align:right;width:50px;">
+        <?= $this->escape($this->product->qty); ?>
+    </div>
+    <?php endif; ?>
+</li>

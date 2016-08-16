@@ -1,0 +1,243 @@
+<div id="left">
+<?= $this->partial('index/_partials/wholesalers-sidebar.phtml', array('groups' => $this->groups, 'wholesalers' => $this->wholesalers)); ?>
+</div>
+
+<div id="right">
+	<div class="oerview_Box">
+		<h2><?= _t('Crediteur informatie') ?></h2>
+
+		<div id="wholesaler-view-wrapper" class="info">
+			<div id="wholesaler-view" style="display:none;">
+                <?= $this->partial('index/_partials/wholesaler-view.phtml', array('wholesaler' => $this->wholesaler, 'groups' => $this->groups)) ?>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+        <div id="wholesaler-edit-wrapper" class="info" style="display:none;">
+            <?= $this->partial('index/_partials/wholesaler-edit.phtml', array('wholesaler' => $this->wholesaler)); ?>
+        </div>
+	</div>
+</div>
+<?= $this->partial('index/_partials/add-group-dialog.phtml', array('wholesaler' => $this->wholesaler)); ?>
+<?= $this->partial('index/_partials/wholesalers-import-dialog.phtml'); ?>
+
+<script type="text/javascript">
+
+    var wholesaler_id = <?= $this->wholesaler ? $this->wholesaler->id : 0 ?>;
+
+    $(document).ready(function(){
+        $('#wholesalers-import-link').fancybox();
+        $('#wholesaler-view').hide().slideDown();
+        wholesalers_init_wholesalers_sidebar();
+        wholesalers_init_wholesaler_view();
+
+        $('#add-group-dialog').submit(function(){
+           params = {};
+           params.name = $('#add-group-form input[name=name]').val();
+           params.wholesaler = wholesaler_id;
+
+           $.post(baseUrl + '/wholesalers/index/add-group/', params).success(function(data){
+               $.fancybox.close();
+               $('#wholesaler-groups').html(data.wholesaler_groups);
+               wholesalers_init_wholesaler_view();
+               wholesalers_update_wholesalers_list();
+               $('#wholesaler_group_id').change();
+           });
+           return false;
+        });
+
+    });
+
+    function wholesalers_view_wholesaler(id){
+        wholesaler_id = id;
+        $.post(baseUrl + '/wholesalers/index/view-wholesaler', {id:id}).success(function(data){
+            wholesalers_edit_cancel();
+            $('#wholesaler-view').html(data.wholesaler).hide().slideDown();
+            wholesalers_init_wholesaler_view()
+        });
+    }
+
+    function wholesalers_filter_by_letter(letter){
+        var items = $('#wholesalers').find('.searchable');
+
+        items.hide();
+
+        var last_letter = null;
+        for( var i = 0; i <= items.length; i++ ){
+            var item = $(items[i]);
+            var word = item.find('.word');
+            if( word.length ){
+                last_letter = word.text().trim();
+            }
+
+            if( last_letter == letter ){
+                item.show();
+            }
+        }
+
+        showHideNoWholesalers(true);
+    }
+
+    function wholesalers_filter_by_group(group){
+        var all_items = $('#wholesalers').find('.searchable');
+        var group_items = $('#wholesalers').find('.searchable.wholesaler-group-' + group);
+
+        all_items.hide();
+        group_items.show();
+        showHideNoWholesalers(true);
+    }
+
+    function wholesalers_search(text){
+        var items = $('#wholesalers').find('.searchable');
+
+        if( !text.length ){
+            items.show();
+            return;
+        }
+
+        items.hide();
+        for( var i = 0; i < items.length; i++ ){
+            var item = $(items[i]);
+            if( item.text().toLowerCase().indexOf(text.toLowerCase()) > -1 ){
+                item.show();
+            }
+        }
+
+        showHideNoWholesalers(false);
+    }
+
+    function showHideNoWholesalers(effect){
+        $('#wholesalers .scroll-pane').data('jsp').reinitialise();
+
+        if( $('#wholesalers li.searchable:visible').length == 0 ){
+            $('#wholesalers li.no-wholesalers').show()
+            if( effect ){
+                $('#wholesalers li.no-wholesalers').effect("highlight", {color:'#CCFFCC'}, 500)
+            }
+        }else{
+            $('#wholesalers li.no-wholesalers').hide();
+        }
+    }
+
+    function wholesalers_remove_wholesaler_from_group(wholesaler, group){
+        if( !confirm('<?= _t('Are you sure?') ?>') ){
+            return;
+        }
+
+        $.post(baseUrl + '/wholesalers/index/remove-wholesaler-from-group', {wholesaler:wholesaler, group:group}).success(function(data){
+            $('#wholesaler-groups').html(data.wholesaler_groups);
+            wholesalers_init_wholesaler_view();
+            wholesalers_update_wholesalers_list();
+        });
+    }
+
+    function wholesalers_add_wholesaler_to_group(wholesaler, group){
+        if( group == 0 ){
+            alert('<?= _t('Please, select a group!') ?>');
+            return;
+        }
+
+        $.post(baseUrl + '/wholesalers/index/add-wholesaler-to-group', {wholesaler:wholesaler, group:group}).success(function(data){
+            $('#wholesaler-groups').html(data.wholesaler_groups);
+            wholesalers_init_wholesaler_view();
+            wholesalers_update_wholesalers_list();
+        });
+    }
+
+    function wholesalers_edit_wholesaler(id){
+        $.post(baseUrl + '/wholesalers/index/edit-wholesaler', {id:id}).success(function(data){
+            $('#wholesaler-view-wrapper').hide();
+            $('#wholesaler-edit-wrapper').html(data.wholesaler_edit).slideDown(500);
+            $('[name="wholesaler[expense_tag_id]"]').combobox();
+    
+            $('[name^="row"]').each(function(index, element){
+                wholesaler_init_product(element.value)
+            })
+        })
+    }
+    
+    function wholesaler_to_contact(id){
+        $.post(baseUrl + '/wholesalers/index/makecontact', {id:id}).success(function(data){
+              window.location.href = '/contacts?contact_id=' + data.contact_id;
+        })
+    }
+
+    function wholesalers_edit_cancel(){
+        if( $('#wholesaler-edit-wrapper:visible').length > 0 ){
+            $('#wholesaler-edit-wrapper').hide();
+            $('#wholesaler-view-wrapper').slideDown(500);
+        }
+    }
+
+    function wholesalers_save_wholesaler(){
+        var vat = $('[name="wholesaler[vat_number]"]').val();
+        var is_valid = $('#wholesaler_is_b2b').val();
+        if ( vat != "" && is_valid == 0 ) {
+            alert("U heeft een ongeldig BTW nummer ingegeven. Gelieve het BTW nummer aan te passen of het veld terug leeg te maken.");
+        } else {
+           $.post(baseUrl + '/wholesalers/index/save-wholesaler', $('#wholesaler-edit-form').serialize()).success(function(data){
+              wholesalers_view_wholesaler(data.id);
+              wholesalers_update_wholesalers_list();
+           });
+        }
+    }
+
+    function wholesalers_update_wholesalers_list(){
+        $.post(baseUrl + '/wholesalers/index/update-wholesalers-list').success(function(data){
+            $('#left').html(data.wholesalers_list);
+            wholesalers_init_wholesalers_sidebar();
+            $('#wholesalers .scroll-pane').jScrollPane();
+
+        });
+    }
+
+    function wholesalers_init_wholesalers_sidebar(){
+        $('#search').keyup(function(){
+            wholesalers_search($(this).val());
+        });
+
+        $('[name=group_id]').combobox({input_class:'round-drop-down'}).change(function(){
+            wholesalers_filter_by_group($(this).val());
+        });
+    }
+
+    function wholesalers_init_wholesaler_view(){
+        $('[name=wholesaler_group_id]').combobox({input_class:'round-drop-down'});
+        $('#add-group-link').fancybox();
+        
+        $('#remove-group-link').hide();
+        $('#wholesaler_group_id').change(function() {
+			if ($(this).val() != "0") {
+				show_remove_group_link();
+			} else {
+				hide_remove_group_link();
+			}
+		});
+    }
+	
+	function show_remove_group_link() {
+    	$('#add-group-link').parent().css("margin-top", "25px");
+		$('#remove-group-link').show();
+    }
+    function hide_remove_group_link() {
+		$('#add-group-link').parent().css("margin-top", "32px");
+		$('#remove-group-link').hide();
+    }
+	
+	function wholesalers_remove_wholesaler_group() {
+		params = {};
+		params.group = $('#wholesaler_group_id').val();
+		params.wholesaler = wholesaler_id;
+
+		$.post(baseUrl + '/wholesalers/index/remove-group/', params).success(function(data){
+			if (data.wholesaler_groups) {
+				$('#wholesaler-groups').html(data.wholesaler_groups);
+				wholesalers_init_wholesaler_view();
+				wholesalers_update_wholesalers_list();
+			} else {
+				alert("<?= _t("Failed to remove group!") ?>");
+			}
+		});
+	}
+
+</script>

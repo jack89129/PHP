@@ -1,0 +1,16 @@
+<IfModule mod_php5.c>
+php_value max_execution_time 60
+</IfModule>
+
+SetEnv APPLICATION_ENV production
+
+SetEnv SITE_ID 3
+RewriteEngine On
+RewriteBase /
+RewriteRule ^(js)/.*$ - [PT]
+RewriteRule ^(fonts)/.*$ - [PT]
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]

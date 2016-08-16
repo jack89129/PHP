@@ -1,0 +1,358 @@
+<style type="text/css">
+
+	/* SEARCH */
+	.search_box{
+		padding: 10px 10px 10px 10px;
+		overflow: hidden;
+		width: auto;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		background: white;
+	}
+	.search_box h2{
+		font-family: 'Lato', sans-serif;
+	}
+	.dropdown-search-box{
+		overflow: hidden;
+		margin-bottom: 10px;
+	}
+	.dropdown-search-content{
+		padding: 10px 10px 14px 8px;
+		margin: 0px 0 20px 0;
+		overflow: hidden;
+		-webkit-border-bottom-right-radius: 5px;
+		-webkit-border-bottom-left-radius: 5px;
+		-moz-border-radius-bottomright: 5px;
+		-moz-border-radius-bottomleft: 5px;
+		border-bottom-right-radius: 5px;
+		border-bottom-left-radius: 5px;
+		background: #efefef;
+		display:none;
+	}
+	.dropdown-search-box h2 a {
+		font-family: 'Lato', sans-serif;
+		text-decoration: none;
+		margin-right: 10px;
+		display: block;
+		background: url(/images/up.png) right center no-repeat;
+	}
+	.dropdown-search-box h2.active {
+		background: url(/images/tab-hover.jpg) left top repeat-x;
+		color: #3B6300;
+	}
+	.dropdown-search-box h2.active a {
+		text-decoration: none;
+		color: #777;
+		margin-right: 10px;
+		display: block;
+		background: url(/images/down1.png) right center no-repeat;
+	}
+	.dropdown-search-content .table-search{
+		margin-top: 0px;
+		width: 90%;
+		color: #666666;
+		font-family: 'Lato', sans-serif;
+	}
+	table.table-search{
+		margin-left: 2%;
+		margin-right: 5%;
+		border-collapse: collapse;
+	}
+	table.table-search thead tr.table-search-head {
+		padding: 10;
+		text-align: left;
+	}
+	table.table-search thead tr.table-search-head th{
+		border-bottom: 1px solid #cdcdcd;
+		font-weight: 400;
+	}
+	table.table-search tbody td.search-facturen{
+		background-image: url(/images/search-icon.png);
+		background-repeat: no-repeat;
+		background-position: left center;
+		display: inline-table;
+		width: 15px;
+	}
+	table.table-search tbody td{
+		font-weight: 700;
+	}
+	table.table-search tbody td a{
+		text-decoration: underline;
+		color: #666666;
+	}
+	table.table-search thead tr th.search-facturen-th{
+		border-bottom: none;
+	}
+	table.table-search tr {
+		height: 20px;
+	}
+	
+</style>
+<div class="sub">
+
+    <!-- START NEWS -->
+	<div class="search_box">                     
+		<h2><?= _t('Zoekresultaten') ."(" . $this->total . ")"; ?></h2>
+		<br />
+		<?php foreach ($this->result as $type): ?>
+		<div class="dropdown-search-box">
+			<h2><a href="#"><?= $this->escape($type['label']) . "(" . $type['count'] . ")" ?></a></h2>   
+			<div class="dropdown-search-content">
+			<?php if (!$type['result']): ?>
+				<div style="text-align:center;">No results!</div>
+			<?php else: ?>
+				<table class="table-search">
+				<thead>
+					<?php
+					switch ($type['type']) {
+						case 'invoice':
+							$hdr_first = _t('Factuurnummer');
+							$hdr_second = _t('Datum');
+							$hdr_third = _t('Debiteur');
+							$hdr_fourth = _t('Omschrijving');
+							$hdr_fifth = _t('Bedrag (excl. BTW)');
+							$hdr_sixth = _t('Bedrag (incl. BTW)');
+							break;
+						case 'offer':
+							$hdr_first = _t('Offertenummer');
+							$hdr_second = _t('Offertedatum');
+							$hdr_third = _t('Debiteur');
+							$hdr_fourth = _t('Omschrijving');
+							$hdr_fifth = _t('Bedrag (excl. BTW)');
+							$hdr_sixth = _t('Bedrag (incl. BTW)');
+							break;
+						case 'purchase':
+							$hdr_first = _t('Inkoop');
+							$hdr_second = _t('Inkoopdatum');
+							$hdr_third = _t('Inkoop vervaldatum');
+							$hdr_fourth = _t('Crediteur');
+							$hdr_fifth = _t('Bedrag (excl. BTW)');
+							$hdr_sixth = _t('Bedrag (incl. BTW)');
+							break;
+						case 'product':
+							$hdr_first = _t('Product');
+							$hdr_second = _t("Korte beschrijving");
+							$hdr_third = _t('Productgroep');
+							$hdr_fourth = _t('Status');
+							$hdr_fifth = _t('BTW');
+							$hdr_sixth = _t('Verkoopprijs');
+							break;
+						case 'contact':
+							$hdr_first = _t('Klant nummer');
+							$hdr_second = _t('Company name');
+							$hdr_third = _t('Voornaam');
+							$hdr_fourth = _t('Achternaam');
+							$hdr_fifth = _t('Adres');
+							$hdr_sixth = _t('Postcode en plaats');
+							break;
+						case 'wholesaler':
+							$hdr_first = _t('Company name');
+							$hdr_second = _t('VAT number');
+							$hdr_third = _t('Klantnummer');
+							$hdr_fourth = _t('Adres');
+							$hdr_fifth = _t('Postcode en plaats');
+							$hdr_sixth = _t('Land');
+							break;
+						case 'employee':
+							$hdr_first = _t('Username');
+							$hdr_second = _t('Voornaam');
+							$hdr_third = _t('Achternaam');
+							$hdr_fourth = _t('Adres');
+							$hdr_fifth = _t('Postcode en plaats');
+							$hdr_sixth = _t('Land');
+							break;
+                        case 'kasboek':
+                            $hdr_first = _t('Afschriftnummer');
+                            $hdr_second = _t('Datum');
+                            $hdr_third = _t('Startsaldo');
+                            $hdr_fourth = _t('Eindsaldo');
+                            $hdr_fifth = _t('');
+                            $hdr_sixth = _t('');
+                            break;
+					}
+					?>
+					<tr class="table-search-head">
+						<th class="search-facturen-th"></th>
+						<th><?= $hdr_first ?></th>
+						<th><?= $hdr_second ?></th>
+						<th><?= $hdr_third ?></th>
+						<th><?= $hdr_fourth ?></th>
+						<th><?= $hdr_fifth ?></th>
+						<th><?= $hdr_sixth ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					$name = "";
+					foreach ($type['result'] as $result) {
+						switch ($type['type']) {
+							case 'invoice':
+								$first = '<a href="' . $this->baseUrl() . '/invoices/index/view/id/' . $result->id . '">' . $this->escape($result->number) . '</a>';
+								$second = $this->escape(date(Constants::DATE_FORMAT, $result->invoice_time));
+								$third = $result->contact ? $result->contact->name : '';
+								$fourth = strip_tags($result->info);
+								$fifth = "&euro; " . Utils::numberFormat($result->total_excl_vat);
+								$sixth = "&euro; " . Utils::numberFormat($result->total_sum);
+								break;
+							case 'offer':
+								$first = '<a href="' . $this->baseUrl() . '/offers/index/view/id/' . $result->id . '">' . $this->escape($result->number) . '</a>';
+								$second = $this->escape(date(Constants::DATE_FORMAT, $result->invoice_time));
+								$third = $result->contact ? $result->contact->name : '';
+								$fourth = strip_tags($result->info);
+								$fifth = "&euro; " . Utils::numberFormat($result->total_excl_vat);
+								$sixth = "&euro; " . Utils::numberFormat($result->total_sum);
+								break;
+							case 'purchase':
+								$first = '<a href="' . $this->baseUrl() . '/purchases/index/view/id/' . $result->id . '">' . $this->escape($result->number) . '</a>';
+								$second = $this->escape(date(Constants::DATE_FORMAT, $result->invoice_time));
+								$third = $this->escape(date(Constants::DATE_FORMAT, $result->expire_time));
+								$fourth = $this->escape($result->contact ? $result->contact->name : '');
+								$fifth = "&euro; " . Utils::numberFormat($result->total_excl_vat);
+								$sixth = "&euro; " . Utils::numberFormat($result->total_sum);
+								break;
+							case 'product':
+								$first = '<a href="' . $this->baseUrl() . '/stock/?product_id=' . $result->id . '">' . $this->escape($result->name) . '</a>';
+								$second = $this->escape($result->short_description);
+								$third = $this->escape($result->group->name);
+								$fourth = $result->isActive() ? 'Actief' : 'Inactief';
+								$autovat = $result->income_tag ? $result->income_tag->vat : null;
+								$autovat = !$autovat && $result->income_tag && $result->income_tag->category ? $result->income_tag->category->vat : $autovat;
+								$autovat = !$autovat ? '' : ' (' . $autovat . '%)';
+								$fifth = $result->vat ? $this->escape($result->vat) . '%' : _t('By category') . $autovat;
+								$sixth = "&euro; " . Utils::numberFormat($result->price);
+								break;
+							case 'contact':
+								$first = '<a href="' . $this->baseUrl() . '/contacts/?contact_id=' . $result->id . '">' . $this->escape($result->number) . '</a>';
+								$second = $this->escape($result->company_name);
+								$third = $this->escape($result->firstname);
+								$fourth = $this->escape($result->lastname);
+								$fifth = $this->escape($result->address);
+								$sixth = $this->escape($result->postcode) . " " . $this->escape($result->city);
+								break;
+							case 'wholesaler':
+								$first = '<a href="' . $this->baseUrl() . '/wholesalers/?wholesaler_id=' . $result->id . '">' . $this->escape($result->company_name) . '</a>';
+								$second = $this->escape($result->vat_number);
+								$third = $this->escape($result->client_number);
+								$fourth = $this->escape($result->address);
+								$fifth = $this->escape($result->postcode) . " " . $this->escape($result->city);
+								$sixth = $this->escape($result->country);
+								break;
+							case 'employee':
+								$first = '<a href="' . $this->baseUrl() . '/employees/?employee_id=' . $result->id . '">' . $this->escape($result->username) . '</a>';
+								$second = $this->escape($result->firstname);
+								$third = $this->escape($result->lastname);
+								$fourth = $this->escape($result->address);
+								$fifth = $this->escape($result->postcode) . " " . $this->escape($result->city);
+								$sixth = $this->escape($result->country);
+								break;
+                            case 'kasboek':
+                                $first = '<a href="' . $this->baseUrl() . '/overige/?kas_date=' . $result->kas_date . '">' . $this->escape($result->afsch) . '</a>';
+                                $second = $this->escape($result->kas_date);
+                                $third = '€ '.$this->escape(Utils::numberFormat($result->before_amount));
+                                $fourth = '€ '.$this->escape(Utils::numberFormat($result->amount));
+                                $fifth = '';
+                                $sixth = '';
+                                break;
+						}
+					?>
+					<tr>
+						<td><a href="#"><img src="/images/search-icon.png" /></a></td>
+						<td><?= $first ?></td>
+						<td><?= $second ?></td>
+						<td><?= $third ?></td>
+						<td><?= $fourth ?></td>
+						<td><?= $fifth ?></td>
+						<td><?= $sixth ?></td>
+					</tr>
+					<?php
+					}
+					?>
+				</tbody>
+				</table>
+			<?php endif; ?>
+			
+			</div>               
+			<div class="clear"></div>
+		</div>  
+		<?php endforeach; ?>
+	</div>
+	<!--
+	<div class="fix">
+        <h2><?= _t('Zoekresultaat') ?></h2>
+        <br/>
+
+        <?php
+            $index = 0;
+            foreach( $this->result as $type ){
+                $index++;
+
+                echo '<div style="float:left;width:22%;padding:10px;">';
+                echo    '<h3 style="text-align: center;">', $this->escape($type['label']), '</h3><br/>';
+
+                if( !$type['result'] ){
+                    echo '<div style="text-align:center;">No results!</div>';
+                }
+
+                foreach( $type['result'] as $result ){
+                    switch( $type['type'] ){
+                        case 'invoice':
+                            echo '<div><a href="', $this->baseUrl(), '/invoices/index/view/id/', $result->id, '">', $this->escape($result->number), '</a></div>';
+                            break;
+
+                        case 'offer':
+                            echo '<div><a href="', $this->baseUrl(), '/offers/index/view/id/', $result->id, '">', $this->escape($result->number), '</a></div>';
+                            break;
+
+                        case 'purchase':
+                            echo '<div><a href="', $this->baseUrl(), '/purchases/index/view/id/', $result->id, '">', $this->escape($result->number), '</a></div>';
+                            break;
+
+                        case 'product':
+                            echo '<div><a href="', $this->baseUrl(), '/stock/?product_id=', $result->id, '">', $this->escape($result->name), '</a></div>';
+                            break;
+
+                        case 'contact':
+                            echo '<div><a href="', $this->baseUrl(), '/contacts/?contact_id=', $result->id, '">', $this->escape($result->name), '</a></div>';
+                            break;
+
+                        case 'wholesaler':
+                            echo '<div><a href="', $this->baseUrl(), '/wholesalers/?wholesaler_id=', $result->id, '">', $this->escape($result->name), '</a></div>';
+                            break;
+
+                        case 'employee':
+                            echo '<div><a href="', $this->baseUrl(), '/employees/?employee_id=', $result->id, '">', $this->escape($result->name), '</a></div>';
+                            break;
+                    }
+                }
+
+                echo '</div>';
+
+                if( $index % 4 == 0 ){
+                    echo '<br style="clear:both;" /><br/><br/>';
+                }
+            }
+        ?>
+
+        <br style="clear: both;" />
+
+    </div>
+	-->
+	
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		$('.dropdown-search-box h2 a').live('click', function() {
+			var alreadyactive = false;
+			if ($(this).parent().hasClass('active')) alreadyactive = true;
+			$('.dropdown-search-box h2.active').parent().find('div.dropdown-search-content').slideUp();
+			$('div.dropdown-search-content').removeClass('active');
+			$('.dropdown-search-box h2').removeClass('active');
+			if (alreadyactive) return false;
+			$(this).parent().parent().find('div.dropdown-search-content').slideDown();
+			$(this).parent().parent().find('div.dropdown-search-content').addClass('active');
+			$(this).parent().addClass('active');
+		});	
+	});		
+</script>

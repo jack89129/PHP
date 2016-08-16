@@ -1,0 +1,226 @@
+<div id="left">
+<?= $this->partial('index/_partials/employees-sidebar.phtml', array('groups' => $this->groups, 'employees' => $this->employees)); ?>
+</div>
+
+<div id="right">
+	<div class="oerview_Box">
+		<h2><?= _t('Werknemer informatie') ?></h2>
+
+		<div id="employee-view-wrapper" class="info">
+			<div id="employee-view" style="display:none;">
+                <?= $this->partial('index/_partials/employee-view.phtml', array('employee' => $this->employee, 'groups' => $this->groups)) ?>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+        <div id="employee-edit-wrapper" class="info" style="display:none;">
+            <?= $this->partial('index/_partials/employee-edit.phtml', array('employee' => $this->employee)); ?>
+        </div>
+	</div>
+</div>
+<?= $this->partial('index/_partials/add-group-dialog.phtml', array('employee' => $this->employee)); ?>
+
+<script type="text/javascript">
+
+    var employee_id = <?= $this->employee ? $this->employee->id : 0 ?>;
+
+    $(document).ready(function(){
+        $('#employee-view').hide().slideDown();
+        employees_init_employees_sidebar();
+        employees_init_employee_view();
+
+        $('#add-group-dialog').submit(function(){
+           params = {};
+           params.name = $('#add-group-form input[name=name]').val();
+           params.employee = employee_id;
+
+           $.post(baseUrl + '/employees/index/add-group/', params).success(function(data){
+               $.fancybox.close();
+               $('#employee-groups').html(data.employee_groups);
+               employees_init_employee_view();
+               employees_update_employees_list();
+               $('#employee_group_id').change();
+           });
+           return false;
+        });
+
+    });
+
+    function employees_view_employee(id){
+        employee_id = id;
+        $.post(baseUrl + '/employees/index/view-employee', {id:id}).success(function(data){
+            employees_edit_cancel();
+            $('#employee-view').html(data.employee).hide().slideDown();
+            employees_init_employee_view()
+        });
+    }
+
+    function employees_filter_by_letter(letter){
+        var items = $('#employees').find('.searchable');
+
+        items.hide();
+
+        var last_letter = null;
+        for( var i = 0; i <= items.length; i++ ){
+            var item = $(items[i]);
+            var word = item.find('.word');
+            if( word.length ){
+                last_letter = word.text().trim();
+            }
+
+            if( last_letter == letter ){
+                item.show();
+            }
+        }
+
+        showHideNoEmployees(true);
+    }
+
+    function employees_filter_by_group(group){
+        var all_items = $('#employees').find('.searchable');
+        var group_items = $('#employees').find('.searchable.employee-group-' + group);
+
+        all_items.hide();
+        group_items.show();
+        showHideNoEmployees(true);
+    }
+
+    function employees_search(text){
+        var items = $('#employees').find('.searchable');
+
+        if( !text.length ){
+            items.show();
+            return;
+        }
+
+        items.hide();
+        for( var i = 0; i < items.length; i++ ){
+            var item = $(items[i]);
+            if( item.text().toLowerCase().indexOf(text.toLowerCase()) > -1 ){
+                item.show();
+            }
+        }
+
+        showHideNoEmployees(false);
+    }
+
+    function showHideNoEmployees(effect){
+        $('#employees .scroll-pane').data('jsp').reinitialise();
+
+        if( $('#employees li.searchable:visible').length == 0 ){
+            $('#employees li.no-employees').show()
+            if( effect ){
+                $('#employees li.no-employees').effect("highlight", {color:'#CCFFCC'}, 500)
+            }
+        }else{
+            $('#employees li.no-employees').hide();
+        }
+    }
+
+    function employees_remove_employee_from_group(employee, group){
+        if( !confirm('<?= _t('Are you sure?') ?>') ){
+            return;
+        }
+
+        $.post(baseUrl + '/employees/index/remove-employee-from-group', {employee:employee, group:group}).success(function(data){
+            $('#employee-groups').html(data.employee_groups);
+            employees_init_employee_view();
+            employees_update_employees_list();
+        });
+    }
+
+    function employees_add_employee_to_group(employee, group){
+        if( group == 0 ){
+            alert('<?= _t('Please, select a group!') ?>');
+            return;
+        }
+
+        $.post(baseUrl + '/employees/index/add-employee-to-group', {employee:employee, group:group}).success(function(data){
+            $('#employee-groups').html(data.employee_groups);
+            employees_init_employee_view();
+            employees_update_employees_list();
+        });
+    }
+
+    function employees_edit_employee(id){
+        $.post(baseUrl + '/employees/index/edit-employee', {id:id}).success(function(data){
+            $('#employee-view-wrapper').hide();
+            $('#employee-edit-wrapper').html(data.employee_edit).slideDown(500);
+        })
+    }
+
+    function employees_edit_cancel(){
+        if( $('#employee-edit-wrapper:visible').length > 0 ){
+            $('#employee-edit-wrapper').hide();
+            $('#employee-view-wrapper').slideDown(500);
+        }
+    }
+
+    function employees_save_employee(){
+       $.post(baseUrl + '/employees/index/save-employee', $('#employee-edit-form').serialize()).success(function(data){
+           employees_view_employee(data.id);
+           employees_update_employees_list();
+       });
+    }
+
+    function employees_update_employees_list(){
+        $.post(baseUrl + '/employees/index/update-employees-list').success(function(data){
+            $('#left').html(data.employees_list);
+            employees_init_employees_sidebar();
+            $('#employees .scroll-pane').jScrollPane();
+
+        });
+    }
+
+    function employees_init_employees_sidebar(){
+        $('#search').keyup(function(){
+            employees_search($(this).val());
+        });
+
+        $('[name=group_id]').combobox({input_class:'round-drop-down'});
+
+        $('[name=group_id]').change(function(){
+            employees_filter_by_group($(this).val());
+        });
+    }
+
+    function employees_init_employee_view(){
+        $('[name=employee_group_id]').combobox({input_class:'round-drop-down'});
+        $('#add-group-link').fancybox();
+        
+        $('#remove-group-link').hide();
+        $('#employee_group_id').change(function() {
+			if ($(this).val() != "0") {
+				show_remove_group_link();
+			} else {
+				hide_remove_group_link();
+			}
+		});
+    }
+    
+    function show_remove_group_link() {
+    	$('#add-group-link').parent().css("margin-top", "25px");
+		$('#remove-group-link').show();
+    }
+    function hide_remove_group_link() {
+		$('#add-group-link').parent().css("margin-top", "32px");
+		$('#remove-group-link').hide();
+    }
+    
+    function employees_remove_employee_group() {
+		params = {};
+		params.group = $('#employee_group_id').val();
+		params.employee = employee_id;
+
+		$.post(baseUrl + '/employees/index/remove-group/', params).success(function(data){
+			if (data.employee_groups) {
+				$('#employee-groups').html(data.employee_groups);
+				employees_init_employee_view();
+				employees_update_employees_list();
+			} else {
+				alert("<?= _t("Failed to remove group!") ?>");
+			}
+		});
+    }
+
+</script>

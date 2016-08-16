@@ -1,0 +1,178 @@
+<html>
+<head>
+    <title><?= _t('Paklijst') ?></title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+    <style type="text/css">
+        body {
+            width:800px;
+            font-family: DejaVuSans, Tahoma, Verdana;
+            font-size: 12px;
+            padding:0px;
+            margin:auto;
+            color: #666666;
+        }
+
+        table td {
+            vertical-align:top;
+        }
+
+        .invoice-view-table {
+            width: 100%;
+            border-spacing: 0;
+            font-weight: bold;
+        }
+
+        .invoice-view-table th {
+            background-color: #E61F26; /*#67BF3B*/
+            color: #ffffff;
+            /*text-shadow: 2px 1px 0px #4F922D;*/
+            height: 41px;
+            font-size:12px;
+        }
+
+        .invoice-view-table th:first-child {
+            border-radius: 5px 0px 0px 0px;
+        }
+
+        .invoice-view-table th:last-child {
+            border-radius: 0px 5px 0px 0px;
+        }
+
+        .invoice-view-table td {
+            height: 32px;
+            drop-shadow: 0px 1px 1px #ffffff;
+            font-size:12px;
+            vertical-align:middle;
+        }
+
+        td.itd-qty,th.ith-qty {
+            width: 90px;
+            text-align: right;
+            padding-right: 50px;
+        }
+
+
+        td.itd-description, th.ith-description {
+            padding-left:20px;
+            text-align:left;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<table style="width:100%;">
+    <tr>
+        <td style="width:50%;">
+            <?php if( $this->providerLogo()->exists() ): ?>
+            <img src="<?= $this->providerLogo()->url(); ?>" alt="" /> <?php endif; ?>
+            <br/>
+            <br/>
+            <h2><?= _t('werknemer') ?>:</h2>
+            <br/>
+            <p>
+                <?php if( $this->pack->employee ): ?>
+                <?= $this->escape($this->pack->employee->name); ?>
+                <?php endif; ?>
+            </p>
+        </td>
+        <td style="width:50%;">
+            <div style="height:10px;">&nbsp;</div>
+            <table align="right">
+                <tr>
+                    <td style="width:60px;color:#AED1E0;font-size:10px;line-height:16px;"><?= _t('adres') ?></td><td style="font-size:10px;line-height:16px;width:160px;color:#BCC0C2;"><?= nl2br($this->escape(SettingsModel::getInvoiceProviderAddress())); ?></td>
+                    <td style="width:80px;color:#AED1E0;font-size:10px;line-height:16px;"><?= _t('tel') ?></td><td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape(SettingsModel::getInvoiceProviderPhone()); ?></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                    <td style="color:#AED1E0;font-size:10px;line-height:16px;"><?= _t('Mail') ?></td><td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape(SettingsModel::getInvoiceProviderEmail()); ?></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                    <td style="color:#AED1E0;font-size:10px;line-height:16px;"><?= _t('Website') ?></td><td><a style="text-decoration:none;color:#858C8F;font-size:10px;" href="http://<?= $this->escape(SettingsModel::getInvoiceProviderWebsite()); ?>"><?= $this->escape(SettingsModel::getInvoiceProviderWebsite()); ?></a></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                    <td><br/></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                    <td style="color:#AED1E0;font-size:10px;line-height:16px;"><?= _t('bank no') ?></td><td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= nl2br($this->escape(SettingsModel::getInvoiceProviderBankNumber())); ?></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                    <td><br/></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                    <td style="color:#AED1E0;font-size:10px;line-height:16px;"><?= _t('kvk nr.') ?></td><td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape(SettingsModel::getInvoiceProviderKVK()); ?></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                    <td style="color:#AED1E0;font-size:10px;line-height:16px;"><?= _t('btw nr.') ?></td><td style="color:#BCC0C2;font-size:10px;line-height:16px;"><?= $this->escape(SettingsModel::getInvoiceProviderBTW()); ?></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+<br/>
+<br/>
+
+<table style="width:100%">
+    <tr>
+        <td>
+
+            <table style="width:100%;">
+                <tr>
+                    <td><h4 style="color:#999999;font-size:11px;"><?= _t('paklijstnummer') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                    <td><h4 style="color:#999999;font-size:11px;"><?= _t('paklijst datum') ?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></td>
+                </tr>
+                <tr>
+                    <td style="color:#000000;font-size:10px;"><?= $this->escape($this->pack->number) ?></td>
+                    <td style="color:#000000;font-size:10px;"><?= date(Constants::DATE_FORMAT, $this->pack->created_time) ?></td>
+                </tr>
+
+            </table>
+        </td>
+        <td style="text-align:right;">
+
+        </td>
+    </tr>
+</table>
+
+    <?php if( $this->pack->info ): ?>
+    <br/>
+    <div>
+        <?= Utils::strip_bad_tags($this->pack->info); ?>
+    </div>
+
+    <?php endif; ?>
+
+<br/>
+<br/>
+
+<table class="invoice-view-table" cellspacing="0">
+    <thead>
+    <tr>
+        <th class="ith-description"><?= _t('Omschrijving') ?></th>
+        <th class="ith-qty"><?= _t('Aantal') ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach( $this->pack->products as $product ): ?>
+        <?= $this->partial('pack/pdf/pack-row.phtml', array('product' => $product)); ?>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<br style="clear:both;" />
+
+</body>
+</html>

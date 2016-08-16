@@ -1,0 +1,147 @@
+<!doctype html>
+<head>
+	
+	<?php echo $this->headTitle() ?> 
+    <?php echo $this->headMeta() ?>
+
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+	<meta name="keywords" content="key, words" />	
+	<meta name="description" content="website description goes here" />
+	<meta name="robots" content="noindex, nofollow" />
+	
+	<?php 
+		$this->headLink()
+            ->prependStylesheet($this->baseUrl().'/css/font-awesome/css/font-awesome.css')
+            ->prependStylesheet($this->baseUrl().'/css/hallo.css')
+            ->prependStylesheet($this->baseUrl().'/css/changes.css')
+            ->prependStylesheet($this->baseUrl().'/css/jquery.combobox.css')
+			->prependStylesheet($this->baseUrl().'/fancybox/jquery.fancybox-1.3.4.css')
+			->prependStylesheet($this->baseUrl().'/css/jquery-ui/green/jquery.ui.theme.css')
+			->prependStylesheet($this->baseUrl().'/css/jquery-ui/green/jquery-ui.css')
+			->prependStylesheet($this->baseUrl().'/css/statistic.css')
+			->prependStylesheet($this->baseUrl().'/css/calendar-slider.css')
+			->prependStylesheet($this->baseUrl().'/css/treeview.css')
+			->prependStylesheet($this->baseUrl().'/css/stylesheet.css')
+			->prependStylesheet($this->baseUrl().'/css/style.css')
+			->prependStylesheet($this->baseUrl().'/css/style2.css')
+			->prependStylesheet($this->baseUrl().'/css/jquery.cursorMessage.css')
+			->prependStylesheet($this->baseUrl().'/css/kasboek.css')
+            ->prependStylesheet($this->baseUrl().'/colorpicker/css/colorpicker.css');
+
+		$this->headScript()
+            ->prependFile($this->baseUrl().'/js/settings.js')
+            ->prependFile($this->baseUrl().'/colorpicker/js/colorpicker.js')
+            ->prependFile($this->baseUrl().'/ckeditor/ckeditor.js')
+			->prependFile($this->baseUrl().'/js/kasboek.js')
+			->prependFile($this->baseUrl().'/js/rangy-core.js')
+			->prependFile($this->baseUrl().'/js/hallo.js')
+			->prependFile($this->baseUrl().'/js/avaxo_base.js')
+			->prependFile($this->baseUrl().'/js/avaxo_sideboxes.js')
+			->prependFile($this->baseUrl().'/js/json_encode.js')
+			->prependFile($this->baseUrl().'/js/json_decode.js')
+			->prependFile($this->baseUrl().'/js/jquery.elastic.js')
+			->prependFile($this->baseUrl().'/js/jquery.combobox.js')
+			->prependFile($this->baseUrl().'/js/jquery.validate.js')
+			->prependFile($this->baseUrl().'/js/jquery.excanvas.js')
+			->prependFile($this->baseUrl().'/js/jquery.circular2.js')
+			->prependFile($this->baseUrl().'/js/jquery.circular.js')
+			->prependFile($this->baseUrl().'/js/jquery.metadata.js')
+			->prependFile($this->baseUrl().'/js/jquery.calendar.js')
+			->prependFile($this->baseUrl().'/js/jquery.treecookie.js')
+			->prependFile($this->baseUrl().'/js/jquery.treeview.js')
+			->prependFile($this->baseUrl().'/js/jquery.jscrollpane.min.js')
+			->prependFile($this->baseUrl().'/fancybox/jquery.fancybox-1.3.4.pack.js')
+			->prependFile($this->baseUrl().'/js/jquery.select.js')
+			->prependFile($this->baseUrl().'/js/jquery.styles.js')
+			->prependFile($this->baseUrl().'/js/jquery.mousewheel.js')
+			->prependFile($this->baseUrl().'/js/jquery.cursorMessage.js')
+			->prependFile($this->baseUrl().'/js/jquery.ui.js')
+			->prependFile($this->baseUrl().'/js/jquery.min.js');
+
+        echo $this->headLink();
+        echo $this->headScript();
+    ?>
+
+    <script type="text/javascript">
+    	var baseUrl = <?= json_encode($this->baseUrl()); ?>;
+        $.datepicker.regional.nl = {
+            closeText: 'Sluiten',
+            prevText: '←',
+            nextText: '→',
+            currentText: 'Vandaag',
+            monthNames: ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni',
+                'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'],
+            monthNamesShort: ['Jan', 'Feb', 'Maa', 'Apr', 'Mei', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
+            dayNames: ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
+            dayNamesShort: ['Zon', 'Maa', 'Din', 'Woe', 'Don', 'Vri', 'Zat'],
+            dayNamesMin: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
+            dateFormat: 'dd/mm/yy', firstDay: 1,
+            isRTL: false};
+        $.datepicker.setDefaults($.datepicker.regional.nl);
+    </script>
+</head>
+
+<body>
+
+<!-- START WRAPPER -->
+<div id="wrapper">
+	
+	<!-- START LAYOUT -->
+	<div id="layout">
+		<!-- START HEADER -->
+		<div id="header">
+		
+			<!-- Page title -->
+			<div class="logo">
+				<h1>
+				<?php echo $this->page_title;?>
+                <!--
+                <?php if ( $this->page_sub_title != "" ): ?>
+				<span><?php echo $this->page_sub_title;?></span>
+                <?php endif; ?>
+                -->
+				</h1>
+			</div>
+		
+		
+			<!-- Menu -->
+			<?php echo $this->partial('menu.phtml', array('current_module' => $this->current_module));?>		
+			
+			<div id="navigation">
+				<?php echo $this->render('menu_navigation.phtml'); ?>
+			</div>
+			
+		</div>
+		<!-- END HEADER -->
+		
+		
+		<div id="content">
+			<?php echo $this->layout()->content ?>
+		</div>		
+        
+	</div>
+	<!-- END LAYOUT -->   
+
+	<?php //echo $this->partial('bottom-window.phtml', array('current_module' => $this->current_module));?>
+
+    <?php //echo $this->placeholder('stock-bottom-window') ?>
+	<?php echo $this->render('stock-bottom-window.phtml'); ?>
+	
+</div>
+<!-- END WRAPPER -->
+
+<!-- START FOOTER-->
+<div id="footer">
+    <span>Copyright &copy; 2013 Simpel Facturatie</span>
+</div>
+<!-- // END FOOTER -->
+
+<?php //echo $this->partial('left-window.phtml', array('current_module' => $this->current_module)); ?>
+<?php //echo $this->partial('right-window.phtml', array('current_module' => $this->current_module)); ?>
+
+
+</body>
+
+</html>

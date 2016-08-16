@@ -1,0 +1,956 @@
+			
+			<!-- START NAVIGATION -->
+			<div id="navigation">
+				
+                <div class="form">
+                	
+                    <form action="#">
+                    	<fieldset>
+                        	
+                            <input type="button" class="btn" />
+                            
+                            <input type="text" onblur="if (this.value == '') {this.value = 'Trefwoord';}" onfocus="if(this.value == 'Trefwoord') {this.value = '';}" value="Trefwoord" class="field" />
+                        	
+                            <a href="preferences.php" class="setting">setting</a>
+                            
+                        </fieldset>
+                    </form>
+                
+                </div>
+
+				<ul>
+					<li><a href="javascript:;" onclick="changeCal($(this), 'd', 1);"><span>Dag</span></a></li>
+					<li><a href="javascript:;" onclick="changeCal($(this), 'w', 1);"><span>Week</span></a></li>
+					<li class="selected"><a href="javascript:;" onclick="changeCal($(this), 'm', 1);"><span>Maand</span></a></li>
+				</ul>
+                
+			</div>
+			<!-- END NAVIGATION -->
+
+<!--		</div>-->
+		<!-- END HEADER -->
+		
+
+			<!-- START LEFT -->
+			<div id="left">
+
+				<!-- START MONTH -->
+				<div class="month_Box">
+
+                    <h2>Maandkalender</h2>
+                	
+                	<div class="calendar-slider">
+                	
+						<div>
+						
+							<div class="name">
+								
+								<h3>januari 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+						<div>
+						
+							<div class="name">
+								
+								<h3>februari 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+						<div>
+						
+							<div class="name">
+								
+								<h3>maart 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+						<div>
+						
+							<div class="name">
+								
+								<h3>april 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+						<div>
+						
+							<div class="name">
+								
+								<h3>mei 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+						<div>
+						
+							<div class="name">
+								
+								<h3>juni 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+						<div>
+						
+							<div class="name">
+								
+								<h3>juli 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+						<div>
+						
+							<div class="name">
+								
+								<h3>augustus 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+						<div>
+						
+							<div class="name">
+								
+								<h3>september 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+						<div>
+						
+							<div class="name">
+								
+								<h3>oktober 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+						<div>
+						
+							<div class="name">
+								
+								<h3>november 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+						<div>
+						
+							<div class="name">
+								
+								<h3>december 2012</h3>
+							
+							</div>
+							
+							<ul>
+								<li>Ma</li>
+								<li>di</li>
+								<li>wo</li>
+								<li>do</li>
+								<li>vr</li>
+								<li>za</li>
+								<li class="last">zo</li>
+								<li class="date"><a href="#">25</a></li>
+								<li class="date"><a href="#">26</a></li>
+								<li class="date"><a href="#">27</a></li>
+								<li class="date"><a href="#">28</a></li>
+								<li class="date"><a href="#">29</a></li>
+								<li class="date"><a href="#">30</a></li>
+								<li class="last"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li class="last"><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li class="selected"><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">13</a></li>
+								<li><a href="#">14</a></li>
+								<li class="last"><a href="#">15</a></li>
+								<li><a href="#">16</a></li>
+								<li><a href="#">17</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">19</a></li>
+								<li><a href="#">20</a></li>
+								<li><a href="#">31</a></li>
+								<li class="last"><a href="#">22</a></li>
+								<li><a href="#">23</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">25</a></li>
+								<li><a href="#">26</a></li>
+								<li><a href="#">27</a></li>
+								<li><a href="#">28</a></li>
+								<li class="last"><a href="#">29</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">31</a></li>
+								<li class="date"><a href="#">1</a></li>
+								<li class="date"><a href="#">2</a></li>
+								<li class="date"><a href="#">3</a></li>
+								<li class="date"><a href="#">4</a></li>
+								<li class="last date"><a href="#">5</a></li>
+							</ul>
+							
+						</div>
+						
+					</div>
+                    
+                </div>
+				<!-- END MONTH -->
+				
+				<script type="text/javascript">
+					$(function() {
+						$('div.calendar-slider').slider({
+							width:      250,
+							height:		163,
+							autoplay:	false,
+							randomize:  false
+						});
+					});
+					</script>
+
+				<!-- START SHOW -->
+				<div class="show_Box" id="agendapeople">
+                	
+                    <h2>Toon agenda&rsquo;s van:</h2>
+                	
+                    <div class="show">
+                    	
+                        <form action="#">
+                        	<fieldset>
+								
+                                <div class="scroll-pane">
+                                    
+                                    <ul>
+                                        <li>
+                                            <img src="/images/black.jpg" alt="" />
+                                            
+                                            <a href="#">Kees de Vries</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee1" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/red.jpg" alt="" />
+                                            
+                                            <a href="#">Paul Hofman</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee2" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/blue.jpg" alt="" />
+                                            
+                                            <a href="#">Josien de Wit</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee3" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/orange.jpg" alt="" />
+                                            
+                                            <a href="#">Johan Boersma</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee4" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/black.jpg" alt="" />
+                                            
+                                            <a href="#">Kees2 de Vries</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee5" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/red.jpg" alt="" />
+                                            
+                                            <a href="#">Paul2 Hofman</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee6" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/blue.jpg" alt="" />
+                                            
+                                            <a href="#">Josien2 de Wit</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee7" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/orange.jpg" alt="" />
+                                            
+                                            <a href="#">Johan2 Boersma</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee8" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/black.jpg" alt="" />
+                                            
+                                            <a href="#">Kees3 de Vries</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee9" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/red.jpg" alt="" />
+                                            
+                                            <a href="#">Paul3 Hofman</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee10" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/blue.jpg" alt="" />
+                                            
+                                            <a href="#">Josien3 de Wit</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee11" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/orange.jpg" alt="" />
+                                            
+                                            <a href="#">Johan3 Boersma</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee12" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/black.jpg" alt="" />
+                                            
+                                            <a href="#">Kees4 de Vries</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee13" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/red.jpg" alt="" />
+                                            
+                                            <a href="#">Paul4 Hofman</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee14" /></label>
+                                        </li>
+                                        <li>
+                                            <img src="/images/blue.jpg" alt="" />
+                                            
+                                            <a href="#">Josien4 de Wit</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee15" /></label>
+                                        </li>
+                                        <li class="last">
+                                            <img src="/images/orange.jpg" alt="" />
+                                            
+                                            <a href="#">Johan4 Boersma</a>
+                                            
+                                            <label class="label_check"><input type="checkbox" name="b" class="radio" id="employee16" /></label>
+                                        </li>
+                                    </ul>
+                                    
+                                </div>
+                            </fieldset>
+                        </form>
+
+                    </div>
+                    
+                </div>
+				<!-- END SHOW -->
+
+			</div>
+			<!-- END LEFT -->
+			
+			<!-- START RIGHT -->
+			<div id="right">
+
+				<!-- START CALENDAR -->
+				<div class="calendar_Box">
+                	
+
+					
+                </div>
+				<!-- END CALENDAR -->
+
+			</div>
+			<!-- END RIGHT -->
+

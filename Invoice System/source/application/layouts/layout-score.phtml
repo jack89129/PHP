@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="/css/score/all-ie-only.css" />
+
+<![endif]-->
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+      
+<head>
+
+    <!-- Basic Page Needs
+  ================================================== -->
+    <meta charset="utf-8">
+    <title>Internet Protocol's</title>
+    <meta name="description" content="">
+    <meta name="author" content="James">
+
+    <!-- Mobile Specific Metas
+  ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS
+  ================================================== -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>    
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>-->
+    <?php 
+        $this->headLink()              
+            ->prependStylesheet($this->baseUrl().'/css/score/style.css')
+            ->prependStylesheet($this->baseUrl().'/css/score/jquery.percentageloader-0.1.css');
+            //->prependStylesheet($this->baseUrl().'/css/score/all-ie-only.css')   
+            
+        $this->headScript()
+            ->prependFile($this->baseUrl().'/js/score/score.js')
+            ->prependFile($this->baseUrl().'/js/score/jquery.percentageloader-0.1.js')
+            ->prependFile($this->baseUrl().'/js/rangy-core.js')
+            ->prependFile($this->baseUrl().'/js/hallo.js')
+            ->prependFile($this->baseUrl().'/js/json_encode.js')
+            ->prependFile($this->baseUrl().'/js/json_decode.js')
+            ->prependFile($this->baseUrl().'/js/jquery.elastic.js')
+            ->prependFile($this->baseUrl().'/js/jquery.combobox.js')
+            ->prependFile($this->baseUrl().'/js/jquery.validate.js')
+            ->prependFile($this->baseUrl().'/js/jquery.excanvas.js')
+            ->prependFile($this->baseUrl().'/js/jquery.circular2.js')
+            ->prependFile($this->baseUrl().'/js/jquery.circular.js')
+            ->prependFile($this->baseUrl().'/js/jquery.metadata.js')
+            ->prependFile($this->baseUrl().'/js/jquery.calendar.js')
+            ->prependFile($this->baseUrl().'/js/jquery.treecookie.js')
+            ->prependFile($this->baseUrl().'/js/jquery.treeview.js')
+            ->prependFile($this->baseUrl().'/js/jquery.jscrollpane.min.js')
+            ->prependFile($this->baseUrl().'/fancybox/jquery.fancybox-1.3.4.pack.js')
+            ->prependFile($this->baseUrl().'/js/jquery.select.js')
+            ->prependFile($this->baseUrl().'/js/jquery.styles.js')
+            ->prependFile($this->baseUrl().'/js/jquery.mousewheel.js')
+            ->prependFile($this->baseUrl().'/js/jquery.cursorMessage.js')
+            ->prependFile($this->baseUrl().'/js/jquery.ui.js');
+        
+        echo $this->headLink();
+        echo $this->headScript();
+    ?>
+
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/ie8-and-down.css" />
+    <![endif]-->
+
+    <!-- Favicons
+    ================================================== -->
+    <!--<link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">-->
+<style>
+  body {
+    margin: 0px;
+    padding: 0px;
+  }
+  
+  #topLoader {
+    width:100px;
+    height:100px;
+    margin-bottom: 0px;
+    margin-left: 16px;
+  }
+
+element.style {
+    -moz-user-select: none;
+    color: #009bff;
+    font: 29.5px BebasNeueRegular;
+    height: 50px;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    text-shadow: 0 1px 1px #FFFFFF;
+    top: 45.25px;
+    width: 118px;
+}
+.cont_right a {
+    color: #000;
+    text-decoration: none;
+}
+.cont_right a:hover {
+    text-decoration: underline;
+}
+</style>       
+</head>
+<body>                    
+    
+    <?php echo $this->layout()->content ?>            
+                                                      
+</body>
+</html>

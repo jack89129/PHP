@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+
+<?php 
+    $settingModel = new SettingsModel();
+    $shopLogo = SettingsModel::getWebshopLogo();
+    $tlink = SettingsModel::getWebshopTwitter();
+    $flink = SettingsModel::getWebshopFacebook();
+    $glink = SettingsModel::getWebshopGoogle();
+    $vlink = SettingsModel::getWebshopVimeo();
+    $llink = SettingsModel::getWebshopLinkedin();
+    $title = SettingsModel::getWebshopTitle();
+    $mainColor = SettingsModel::getWebshopMainColor();
+    $condPDF = SettingsModel::getWebshopConditionPDF();
+    if ( $condPDF == "" ) $condPDF = "#";
+?>
+
+<head>
+
+    <!-- Basic Page Needs
+  ================================================== -->
+    <meta charset="utf-8">
+    <title><?=$title?></title>
+    <meta name="description" content="">
+    <meta name="author" content="Ahmed Saeed">
+
+    <!-- Mobile Specific Metas
+  ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS
+  ================================================== -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>    
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>-->
+    <?php 
+        $this->headLink()
+            ->prependStylesheet($this->baseUrl().'/css/webshop/main.css')
+            ->prependStylesheet($this->baseUrl().'/css/webshop/product_page_two.css')
+            ->prependStylesheet($this->baseUrl().'/css/webshop/user_log.css')
+            ->prependStylesheet($this->baseUrl().'/css/webshop/cart.css')
+            ->prependStylesheet($this->baseUrl().'/css/webshop/checkout.css')
+            ->prependStylesheet($this->baseUrl().'/css/webshop/account.css')
+            ->prependStylesheet($this->baseUrl().'/css/webshop/home.css')
+            ->prependStylesheet($this->baseUrl().'/css/webshop/about.css')
+            ->prependStylesheet($this->baseUrl().'/css/webshop/contact.css')
+            ->prependStylesheet($this->baseUrl().'/css/webshop/responsive.css');
+            
+        $this->headScript()
+            ->prependFile($this->baseUrl().'/js/webshop/dropKick/jquery.dropkick-1.0.0.js')
+            ->prependFile($this->baseUrl().'/js/webshop/jquery.nicescroll.js')
+            ->prependFile($this->baseUrl().'/js/webshop/jquery.tweet.js')
+            ->prependFile($this->baseUrl().'/js/webshop/jcarousellite_1.0.1.min.js')
+            ->prependFile($this->baseUrl().'/js/webshop/fancybox/jquery.fancybox-1.3.4.pack.js')
+            ->prependFile($this->baseUrl().'/js/webshop/jquery.etalage.min.js')
+            ->prependFile($this->baseUrl().'/js/webshop/jquery.cookie.js');
+        
+        echo $this->headLink();
+        echo $this->headScript();
+    ?>
+
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/ie8-and-down.css" />
+    <![endif]-->
+
+    <!-- Favicons
+    ================================================== -->
+    <!--<link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">-->
+    
+    <style type="text/css">
+        #topHeader { border-bottom: 3px solid <?=$mainColor?> !important; }
+        #pageName div.name_tag { background: none repeat scroll 0 0 <?=$mainColor?> !important; }
+        footer { border-top: 2px solid <?=$mainColor?> !important; }
+        div.category ul li a.active { color: <?=$mainColor?> !important; }
+        div.category ul li.selected a { text-decoration: underline; }
+        div.category ul li ul li a, div.category ul li.has_sub_menu ul li a { color: <?=$mainColor?> !important; }
+        div.pro_name_price div.pro_desc_conent h5 { color: <?=$mainColor?> !important; }
+        #etalage_style_two ul li.etalage_smallthumb_active { border: 2px solid <?=$mainColor?> !important; }
+        div.product_info_acc h6.active { color: <?=$mainColor?> !important; }
+        div.billing_account table td strong em { color: <?=$mainColor?> !important; }
+        #mainNav #cart div.cart_content ul li div.cart_product_price span a { color: <?=$mainColor?> !important; }
+        footer p.copyright a:hover { color: <?=$mainColor?> !important; }
+        table.cart_table tbody tr td.total_price h5 { color: <?=$mainColor?> !important; }
+        #user_log ol li.row label.input_tag em { color: <?=$mainColor?> !important; }
+        .red_btn:link, .red_btn:visited, input.red_btn, button.red_btn { background: <?=$mainColor?> !important; }
+        .mainslide ul li div.flex-caption h5 span { color: <?=$mainColor?> !important; }
+        .mainslide ul li div.flex-caption a:link, .mainslide ul li div.flex-caption a:visited { background-color: <?=$mainColor?> !important; }
+        .mainslide { border-color: #DDDDDD #DDDDDD <?=$mainColor?> !important; }
+        #tagLine { border-left: 2px solid <?=$mainColor?> !important; }
+        .mainslide div.pagers a:hover { background-color: <?=$mainColor?> !important; }
+    </style>
+
+</head>
+<body>
+
+    <!--start header-->
+    <header>
+
+        <div id="topHeader">
+            <div class="container">
+                <div class="sixteen columns">
+                    <ul id="currency">
+                        <!--<li class="active_currency"><a href="#">€</a></li>
+                        <li><a href="#">£</a></li>
+                        <li><a href="#">€</a></li>-->
+                    </ul>
+                    <!--<ul id="lang">
+                        <li class="active_lang"><a href="#">en</a></li>
+                        <li><a href="#">es</a></li>
+                        <li><a href="#">fr</a></li>
+                    </ul>-->
+                    <ul id="topNav">
+                    <?php if ( $this->logged_in ): ?>
+                        <li><a href="/shop/account">Mijn account</a></li>
+                    <?php else: ?>
+                        <li><a href="/shop/register">Klanten login</a></li>
+                    <?php endif; ?>
+                        <!--<li><a class="active_link" href="account.html">My Account</a></li>-->
+                        <li><a href="/shop/cart">Winkelwagen</a></li>
+                        <li><a href="/shop/checkout">Afrekenen</a></li>
+                        <?php if ( $this->logged_in ): ?>
+                        <li><a href="/shop/signout">Uitloggen</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div><!--end sixteen-->
+            </div><!--end container-->
+        </div><!--end topHeader-->
+
+        <div id="middleHeader">
+            <div class="container">
+                <div class="sixteen columns">
+                    <div id="logo">
+                        <h1>
+                            <a href="/shop">
+                                <img src="<?=$shopLogo?>" style="width:100%;" alt="logo"/>
+                            </a>
+                        </h1>
+                    </div>
+                </div><!--end sixteen-->
+            </div><!--end container-->
+        </div><!--end middleHeader-->
+
+        <div class="container">
+            <div class="sixteen columns">
+                <div id="mainNav" class="clearfix">
+                    <nav>
+                        <ul>
+                            <li>
+                                <a class="home" href="/shop">Home</a>
+                            </li>
+                            <li>
+                                <a href="/shop/index">Producten</a>
+                            </li>
+                            <li>
+                                <a href="/shop/contact">Contact</a>
+                            </li>
+                        </ul>
+                    </nav><!--end nav-->
+                    <?php if ( strpos($_SERVER["REQUEST_URI"], 'shop/cart') == false ): ?>
+                    <div id="cart">
+                        <a class="cart_dropdown" href="javascript:void(0);"><img src="<?=$this->baseUrl()?>/images/webshop/icons/cart_icon.png" alt=""> <v id="cart_dropdown_count"><?php echo count($this->cart_data); ?></v> Artikel(en)<span id="cart_dropdown_total">: &euro;<?php echo Utils::numberFormat($this->total_cost); ?></span></a>
+                        <div class="cart_content" style="border-top: 3px solid <?=$mainColor?>;">
+                            <b class="cart_content_arrow"></b>
+                            <ul>
+                                <?php if ( !empty($this->cart_data) ): ?>
+                                <?php foreach ( $this->cart_data as $product ): ?>
+                                <li title="<?php echo $product->id; ?>">
+                                    <div class="cart_product_name">
+                                        <img src="<?php if ($product->main_img==""){ echo '/images/webshop/photos/dropdown_cart_image.jpg'; } else {echo $product->main_img; }?>" alt="product image" style="width:75px;height:61px;">
+                                        <span>
+                                            <strong><a href="#"><?=$product->name?></a></strong><br>
+                                        </span>
+                                    </div>
+                                    <div class="cart_product_price">
+                                        <span>
+                                        <?php if ( $product->has_new_price ): ?>
+                                            <strong><?=$product->qty?> x &euro;<?php echo Utils::numberFormat($product->new_price * (100-$product->new_discount) / 100); ?></strong><br>
+                                        <?php else: ?>
+                                            <strong><?=$product->qty?> x &euro;<?php echo Utils::numberFormat($product->price * (100-$product->discount) / 100); ?></strong><br>
+                                        <?php endif; ?>
+                                            <a class="remove_item" href="#">Verwijder</a>
+                                        </span>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                                <?php endforeach; ?>     
+                                <?php endif; ?>
+                            </ul><!--end ul-->
+
+                            <div class="dropdown_cart_info">
+                                <div class="cart_buttons">
+                                    <a class="gray_btn" href="/shop/cart">Winkelwagen</a><br>
+                                    <a class="red_btn" href="/shop/checkout" style="background:<?=$mainColor?>;">Afrekenen</a>
+                                </div><!--end cart buttons-->
+
+                                <div class="cart_total_price">
+                                    <span>
+                                        <strong id="cart_dropdown_total_bottom">Subtotaal : &euro;<?php echo Utils::numberFormat($this->total_cost); ?><br/>
+                                        BTW : &euro;<?php echo Utils::numberFormat($this->total_cost*0.21); ?><br/>
+                                        Totaal : &euro;<?php echo Utils::numberFormat($this->total_cost*1.21); ?></strong>
+                                    </span>
+                                </div><!--end cart buttons-->
+                                <div class="clear"></div>
+                            </div><!--end dropdown_cart_info-->
+
+                        </div><!--end cart_content-->
+                    </div><!--end cart-->
+                    <?php endif; ?>
+                </div><!--end main-->
+            </div><!--end sixteen-->
+        </div><!--end container-->
+
+    </header>
+    <!--end header-->
+    <div class="container">
+        <div class="sixteen columns">
+            <?php if ( $this->page_sub_title != "" ): ?>
+            <div id="pageName">
+                <div class="name_tag">
+                    <p>
+                        <a href="http://www.avaxo.be/shop"><?=$this->page_title?></a> :: <?=$this->page_sub_title?>
+                    </p>
+                </div>
+            </div><!--end pageName-->
+            <?php endif; ?>
+        </div>
+    </div><!-- container -->
+    
+    <?php echo $this->layout()->content ?>
+
+
+
+    <!-- start the footer area-->
+    <footer>
+        <div class="container">
+            <div class="three columns">
+                <div id="info">
+                    <h3>Bedrijfsinfo</h3>
+                    <ul style="color:#AAA;line-height:18px;">
+                        <li><span style="color:<?=$mainColor?>;">Jovado Nv.</span></li>
+                        <li><?=$this->contact_info['addr1']?></li>
+                        <li><?=$this->contact_info['addr2']?></li>
+                        <li><?=$this->contact_info['country']?></li>
+                        <li>&nbsp;</li>
+                        <li>Tel. : <?=$this->contact_info['phone']?></li>
+                        <li>E-mail : <?=$this->contact_info['email']?></li>
+                        <li>Website : <?=$this->contact_info['website']?></li>
+                        <li>&nbsp;</li>
+                        <li>BTW : <?=$this->contact_info['btw']?></li>
+                    </ul>
+                </div>
+            </div><!--end three-->
+            
+            <div class="three columns">
+            &nbsp;
+            </div>
+            <div class="three columns">
+            &nbsp;
+            </div>
+            <div class="three columns">
+            &nbsp;
+            </div>
+
+            <div class="three columns">
+                <div id="my_account">
+                    <h3>Mijn account</h3>
+                    <ul>
+                        <li><a href="/shop/account">Mijn gegevens</a></li>
+                        <li><a href="/shop/order">Mijn bestellingen</a></li>
+                        <li><a href="/shop/cart">Mijn winkelwagen</a></li>
+                    </ul>
+                </div>
+            </div><!--end three-->
+
+        </div><!--end container-->
+
+
+        <div class="tweets">
+            <div class="container">
+                <div class="sixteen columns">
+                    <p class="copyright">
+                        Copyright 2013 <a href="#">avaxo.be</a><br>
+                        <?php if ( $condPDF == "#"): ?>
+                            <a href="#">Algemene voorwaarden</a>
+                        <?php else: ?>
+                            <a href="<?=$condPDF?>" target="_blank">Algemene voorwaarden</a>
+                        <?php endif; ?>
+                        <span style="color:#EF3675;">-</span>
+                        <a href="/shop/contact">Contacteer ons</a>
+                    </p>
+                    <ul class="socials">
+                        <?php if ( $tlink != "" ): ?>
+                        <li><a class="twitter" href="http://<?=$tlink?>">twitter</a></li>
+                        <?php endif; ?>
+                        <?php if ( $flink != "" ): ?>
+                        <li><a class="facebook" href="http://<?=$flink?>">face</a></li>
+                        <?php endif; ?>
+                        <?php if ( $glink != "" ): ?>
+                        <li><a class="googlep" href="http://<?=$glink?>">google+</a></li>
+                        <?php endif; ?>
+                        <?php if ( $vlink != "" ): ?>
+                        <li><a class="vimeo" href="http://<?=$vlink?>">vimeo</a></li>
+                        <?php endif; ?>
+                        <?php if ( $llink != "" ): ?>
+                        <li><a class="linked" href="http://<?=$llink?>">linked</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+        </div><!--end tweets-->
+
+
+        <div class="container">
+            <div class="sixteen">
+                
+            </div><!--end sixteen-->
+        </div><!--end container-->
+
+    </footer>
+    <!--end the footer area -->
+
+    <!-- JS
+    ================================================== -->
+    
+    <?php 
+    
+        $this->headLink()
+            ->prependStylesheet($this->baseUrl().'/js/webshop/dropKick/dropkick.css')
+            ->prependStylesheet($this->baseUrl().'/js/webshop/fancybox/jquery.fancybox-1.3.4.css');
+
+        $this->headScript()
+            ->prependFile($this->baseUrl().'/js/webshop/jquery.cycle2.tile.min.js')
+            ->prependFile($this->baseUrl().'/js/webshop/jquery.cycle2.min.js')
+            ->prependFile($this->baseUrl().'/js/webshop/main.js');
+        
+        echo $this->headLink();
+        echo $this->headScript();
+    ?>
+
+<!-- End Document
+================================================== -->
+</body>
+</html>
